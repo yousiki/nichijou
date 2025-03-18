@@ -26,7 +26,7 @@ jobs:
       - name: Use magic nix cache
         uses: DeterminateSystems/magic-nix-cache-action@v9
       - name: Use cachix nix cache
-        uses: cachix/cachix-action@v15
+        uses: cachix/cachix-action@v16
         with:
           name: nichijou
           extraPullNames: colmena,cuda-maintainers,deadnix,hyprland,nix-community,nixpkgs-wayland,numtide,nrdxp
