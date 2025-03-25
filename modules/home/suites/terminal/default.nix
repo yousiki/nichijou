@@ -28,7 +28,7 @@ in {
           fzf.enable = true;
           gdu.enable = true;
           git.enable = true;
-          mcfly.enable = true;
+          mcfly.enable = false; # FIXME: Enable mcfly when zsh integration is fixed
           nh.enable = true;
           ssh.enable = true;
           starship.enable = true;
