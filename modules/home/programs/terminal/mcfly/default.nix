@@ -18,7 +18,8 @@ in {
     programs.mcfly = {
       enable = true;
       enableBashIntegration = true;
-      enableZshIntegration = true;
+      # FIXME: uncomment when zsh integration is fixed
+      # enableZshIntegration = true;
       enableFishIntegration = true;
       fzf.enable = true;
       fuzzySearchFactor = 3;
