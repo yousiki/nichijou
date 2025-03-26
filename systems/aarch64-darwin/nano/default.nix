@@ -1,4 +1,8 @@
 {pkgs, ...}: {
+  imports = [
+    ./casks.nix
+  ];
+
   # Set the hostname and computer name
   networking = {
     hostName = "nano";
