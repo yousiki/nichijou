@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+_: {
   homebrew.casks = [
     "adobe-creative-cloud"
     "alt-tab"
