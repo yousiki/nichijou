@@ -6,6 +6,7 @@
     fd
     fzf
     git
+    gnumake
     helix
     home-manager
     htop
