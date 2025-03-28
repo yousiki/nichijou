@@ -1,0 +1,17 @@
+keys:
+  - &yousiki_hakase age1v2f38zx3fyn789lemwf8jm2wcx2d7krjc82z74t2qwcrk6hsjsqs8xsjhh
+  - &yousiki_sakamoto age1c8nt6m2vv9mcy50vgkvvgag2kl0x4fysdtjuevptxwh9gv54mgqqtzl8zn
+  - &yousiki_nano age1yznykzrsa65lg50rtku2yaqq4mln4lk2u8hkyz4r4hy28tlvug8s3p88uh
+  - &hakase age13m8rakh7w2zkawjuqgd29sp7wtceqt4mkw38mcg9fsrurs5x2urq9dgqg0
+  - &satoshi age1s30uwxwyus5vljwkldxp6the2sp6hvuhdwdu4per4p4ymq8gnagqar2zk4
+  - &nano age1qz7m2fmm4e0wfnp7z23w5uj3gtx92amr3xp6tc0a3u6un0g8ugrsf8x6mc
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *yousiki_hakase
+          - *yousiki_sakamoto
+          - *yousiki_nano
+          - *hakase
+          - *satoshi
+          - *nano
