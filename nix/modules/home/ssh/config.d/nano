@@ -1,0 +1,13 @@
+Host nano
+  Hostname yyp315.siki.moe
+  Port 12022
+  User yousiki
+  ForwardAgent yes
+  Compression no
+
+Host nano-ts
+  Hostname 100.123.19.7
+  Port 22
+  User yousiki
+  ForwardAgent yes
+  Compression yes

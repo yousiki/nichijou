@@ -18,9 +18,11 @@
     curl
     dig
     dnslookup
+    duf
     eza
     fd
     fzf
+    gdu
     git
     gnumake
     helix

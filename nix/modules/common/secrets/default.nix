@@ -1,21 +1,9 @@
 # Secrets configuration for both NixOS and Darwin.
 {
+  lib,
   pkgs,
-  options,
   ...
 }: {
-  # Assert that sops module is imported.
-  assertions = [
-    {
-      assertion = !builtins.hasAttr "sops" options;
-      message = ''
-        The sops module is not imported.
-        Please import the sops module in your configuration.
-        Reference: https://github.com/Mic92/sops-nix
-      '';
-    }
-  ];
-
   # Configure sops for secrets management.
   sops = {
     defaultSopsFile = null;

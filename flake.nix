@@ -2,24 +2,67 @@
   description = "Nix Configurations for Daily Life";
 
   inputs = {
-    # Nixpkgs (default: unstable)
+    # Nixpkgs: using unstable as default
     nixpkgs.follows = "nixpkgs-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-stable.url = "github:NixOS/nixpkgs/nixos-24.11";
     nixpkgs-darwin.url = "github:NixOS/nixpkgs/nixpkgs-24.11-darwin";
 
-    # Snowfall
+    # Snowfall lib
     snowfall-lib = {
       url = "github:snowfallorg/lib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Nix-systems
-    nix-systems.url = "github:nix-systems/default";
+    # Nix-dariwn
+    darwin = {
+      url = "github:LnL7/nix-darwin";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Home-manager
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Sops-nix: secrets management
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Nix-index-database
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Nix-ld: run dynamic binaries on NixOS
+    nix-ld = {
+      url = "github:nix-community/nix-ld";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Catppuccin: my favorite theme
+    catppuccin = {
+      url = "github:catppuccin/nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Treefmt-nix: code formatting all in one
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = inputs:
-    inputs.snowfall-lib.mkFlake {
+  outputs = {
+    snowfall-lib,
+    self,
+    ...
+  } @ inputs:
+    snowfall-lib.mkFlake {
       inherit inputs;
 
       src = ./.;
@@ -38,34 +81,49 @@
           # A title to show for your flake, typically the name.
           title = "Nix Configurations for Daily Life";
         };
+      };
 
-        # Configure the channels for your flake.
-        channels = {
-          # Allow unfree packages to be installed.
-          allowUnfree = true;
+      # Configure the channels for your flake.
+      channels-config = {
+        # Allow unfree packages to be installed.
+        allowUnfree = true;
 
-          # Allow broken packages to be installed.
-          allowBroken = false;
+        # Allow broken packages to be installed.
+        allowBroken = false;
 
-          # A list of insecure package that are allowed.
-          permittedInsecurePackages = [
-          ];
-        };
+        # A list of insecure package that are allowed.
+        permittedInsecurePackages = [
+        ];
+      };
 
-        # Configure the overlays for your flake.
-        overlays = [];
+      # Configure the overlays for your flake.
+      overlays = [];
 
-        # Configure the modules for home-manager.
-        homes.modules = [];
+      # Configure the modules for home-manager.
+      homes.modules = [
+        inputs.catppuccin.homeManagerModules.catppuccin
+        inputs.nix-index-database.hmModules.nix-index
+        inputs.sops-nix.homeManagerModules.sops
+      ];
 
-        systems.modules = {
-          # Configure the modules for NixOS.
-          nixos = [];
+      # Configure the modules for NixOS and Darwin.
+      systems.modules = {
+        # Configure the modules for NixOS.
+        nixos = [
+          inputs.nix-index-database.darwinModules.nix-index
+          inputs.nix-ld.nixosModules.nix-ld
+          inputs.sops-nix.nixosModules.sops
+        ];
 
-          # Configure the modules for darwin.
-          darwin = [
-          ];
-        };
+        # Configure the modules for darwin.
+        darwin = [
+          inputs.nix-index-database.darwinModules.nix-index
+          inputs.sops-nix.darwinModules.sops
+        ];
+      };
+
+      outputs-builder = channels: {
+        formatter = import ./nix/formatter {inherit self inputs channels;};
       };
     };
 

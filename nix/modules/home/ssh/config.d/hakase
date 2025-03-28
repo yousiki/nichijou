@@ -1,0 +1,13 @@
+Host hakase
+  HostName hakase.siki.moe
+  Port 22
+  User yousiki
+  ForwardAgent yes
+  Compression no
+
+Host hakase-ts
+  HostName 100.118.195.97
+  Port 22
+  User yousiki
+  ForwardAgent yes
+  Compression yes
