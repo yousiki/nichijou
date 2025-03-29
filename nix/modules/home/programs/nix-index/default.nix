@@ -18,20 +18,16 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    programs = {
-      nix-index-database.nix-index.enable = true;
+    programs.nix-index = {
+      enable = true;
+      package = pkgs.nix-index;
 
-      nix-index = {
-        enable = true;
-        package = pkgs.nix-index;
+      enableBashIntegration = true;
+      enableFishIntegration = true;
+      enableZshIntegration = true;
 
-        enableBashIntegration = true;
-        enableFishIntegration = true;
-        enableZshIntegration = true;
-
-        # Symlink nix-index-database to ~/.cache/nix-index
-        symlinkToCacheHome = true;
-      };
+      # Symlink nix-index-database to ~/.cache/nix-index
+      symlinkToCacheHome = true;
     };
   };
 }
