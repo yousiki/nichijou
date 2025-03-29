@@ -4,6 +4,7 @@ mkShell {
     cachix
     deadnix
     nil
+    nix
     nixfmt-rfc-style
     statix
   ];
