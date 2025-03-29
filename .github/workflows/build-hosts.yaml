@@ -1,4 +1,4 @@
-name: Build NixOS and Nix-darwin hosts
+name: Build hosts
 on:
   push:
     branches:
