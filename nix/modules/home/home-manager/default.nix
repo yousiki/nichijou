@@ -14,12 +14,14 @@
     zsh.enable = lib.mkDefault true;
   };
 
-  # Add custom paths to the session PATH.
-  home.sessionPath = [ "${config.home.homeDirectory}/.local/bin" ];
+  home = {
+    # Add custom paths to the session PATH.
+    sessionPath = [ "${config.home.homeDirectory}/.local/bin" ];
 
-  # Set home-manager state version.
-  home.stateVersion = "24.11";
+    # Set home-manager state version.
+    stateVersion = "24.11";
 
-  # TODO: Remove after upgrading to home-manager 25.05
-  home.enableNixpkgsReleaseCheck = false;
+    # TODO: Remove after upgrading to home-manager 25.05
+    enableNixpkgsReleaseCheck = false;
+  };
 }
