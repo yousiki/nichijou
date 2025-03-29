@@ -68,6 +68,4 @@ jobs:
         with:
           name: deadnix
       - name: Run deadnix
-        uses: astro/deadnix-action@v1
-        with:
-          commit_message: "chore: remove dead code"
+        uses: SuperSandro2000/deadnix-action@v1
