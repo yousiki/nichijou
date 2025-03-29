@@ -1,0 +1,40 @@
+name: Update 
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 0 * * *"
+jobs:
+  update-flake-inputs:
+    runs-on: ubuntu-latest
+    name: Update flake inputs
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install nix and flakes
+        uses: DeterminateSystems/nix-installer-action@v16
+      - name: Update flake.lock
+        uses: DeterminateSystems/update-flake-lock@v24
+        with:
+          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+          pr-title: "Automated update of flake.lock"
+          pr-labels: |
+            dependencies
+            automated
+            merge-queue
+          pr-assignees: yousiki
+  update-packages:
+    runs-on: ubuntu-latest
+    name: Update packages
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install nix and flakes
+        uses: DeterminateSystems/nix-installer-action@v16
+      - name: Update packages
+        run: |
+          for update_script in $(find nix/packages -name update.sh); do
+            echo "Running $update_script"
+            bash "$update_script"
+          done
+      # TODO: Add a step to commit and push the changes or create PR

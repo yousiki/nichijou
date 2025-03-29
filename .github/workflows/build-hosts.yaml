@@ -1,0 +1,48 @@
+name: Build NixOS and Nix-darwin hosts
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - ".sops.yaml"
+      - "flake.lock"
+      - "flake.nix"
+      - "nix/homes/**"
+      - "nix/modules/**"
+      - "nix/packages/**"
+      - "nix/systems/**"
+      - "secrets/**"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - ".sops.yaml"
+      - "flake.lock"
+      - "flake.nix"
+      - "nix/homes/**"
+      - "nix/modules/**"
+      - "nix/packages/**"
+      - "nix/systems/**"
+      - "secrets/**"
+  workflow_dispatch:
+jobs:
+  build-hakase:
+    name: Build NixOS host hakase
+    uses: ./.github/workflows/build-nixos.yaml
+    with:
+      hostname: hakase
+    secrets: inherit
+
+  build-sakamoto:
+    name: Build Nix-darwin host sakamoto
+    uses: ./.github/workflows/build-darwin.yaml
+    with:
+      hostname: sakamoto
+    secrets: inherit
+
+  build-nano:
+    name: Build Nix-darwin host nano
+    uses: ./.github/workflows/build-darwin.yaml
+    with:
+      hostname: nano
+    secrets: inherit
