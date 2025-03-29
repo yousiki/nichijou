@@ -25,6 +25,7 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@v16
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@v24
+        id: update
         with:
           token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
           pr-title: "Automated update of flake.lock"
@@ -33,6 +34,10 @@ jobs:
             automated
             merge-queue
           pr-assignees: yousiki
+      - name: Auto-merge pull request
+        run: "gh pr merge --auto --merge ${{ steps.update.outputs.pull-request-number }}"
+        env:
+          GH_TOKEN: ${{ github.token }}
   update-packages:
     runs-on: ubuntu-latest
     name: Update packages
