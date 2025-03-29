@@ -9,7 +9,11 @@
 let
   flake = import "${inputs.self}/flake.nix";
 
-  inherit (flake.nixConfig) substituters trusted-substituters trusted-public-keys;
+  inherit (flake.nixConfig)
+    substituters
+    trusted-substituters
+    trusted-public-keys
+    ;
 
   registry = lib.mapAttrs (_n: v: { flake = v; }) (
     lib.filterAttrs (n: _v: !(lib.hasPrefix "nixpkgs" n) && n != "self") inputs

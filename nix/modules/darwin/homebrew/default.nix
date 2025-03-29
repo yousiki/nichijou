@@ -1,9 +1,5 @@
 # Configure homebrew on Darwin.
-{
-  lib,
-  system,
-  ...
-}:
+{ lib, system, ... }:
 {
   homebrew = {
     # Enable Homebrew.

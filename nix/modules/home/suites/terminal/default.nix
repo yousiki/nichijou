@@ -22,7 +22,6 @@ in
         bat.enable = true;
         bottom.enable = true;
         btop.enable = true;
-        comma.enable = true;
         direnv.enable = true;
         duf.enable = true;
         eza.enable = true;
@@ -31,6 +30,7 @@ in
         git.enable = true;
         mcfly.enable = false; # TODO: Enable mcfly
         nh.enable = true;
+        nix-index.enable = true;
         starship.enable = true;
         tmux.enable = true;
         yazi.enable = true;

@@ -2,7 +2,6 @@
 { pkgs, ... }:
 {
   programs = {
-    bash.enable = true;
     direnv.enable = true;
     fish.enable = true;
     man.enable = true;

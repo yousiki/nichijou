@@ -50,6 +50,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # NixOS-hardware
+    nixos-hardware.url = "github:NixOS/nixos-hardware";
+
     # Treefmt-nix: code formatting all in one
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
@@ -108,18 +111,27 @@
       ];
 
       # Configure the modules for NixOS and Darwin.
-      systems.modules = {
-        # Configure the modules for NixOS.
-        nixos = [
-          inputs.nix-index-database.darwinModules.nix-index
-          inputs.nix-ld.nixosModules.nix-ld
-          inputs.sops-nix.nixosModules.sops
-        ];
+      systems = {
+        modules = {
+          # Configure the modules for NixOS.
+          nixos = [
+            inputs.nix-index-database.nixosModules.nix-index
+            inputs.nix-ld.nixosModules.nix-ld
+            inputs.sops-nix.nixosModules.sops
+          ];
 
-        # Configure the modules for darwin.
-        darwin = [
-          inputs.nix-index-database.darwinModules.nix-index
-          inputs.sops-nix.darwinModules.sops
+          # Configure the modules for darwin.
+          darwin = [
+            inputs.nix-index-database.darwinModules.nix-index
+            inputs.sops-nix.darwinModules.sops
+          ];
+        };
+
+        # Add modules for NixOS host hakase.
+        hosts.hakase.modules = with inputs; [
+          nixos-hardware.nixosModules.common-cpu-intel-cpu-only
+          nixos-hardware.nixosModules.common-gpu-nvidia-nonprime
+          nixos-hardware.nixosModules.common-pc-ssd
         ];
       };
 

@@ -1,17 +1,11 @@
 # Secrets configuration for both NixOS and Darwin.
-{
-  lib,
-  pkgs,
-  ...
-}:
+{ lib, pkgs, ... }:
 {
   # Configure sops for secrets management.
   sops = {
     defaultSopsFile = null;
     age = {
-      sshKeyPaths = [
-        "/etc/ssh/ssh_host_ed25519_key"
-      ];
+      sshKeyPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
     };
     secrets = {
       # Clash configuration file.

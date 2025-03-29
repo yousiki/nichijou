@@ -17,9 +17,5 @@ in
     };
   };
 
-  config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      duf
-    ];
-  };
+  config = lib.mkIf cfg.enable { home.packages = with pkgs; [ duf ]; };
 }

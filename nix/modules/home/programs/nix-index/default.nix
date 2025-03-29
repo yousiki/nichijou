@@ -6,20 +6,20 @@
   ...
 }:
 let
-  cfg = config.${namespace}.programs.comma;
+  cfg = config.${namespace}.programs.nix-index;
 in
 {
-  options.${namespace}.programs.comma = {
+  options.${namespace}.programs.nix-index = {
     enable = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = "Whether to enable comma.";
+      description = "Whether to enable nix-index.";
     };
   };
 
   config = lib.mkIf cfg.enable {
     programs = {
-      nix-index-database.comma.enable = true;
+      nix-index-database.nix-index.enable = true;
 
       nix-index = {
         enable = true;

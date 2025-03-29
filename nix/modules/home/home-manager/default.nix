@@ -1,9 +1,5 @@
 # Home-manager configurations.
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 {
   # Enable home-manager.
   programs.home-manager.enable = true;
@@ -19,9 +15,7 @@
   };
 
   # Add custom paths to the session PATH.
-  home.sessionPath = [
-    "${config.home.homeDirectory}/.local/bin"
-  ];
+  home.sessionPath = [ "${config.home.homeDirectory}/.local/bin" ];
 
   # Set home-manager state version.
   home.stateVersion = "24.11";

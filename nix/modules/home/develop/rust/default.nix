@@ -20,14 +20,10 @@ in
   config = lib.mkIf cfg.enable {
     home = {
       # Install required packages.
-      packages = with pkgs; [
-        rustup
-      ];
+      packages = with pkgs; [ rustup ];
 
       # Add cargo path to PATH.
-      sessionPath = [
-        "$HOME/.cargo/bin"
-      ];
+      sessionPath = [ "$HOME/.cargo/bin" ];
 
       # Configure cargo.
       file = {
