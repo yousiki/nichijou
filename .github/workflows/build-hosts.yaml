@@ -4,6 +4,9 @@ on:
     branches:
       - main
     paths:
+      - ".github/workflows/build-darwin.yaml"
+      - ".github/workflows/build-hosts.yaml"
+      - ".github/workflows/build-nixos.yaml"
       - ".sops.yaml"
       - "flake.lock"
       - "flake.nix"
@@ -16,6 +19,9 @@ on:
     branches:
       - main
     paths:
+      - ".github/workflows/build-darwin.yaml"
+      - ".github/workflows/build-hosts.yaml"
+      - ".github/workflows/build-nixos.yaml"
       - ".sops.yaml"
       - "flake.lock"
       - "flake.nix"
