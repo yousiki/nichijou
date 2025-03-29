@@ -25,7 +25,7 @@ in
       deadnix
       nil
       nixd
-      nixfmt
+      nixfmt-rfc-style
       statix
     ];
   };
