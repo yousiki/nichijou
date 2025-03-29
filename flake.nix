@@ -57,11 +57,12 @@
     };
   };
 
-  outputs = {
-    snowfall-lib,
-    self,
-    ...
-  } @ inputs:
+  outputs =
+    {
+      snowfall-lib,
+      self,
+      ...
+    }@inputs:
     snowfall-lib.mkFlake {
       inherit inputs;
 
@@ -97,7 +98,7 @@
       };
 
       # Configure the overlays for your flake.
-      overlays = [];
+      overlays = [ ];
 
       # Configure the modules for home-manager.
       homes.modules = [
@@ -123,7 +124,7 @@
       };
 
       outputs-builder = channels: {
-        formatter = import ./nix/formatter {inherit self inputs channels;};
+        formatter = import ./nix/formatter { inherit self inputs channels; };
       };
     };
 

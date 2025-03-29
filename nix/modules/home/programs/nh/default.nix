@@ -3,9 +3,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.nh;
-in {
+in
+{
   options.${namespace}.programs.nh = {
     enable = lib.mkOption {
       type = lib.types.bool;

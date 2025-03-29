@@ -1,5 +1,6 @@
 # Necessary packages for both NixOS and darwin.
-{pkgs, ...}: {
+{ pkgs, ... }:
+{
   programs = {
     bash.enable = true;
     direnv.enable = true;

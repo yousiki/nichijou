@@ -3,9 +3,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.suites.graphical;
-in {
+in
+{
   options.${namespace}.suites.graphical = {
     enable = lib.mkOption {
       type = lib.types.bool;

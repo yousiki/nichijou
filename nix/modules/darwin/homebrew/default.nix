@@ -3,7 +3,8 @@
   lib,
   system,
   ...
-}: {
+}:
+{
   homebrew = {
     # Enable Homebrew.
     enable = true;

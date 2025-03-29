@@ -3,7 +3,8 @@
   config,
   lib,
   ...
-}: {
+}:
+{
   # Enable home-manager.
   programs.home-manager.enable = true;
 

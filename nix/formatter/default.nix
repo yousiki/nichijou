@@ -1,9 +1,9 @@
 {
   channels,
   inputs,
-  self,
   ...
-}: let
-  treefmtEval = inputs.treefmt-nix.lib.evalModule channels.nixpkgs "${self}/treefmt.nix";
+}:
+let
+  treefmtEval = inputs.treefmt-nix.lib.evalModule channels.nixpkgs ./treefmt.nix;
 in
-  treefmtEval.config.build.wrapper
+treefmtEval.config.build.wrapper

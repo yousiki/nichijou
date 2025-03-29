@@ -4,11 +4,13 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   username = config.snowfallorg.user.name;
 
   cfg = config.${namespace}.programs.git;
-in {
+in
+{
   options.${namespace}.programs.git = {
     enable = lib.mkOption {
       type = lib.types.bool;

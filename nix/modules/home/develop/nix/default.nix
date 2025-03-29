@@ -4,9 +4,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.develop.nix;
-in {
+in
+{
   options.${namespace}.develop.nix = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -23,6 +25,7 @@ in {
       deadnix
       nil
       nixd
+      nixfmt
       statix
     ];
   };

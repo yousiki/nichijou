@@ -3,9 +3,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.fzf;
-in {
+in
+{
   options.${namespace}.programs.fzf = {
     enable = lib.mkOption {
       type = lib.types.bool;

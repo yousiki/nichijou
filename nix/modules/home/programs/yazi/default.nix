@@ -3,9 +3,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.yazi;
-in {
+in
+{
   options.${namespace}.programs.yazi = {
     enable = lib.mkOption {
       type = lib.types.bool;

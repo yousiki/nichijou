@@ -3,9 +3,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.tmux;
-in {
+in
+{
   options.${namespace}.programs.tmux = {
     enable = lib.mkOption {
       type = lib.types.bool;

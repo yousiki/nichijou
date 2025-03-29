@@ -4,9 +4,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.bottom;
-in {
+in
+{
   options.${namespace}.programs.bottom = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -21,10 +23,12 @@ in {
       package = pkgs.bottom;
     };
 
-    home.shellAliases = let
-      bottom = lib.getExe config.programs.bottom.package;
-    in {
-      bottom = lib.mkForce "${bottom}";
-    };
+    home.shellAliases =
+      let
+        bottom = lib.getExe config.programs.bottom.package;
+      in
+      {
+        bottom = lib.mkForce "${bottom}";
+      };
   };
 }

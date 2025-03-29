@@ -3,9 +3,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.mcfly;
-in {
+in
+{
   options.${namespace}.programs.mcfly = {
     enable = lib.mkOption {
       type = lib.types.bool;

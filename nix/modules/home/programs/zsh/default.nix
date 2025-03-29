@@ -3,7 +3,8 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.zsh;
 
   plugins =
@@ -21,7 +22,8 @@
     ]
     ++ (lib.optional config.programs.fzf.enable "fzf")
     ++ (lib.optional config.programs.zoxide.enable "zoxide");
-in {
+in
+{
   options.${namespace}.programs.zsh = {
     enable = lib.mkOption {
       type = lib.types.bool;

@@ -4,12 +4,12 @@ _: {
 
   # Enabled programs
   programs = {
-    # Enable alejandra for nix formatting
-    alejandra.enable = true;
     # Enable deadnix for nix checking
     deadnix.enable = true;
     # Enable keep-sorted for general sorting
     keep-sorted.enable = true;
+    # Enable nixfmt for nix formatting
+    nixfmt.enable = true;
     # Enable prettier for formatting
     prettier.enable = true;
     # Enable stylua for lua formatting

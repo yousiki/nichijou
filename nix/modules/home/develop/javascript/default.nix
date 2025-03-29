@@ -4,9 +4,11 @@
   namespace,
   pkgs,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.develop.javascript;
-in {
+in
+{
   options.${namespace}.develop.javascript = {
     enable = lib.mkOption {
       type = lib.types.bool;

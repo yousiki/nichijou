@@ -4,9 +4,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.comma;
-in {
+in
+{
   options.${namespace}.programs.comma = {
     enable = lib.mkOption {
       type = lib.types.bool;

@@ -4,9 +4,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.develop.rust;
-in {
+in
+{
   options.${namespace}.develop.rust = {
     enable = lib.mkOption {
       type = lib.types.bool;

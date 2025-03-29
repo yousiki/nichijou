@@ -4,9 +4,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.develop.python;
-in {
+in
+{
   options.${namespace}.develop.python = {
     enable = lib.mkOption {
       type = lib.types.bool;

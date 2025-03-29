@@ -3,9 +3,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.zoxide;
-in {
+in
+{
   options.${namespace}.programs.zoxide = {
     enable = lib.mkOption {
       type = lib.types.bool;

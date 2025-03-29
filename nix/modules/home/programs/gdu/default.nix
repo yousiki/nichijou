@@ -4,9 +4,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.gdu;
-in {
+in
+{
   options.${namespace}.programs.gdu = {
     enable = lib.mkOption {
       type = lib.types.bool;

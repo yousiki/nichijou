@@ -3,7 +3,8 @@
   lib,
   pkgs,
   ...
-}: {
+}:
+{
   # Configure sops for secrets management.
   sops = {
     defaultSopsFile = null;

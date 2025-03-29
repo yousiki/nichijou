@@ -4,9 +4,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.eza;
-in {
+in
+{
   options.${namespace}.programs.eza = {
     enable = lib.mkOption {
       type = lib.types.bool;
@@ -34,10 +36,12 @@ in {
       git = true;
     };
 
-    home.shellAliases = let
-      eza = lib.getExe config.programs.eza.package;
-    in {
-      tree = lib.mkForce "${eza} --tree --icons=always";
-    };
+    home.shellAliases =
+      let
+        eza = lib.getExe config.programs.eza.package;
+      in
+      {
+        tree = lib.mkForce "${eza} --tree --icons=always";
+      };
   };
 }

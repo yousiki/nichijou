@@ -3,9 +3,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.users.yousiki;
-in {
+in
+{
   options.${namespace}.users.yousiki = {
     name = lib.mkOption {
       type = lib.types.str;

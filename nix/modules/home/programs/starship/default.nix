@@ -4,9 +4,11 @@
   format,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.starship;
-in {
+in
+{
   options.${namespace}.programs.starship = {
     enable = lib.mkOption {
       type = lib.types.bool;

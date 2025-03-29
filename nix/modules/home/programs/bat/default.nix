@@ -4,9 +4,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.bat;
-in {
+in
+{
   options.${namespace}.programs.bat = {
     enable = lib.mkOption {
       type = lib.types.bool;

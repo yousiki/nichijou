@@ -4,9 +4,11 @@
   namespace,
   config,
   ...
-}: let
+}:
+let
   cfg = config.${namespace}.programs.btop;
-in {
+in
+{
   options.${namespace}.programs.btop = {
     enable = lib.mkOption {
       type = lib.types.bool;
