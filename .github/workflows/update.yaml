@@ -1,4 +1,4 @@
-name: Update 
+name: Update
 on:
   repository_dispatch:
   workflow_dispatch:
@@ -47,4 +47,4 @@ jobs:
             echo "Running $update_script"
             bash "$update_script"
           done
-      # TODO: Add a step to commit and push the changes or create PR
+    # TODO: Add a step to commit and push the changes or create PR

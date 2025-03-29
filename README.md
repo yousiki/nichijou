@@ -1,16 +1,15 @@
 <!-- nichijou: nix configurations for daily life -->
 
+<!-- markdownlint-disable MD033 -->
+
 <h1 align="center"><i>nichijou</i> &ensp;|&ensp; 日常 &ensp;|&ensp; にちじょう </h1>
 <p align="center" style="font-size:large;"><i>nix configurations for daily life</i></p>
-
 <p align="center">
-<a href="https://nixos.org/"><img src="https://img.shields.io/badge/NixOS-5277C3?logo=nixos&logoColor=fff"></a>
-<a href="https://garnix.io/repo/YOUSIKI/nichijou"><img alt="built with garnix" src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2FYOUSIKI%2Fnichijou%3Fbranch%3Dmain"></a>
-<a href="https://github.com/YOUSIKI/nichijou/actions/workflows/check.yaml"><img src="https://github.com/YOUSIKI/nichijou/actions/workflows/check.yaml/badge.svg"></a>
-<a href="https://github.com/YOUSIKI/nichijou/actions/workflows/statix.yaml"><img src="https://github.com/YOUSIKI/nichijou/actions/workflows/statix.yaml/badge.svg"></a>
-<a href="https://github.com/YOUSIKI/nichijou/actions/workflows/build-nano.yaml"><img src="https://github.com/YOUSIKI/nichijou/actions/workflows/build-nano.yaml/badge.svg"></a>
-<a href="https://github.com/YOUSIKI/nichijou/actions/workflows/build-sakamoto.yaml"><img src="https://github.com/YOUSIKI/nichijou/actions/workflows/build-sakamoto.yaml/badge.svg"></a>
-<a href="https://github.com/YOUSIKI/nichijou/actions/workflows/build-hakase.yaml"><img src="https://github.com/YOUSIKI/nichijou/actions/workflows/build-hakase.yaml/badge.svg"></a>
+<a href="https://nixos.org/"><img src="https://img.shields.io/badge/NixOS-5277C3?logo=nixos&logoColor=fff" alt="NixOS"></a>
+<a href="https://github.com/YOUSIKI/nichijou/actions/workflows/check.yaml"><img src="https://github.com/YOUSIKI/nichijou/actions/workflows/check.yaml/badge.svg" alt="Check"></a>
+<a href="https://github.com/YOUSIKI/nichijou/actions/workflows/update.yaml"><img src="https://github.com/YOUSIKI/nichijou/actions/workflows/update.yaml/badge.svg" alt="Update"></a>
+<a href="https://github.com/YOUSIKI/nichijou/actions/workflows/build-hosts.yaml"><img src="https://github.com/YOUSIKI/nichijou/actions/workflows/build-hosts.yaml/badge.svg" alt="Build hosts"></a>
+<a href="https://garnix.io/repo/YOUSIKI/nichijou"><img src="https://img.shields.io/endpoint.svg?url=https%3A%2F%2Fgarnix.io%2Fapi%2Fbadges%2FYOUSIKI%2Fnichijou%3Fbranch%3Dmain" alt="Garnix"></a>
 </p>
 
 <p align="center">

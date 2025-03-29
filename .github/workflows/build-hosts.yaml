@@ -38,14 +38,12 @@ jobs:
     with:
       hostname: hakase
     secrets: inherit
-
   build-sakamoto:
     name: Build Nix-darwin host sakamoto
     uses: ./.github/workflows/build-darwin.yaml
     with:
       hostname: sakamoto
     secrets: inherit
-
   build-nano:
     name: Build Nix-darwin host nano
     uses: ./.github/workflows/build-darwin.yaml

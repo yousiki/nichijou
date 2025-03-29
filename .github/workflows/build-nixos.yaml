@@ -1,4 +1,4 @@
-name: Build NixOS host 
+name: Build NixOS host
 on:
   workflow_call:
     inputs:
