@@ -33,11 +33,13 @@ fetchsha256() {
 
   echo "$arch: $sha256"
 
+  local_dir=$(dirname "$0")
+
   # create the directory if it doesn't exist
-  mkdir -p ./sha256
+  mkdir -p "$local_dir/sha256"
 
   # save the results to file
-  echo "sha256:$sha256" >"./sha256/$arch"
+  echo "sha256:$sha256" >"$local_dir/sha256/$arch"
 }
 
 fetchsha256 linux-x64

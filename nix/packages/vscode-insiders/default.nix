@@ -16,10 +16,12 @@
       }
       .${system} or throwSystem;
 
+    fetcher = if pkgs.stdenv.isDarwin then pkgs.fetchzip else builtins.fetchTarball;
+
     sha256 = lib.trim (builtins.readFile ./sha256/${plat});
   in
   {
-    src = builtins.fetchTarball {
+    src = fetcher {
       url = "https://code.visualstudio.com/sha/download?build=insider&os=${plat}";
       inherit sha256;
     };
