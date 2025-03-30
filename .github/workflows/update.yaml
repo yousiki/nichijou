@@ -57,7 +57,7 @@ jobs:
           body: |
             This PR updates packages with the latest versions.
             Automated by the update workflow.
-          branch: update_packages_action 
+          branch: update_packages_action
           delete-branch: true
           labels: |
             dependencies
