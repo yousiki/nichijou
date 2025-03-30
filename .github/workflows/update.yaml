@@ -30,7 +30,7 @@ jobs:
             merge-queue
           pr-assignees: yousiki
       - name: Auto-merge pull request
-        run: "gh pr merge --auto --delete-branch --merge ${{ steps.update-lock.outputs.pull-request-number }}"
+        run: "gh pr merge --auto --merge ${{ steps.update-lock.outputs.pull-request-number }}"
         env:
           GH_TOKEN: ${{ github.token }}
   update-packages:
@@ -58,13 +58,12 @@ jobs:
             This PR updates packages with the latest versions.
             Automated by the update workflow.
           branch: update_packages_action
-          delete-branch: true
           labels: |
             dependencies
             automated
             merge-queue
           assignees: yousiki
       - name: Auto-merge pull request
-        run: "gh pr merge --auto --delete-branch --merge ${{ steps.update-packages.outputs.pull-request-number }}"
+        run: "gh pr merge --auto --merge ${{ steps.update-packages.outputs.pull-request-number }}"
         env:
           GH_TOKEN: ${{ github.token }}
