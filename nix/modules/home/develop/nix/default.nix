@@ -23,6 +23,7 @@ in
       alejandra
       cachix
       deadnix
+      deploy-rs
       nil
       nixd
       nixfmt-rfc-style

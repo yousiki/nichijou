@@ -58,6 +58,18 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # Deploy-rs: deployment tool
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Haumea: filesystem-based module system for Nix
+    haumea = {
+      url = "github:nix-community/haumea/v0.2.2";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -138,6 +150,12 @@
       outputs-builder = channels: {
         formatter = import ./nix/formatter { inherit self inputs channels; };
       };
+    }
+    // {
+      deploy = import ./nix/deploy { inherit self inputs; };
+      # checks = builtins.mapAttrs (
+      #   _system: deployLib: deployLib.deployChecks self.deploy
+      # ) inputs.deploy-rs.lib;
     };
 
   nixConfig = rec {

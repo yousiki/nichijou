@@ -4,7 +4,6 @@
   programs = {
     direnv.enable = true;
     fish.enable = true;
-    man.enable = true;
     nix-index.enable = true;
     tmux.enable = true;
     vim.enable = true;
