@@ -25,7 +25,7 @@ jobs:
         uses: DeterminateSystems/nix-installer-action@v16
       - name: Update flake.lock
         uses: DeterminateSystems/update-flake-lock@v24
-        id: update
+        id: update-lock
         with:
           token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
           pr-title: "Automated update of flake.lock"
@@ -35,7 +35,7 @@ jobs:
             merge-queue
           pr-assignees: yousiki
       - name: Auto-merge pull request
-        run: "gh pr merge --auto --merge ${{ steps.update.outputs.pull-request-number }}"
+        run: "gh pr merge --auto --merge ${{ steps.update-lock.outputs.pull-request-number }}"
         env:
           GH_TOKEN: ${{ github.token }}
   update-packages:
@@ -52,4 +52,24 @@ jobs:
             echo "Running $update_script"
             bash "$update_script"
           done
-    # TODO: Add a step to commit and push the changes or create PR
+      - name: Create Pull Request if there are changes
+        uses: peter-evans/create-pull-request@v7
+        id: update-packages
+        with:
+          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+          commit-message: "chore: update packages"
+          title: "Automated update of packages"
+          body: |
+            This PR updates packages with the latest versions.
+            Automated by the update workflow.
+          branch: update-packages
+          delete-branch: true
+          labels: |
+            dependencies
+            automated
+            merge-queue
+          assignees: yousiki
+      - name: Auto-merge pull request
+        run: "gh pr merge --auto --merge ${{ steps.update-packages.outputs.pull-request-number }}"
+        env:
+          GH_TOKEN: ${{ github.token }}
