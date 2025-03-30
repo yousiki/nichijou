@@ -9,6 +9,9 @@ on:
       - main
     paths:
       - ".github/workflows/update.yaml"
+permissions:
+  pull-requests: write
+  contents: write
 jobs:
   update-flake-inputs:
     runs-on: ubuntu-latest
@@ -28,11 +31,13 @@ jobs:
             dependencies
             automated
             merge-queue
-          pr-assignees: yousiki
-      - name: Auto-merge pull request
-        run: "gh pr merge --auto --merge ${{ steps.update-lock.outputs.pull-request-number }}"
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Auto merge Pull Request
+        if: steps.update-lock.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+          pull-request-number: ${{ steps.update-lock.outputs.pull-request-number }}
+          merge-method: squash
   update-packages:
     runs-on: ubuntu-latest
     name: Update packages
@@ -62,8 +67,10 @@ jobs:
             dependencies
             automated
             merge-queue
-          assignees: yousiki
-      - name: Auto-merge pull request
-        run: "gh pr merge --auto --merge ${{ steps.update-packages.outputs.pull-request-number }}"
-        env:
-          GH_TOKEN: ${{ github.token }}
+      - name: Auto merge Pull Request
+        if: steps.update-packages.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+          pull-request-number: ${{ steps.update-packages.outputs.pull-request-number }}
+          merge-method: squash
