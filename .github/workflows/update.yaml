@@ -18,19 +18,19 @@ jobs:
         uses: actions/checkout@v4
       - name: Install nix and flakes
         uses: DeterminateSystems/nix-installer-action@v16
-      - name: Update flake.lock
+      - name: Update flake lock
         uses: DeterminateSystems/update-flake-lock@v24
         id: update-lock
         with:
           token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
-          pr-title: "Automated update of flake.lock"
+          pr-title: "Automated update of flake lock"
           pr-labels: |
             dependencies
             automated
             merge-queue
           pr-assignees: yousiki
       - name: Auto-merge pull request
-        run: "gh pr merge --auto --merge ${{ steps.update-lock.outputs.pull-request-number }}"
+        run: "gh pr merge --auto --delete-branch --merge ${{ steps.update-lock.outputs.pull-request-number }}"
         env:
           GH_TOKEN: ${{ github.token }}
   update-packages:
@@ -57,7 +57,7 @@ jobs:
           body: |
             This PR updates packages with the latest versions.
             Automated by the update workflow.
-          branch: update_packages
+          branch: update_packages_action 
           delete-branch: true
           labels: |
             dependencies
@@ -65,6 +65,6 @@ jobs:
             merge-queue
           assignees: yousiki
       - name: Auto-merge pull request
-        run: "gh pr merge --auto --merge ${{ steps.update-packages.outputs.pull-request-number }}"
+        run: "gh pr merge --auto --delete-branch --merge ${{ steps.update-packages.outputs.pull-request-number }}"
         env:
           GH_TOKEN: ${{ github.token }}
