@@ -28,19 +28,38 @@ on:
       - "secrets/**"
   workflow_dispatch:
 jobs:
+  skip-check:
+    name: Skip check
+    runs-on: ubuntu-latest
+    outputs:
+      should_skip: ${{ steps.skip_check.outputs.should_skip }}
+    steps:
+      - name: Skip Check
+        uses: fkirc/skip-duplicate-actions@v5
+        with:
+          concurrent_skipping: 'never'
+          skip_after_successful_duplicate: 'true'
+          paths_ignore: '["**/README.md", "**/docs/**"]'
+          do_not_skip: '["pull_request", "workflow_dispatch", "schedule"]'
   build-hakase:
+    needs: skip-check
+    if: needs.skip-check.outputs.should_skip != 'true'
     name: Build NixOS host hakase
     uses: ./.github/workflows/build-nixos.yaml
     with:
       hostname: hakase
     secrets: inherit
   build-sakamoto:
+    needs: skip-check
+    if: needs.skip-check.outputs.should_skip != 'true'
     name: Build Nix-darwin host sakamoto
     uses: ./.github/workflows/build-darwin.yaml
     with:
       hostname: sakamoto
     secrets: inherit
   build-nano:
+    needs: skip-check
+    if: needs.skip-check.outputs.should_skip != 'true'
     name: Build Nix-darwin host nano
     uses: ./.github/workflows/build-darwin.yaml
     with:
