@@ -113,11 +113,14 @@
       };
 
       # Configure the overlays for your flake.
-      overlays = [ ];
+      overlays = [
+        inputs.nix-index-database.overlays.nix-index
+        inputs.sops-nix.overlays.default
+      ];
 
       # Configure the modules for home-manager.
       homes.modules = [
-        inputs.catppuccin.homeManagerModules.catppuccin
+        inputs.catppuccin.homeModules.catppuccin
         inputs.nix-index-database.hmModules.nix-index
         inputs.sops-nix.homeManagerModules.sops
       ];
@@ -153,9 +156,6 @@
     }
     // {
       deploy = import ./nix/deploy { inherit self inputs; };
-      # checks = builtins.mapAttrs (
-      #   _system: deployLib: deployLib.deployChecks self.deploy
-      # ) inputs.deploy-rs.lib;
     };
 
   nixConfig = rec {
