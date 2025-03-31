@@ -25,7 +25,7 @@ jobs:
         uses: DeterminateSystems/update-flake-lock@v24
         id: update-lock
         with:
-          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+          token: ${{ secrets.ACTIONS_PR_TOKEN }}
           pr-title: "Automated update of flake lock"
           pr-labels: |
             dependencies
@@ -35,7 +35,7 @@ jobs:
         if: steps.update-lock.outputs.pull-request-operation == 'created'
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
-          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+          token: ${{ secrets.ACTIONS_PR_TOKEN }}
           pull-request-number: ${{ steps.update-lock.outputs.pull-request-number }}
           merge-method: squash
   update-packages:
@@ -56,7 +56,7 @@ jobs:
         uses: peter-evans/create-pull-request@v7
         id: update-packages
         with:
-          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+          token: ${{ secrets.ACTIONS_PR_TOKEN }}
           commit-message: "chore: update packages"
           title: "Automated update of packages"
           body: |
@@ -71,6 +71,6 @@ jobs:
         if: steps.update-packages.outputs.pull-request-operation == 'created'
         uses: peter-evans/enable-pull-request-automerge@v3
         with:
-          token: ${{ secrets.GH_TOKEN_FOR_UPDATES }}
+          token: ${{ secrets.ACTIONS_PR_TOKEN }}
           pull-request-number: ${{ steps.update-packages.outputs.pull-request-number }}
           merge-method: squash
