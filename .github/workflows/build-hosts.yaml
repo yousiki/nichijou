@@ -14,18 +14,6 @@ on:
       - "nix/systems/**"
       - "secrets/**"
   pull_request:
-    paths:
-      - ".github/workflows/build-darwin.yaml"
-      - ".github/workflows/build-hosts.yaml"
-      - ".github/workflows/build-nixos.yaml"
-      - ".sops.yaml"
-      - "flake.lock"
-      - "flake.nix"
-      - "nix/homes/**"
-      - "nix/modules/**"
-      - "nix/packages/**"
-      - "nix/systems/**"
-      - "secrets/**"
   workflow_dispatch:
 jobs:
   skip-check:

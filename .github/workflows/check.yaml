@@ -7,11 +7,6 @@ on:
       - "flake.*"
       - "nix/**"
   pull_request:
-    paths:
-      - "**/*.nix"
-      - ".github/workflows/check.yaml"
-      - "flake.*"
-      - "nix/**"
   workflow_dispatch:
 jobs:
   skip-check:
