@@ -2,7 +2,6 @@ _: {
   homebrew.casks = [
     "adobe-creative-cloud"
     "alt-tab"
-    "brave-browser"
     "cherry-studio"
     "cyberduck"
     "discord"
@@ -10,6 +9,7 @@ _: {
     "element"
     "feishu"
     "font-caskaydia-cove-nerd-font"
+    "google-chrome"
     "handbrake"
     "iina"
     "itsycal"
