@@ -35,7 +35,6 @@ _: {
     "tencent-meeting"
     "thunderbird"
     "visual-studio-code"
-    "visual-studio-code@insiders"
     "warp"
     "wechat"
     "wezterm"
