@@ -39,7 +39,7 @@ _: {
     "wezterm"
     "xpra"
     "xquartz"
-    "zed@preview"
+    "zed"
     "zotero"
   ];
 }
