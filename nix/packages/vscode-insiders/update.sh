@@ -1,49 +1,80 @@
 #!/usr/bin/env bash
 #!/usr/bin/env nix-shell
-#!nix-shell -i bash -p nix
+#!nix-shell -i bash -p nix jq curl
 
-fetchsha256() {
-  # this function fetches the sha256 of the vscode insiders tarball
-  # it takes one argument, the architecture
+set -euo pipefail
 
-  if [[ $# -ne 1 ]]; then
-    echo "Usage: $0 <arch>"
+local_dir="$(cd "$(dirname "$0")" && pwd)"
+sha256_dir="$local_dir/sha256"
+version_dir="$local_dir/version"
+
+declare -A platforms=(
+  [linux - x64]="linux-x64"
+  [linux - arm64]="linux-arm64"
+  [linux - armhf]="linux-armhf"
+  [darwin]="darwin"
+  [darwin - arm64]="darwin-arm64"
+)
+
+mkdir -p "$sha256_dir" "$version_dir"
+
+# Fetch latest version for each platform
+declare -A latest_versions
+for plat in "${!platforms[@]}"; do
+  echo "Fetching latest version for $plat..."
+  api_url="https://update.code.visualstudio.com/api/update/${platforms[$plat]}/insider/latest"
+  latest_versions[$plat]=$(curl -sSfL "$api_url" | jq -r .name)
+  if [[ -z ${latest_versions[$plat]} ]]; then
+    echo "Failed to fetch latest version for $plat"
     exit 1
   fi
+  echo "Latest version for $plat: ${latest_versions[$plat]}"
+done
 
-  # arch is the first argument
-  arch=$1
-
-  # arch should be one of linux-x64, linux-arm64
-  if [[ 
-    $arch != "linux-x64" &&
-    $arch != "linux-arm64" &&
-    $arch != "linux-armhf" &&
-    $arch != "darwin" &&
-    $arch != "darwin-arm64" ]]; then
-    echo "Invalid architecture: $arch"
-    exit 1
+# Read current version for each platform
+declare -A current_versions
+for plat in "${!platforms[@]}"; do
+  version_file="$version_dir/$plat"
+  if [[ -f $version_file ]]; then
+    echo "Reading current version for $plat from $version_file..."
+    current_versions[$plat]=$(tr -d '[:space:]' <"$version_file")
+    if [[ -z ${current_versions[$plat]} ]]; then
+      echo "Failed to read current version for $plat"
+      exit 1
+    fi
+    echo "Current version for $plat: ${current_versions[$plat]}"
+  else
+    echo "No current version file found for $plat."
+    current_versions[$plat]=""
   fi
+done
 
-  # fetch the sha256 via nix-prefetch-url
-  sha256=$(
-    nix-prefetch-url --unpack --name code-insiders \
-      "https://code.visualstudio.com/sha/download?build=insider&os=$arch"
-  )
+# Check if all platforms are up to date
+all_up_to_date=true
+for plat in "${!platforms[@]}"; do
+  if [[ ${latest_versions[$plat]} != "${current_versions[$plat]}" ]]; then
+    all_up_to_date=false
+    break
+  fi
+done
 
-  echo "$arch: $sha256"
+if $all_up_to_date; then
+  echo "Already up to date:"
+  for plat in "${!platforms[@]}"; do
+    echo "  $plat: ${latest_versions[$plat]}"
+  done
+  exit 0
+fi
 
-  local_dir=$(dirname "$0")
+# Update version and sha256 for each platform
+for plat in "${!platforms[@]}"; do
+  latest_version="${latest_versions[$plat]}"
+  version_file="$version_dir/$plat"
+  echo "$latest_version" >"$version_file"
+  url="https://update.code.visualstudio.com/${latest_version}/${plat}/insider"
+  sha256=$(nix-prefetch-url --unpack --name code-insiders "$url")
+  echo "sha256:$sha256" >"$sha256_dir/$plat"
+  echo "$plat updated: version=$latest_version sha256=$sha256"
+done
 
-  # create the directory if it doesn't exist
-  mkdir -p "$local_dir/sha256"
-
-  # save the results to file
-  echo "sha256:$sha256" >"$local_dir/sha256/$arch"
-}
-
-fetchsha256 linux-x64
-fetchsha256 linux-arm64
-fetchsha256 linux-armhf
-fetchsha256 darwin
-fetchsha256 darwin-arm64
+echo "Update complete."
