@@ -13,26 +13,7 @@ permissions:
   pull-requests: write
   contents: write
 jobs:
-  update-flake-inputs-check:
-    needs: update-packages
-    runs-on: ubuntu-latest
-    name: Update flake inputs
-    outputs:
-      should-skip: ${{ steps.check-pr.outputs.should-skip }}
-    steps:
-      - name: Check if there is a package update PR
-        id: check-pr
-        run: |
-          if [[ "${{ needs.update-packages.outputs.pull-request-operation }}" == "created" ]]; then
-            echo "PR created, skipping flake inputs update."
-            echo "should-skip=true" >> $GITHUB_ENV
-          else
-            echo "No PR created, proceeding with flake inputs update."
-            echo "should-skip=false" >> $GITHUB_ENV
-          fi
   update-flake-inputs:
-    needs: update-flake-inputs-check
-    if: needs.update-flake-inputs-check.outputs.should-skip != 'true'
     runs-on: ubuntu-latest
     name: Update flake inputs
     steps:
