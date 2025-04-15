@@ -29,7 +29,7 @@ _: {
   # Settings
   settings.formatter = {
     typos.excludes = [
-      "**/sha256/*"
+      "^.*\/[^\/\.]+$"
       "secrets/*"
       "static/*"
     ];
