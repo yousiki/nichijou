@@ -11,8 +11,8 @@ let
     .${pkgs.stdenv.system} or (throw "Unsupported system: ${pkgs.stdenv.system}");
 
   fetcher = if pkgs.stdenv.isDarwin then pkgs.fetchzip else builtins.fetchTarball;
-  version = lib.trim (builtins.readFile ./. + "/version/${plat}");
-  sha256 = lib.trim (builtins.readFile ./. + "/sha256/${plat}");
+  version = lib.trim (builtins.readFile ./version/${plat});
+  sha256 = lib.trim (builtins.readFile ./sha256/${plat});
   url = "https://update.code.visualstudio.com/${version}/${plat}/insider";
   src = fetcher {
     inherit url sha256;
