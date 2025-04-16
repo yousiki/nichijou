@@ -9,11 +9,11 @@ sha256_dir="$local_dir/sha256"
 version_dir="$local_dir/version"
 
 declare -A platforms=(
-  [linux - x64]="linux-x64"
-  [linux - arm64]="linux-arm64"
-  [linux - armhf]="linux-armhf"
+  [linux-x64]="linux-x64"
+  [linux-arm64]="linux-arm64"
+  [linux-armhf]="linux-armhf"
   [darwin]="darwin"
-  [darwin - arm64]="darwin-arm64"
+  [darwin-arm64]="darwin-arm64"
 )
 
 mkdir -p "$sha256_dir" "$version_dir"
