@@ -1,6 +1,6 @@
 { inputs, darwinConfigurations, ... }:
 {
-  hostname = "localhost";
+  hostname = "sakamoto.siki.moe";
   sshOpts = [
     "-p"
     "22"

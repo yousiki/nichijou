@@ -1,6 +1,6 @@
 { inputs, darwinConfigurations, ... }:
 {
-  hostname = "yyp315.siki.moe";
+  hostname = "nano.siki.moe";
   sshOpts = [
     "-p"
     "12022"
