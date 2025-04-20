@@ -29,5 +29,9 @@ in
       # Symlink nix-index-database to ~/.cache/nix-index
       symlinkToCacheHome = true;
     };
+
+    home.packages = with pkgs; [
+      comma
+    ];
   };
 }
