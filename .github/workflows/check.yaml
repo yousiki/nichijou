@@ -34,7 +34,7 @@ jobs:
       - name: Check Nix flake inputs
         uses: DeterminateSystems/flake-checker-action@v9
       - name: Install nix and flakes
-        uses: DeterminateSystems/nix-installer-action@v16
+        uses: DeterminateSystems/nix-installer-action@v17
       - name: Use magic nix cache
         uses: DeterminateSystems/magic-nix-cache-action@v9
       - name: Run nix flake check
@@ -50,7 +50,7 @@ jobs:
       - name: Check flake.lock file
         uses: DeterminateSystems/flake-checker-action@v9
       - name: Install nix and flakes
-        uses: DeterminateSystems/nix-installer-action@v16
+        uses: DeterminateSystems/nix-installer-action@v17
       - name: Use magic nix cache
         uses: DeterminateSystems/magic-nix-cache-action@v9
       - name: Use cachix nix cache
@@ -70,7 +70,7 @@ jobs:
       - name: Check flake.lock file
         uses: DeterminateSystems/flake-checker-action@v9
       - name: Install nix and flakes
-        uses: DeterminateSystems/nix-installer-action@v16
+        uses: DeterminateSystems/nix-installer-action@v17
       - name: Use magic nix cache
         uses: DeterminateSystems/magic-nix-cache-action@v9
       - name: Use cachix nix cache
