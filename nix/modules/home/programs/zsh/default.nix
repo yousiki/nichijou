@@ -45,7 +45,7 @@ in
         theme = "robbyrussell";
         inherit plugins;
       };
-      initExtra = ''
+      initContent = ''
         bindkey "\e[1;3D" backward-word
         bindkey "\e[1;3C" forward-word
 
