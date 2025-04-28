@@ -45,7 +45,7 @@ in
           eval "$(micromamba shell hook --shell bash)"
         fi
       '';
-      zsh.initExtra = ''
+      zsh.initContent = ''
         if [[ -x "$(command -v micromamba)" ]]; then
           eval "$(micromamba shell hook --shell zsh)"
         fi
