@@ -58,18 +58,6 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # Deploy-rs: deployment tool
-    deploy-rs = {
-      url = "github:serokell/deploy-rs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # Haumea: filesystem-based module system for Nix
-    haumea = {
-      url = "github:nix-community/haumea/v0.2.2";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -153,9 +141,6 @@
       outputs-builder = channels: {
         formatter = import ./nix/formatter { inherit self inputs channels; };
       };
-    }
-    // {
-      deploy = import ./nix/deploy { inherit self inputs; };
     };
 
   nixConfig = rec {
@@ -163,7 +148,6 @@
       # Official cache server.
       "https://cache.nixos.org" # priority=40
       # Additional cache servers.
-      "https://cache.garnix.io" # priority=50
       "https://deadnix.cachix.org" # priority=41
       "https://nichijou.cachix.org" # priority=41
       "https://nix-community.cachix.org" # priority=41
@@ -175,7 +159,6 @@
     ];
     trusted-substituters = substituters;
     trusted-public-keys = [
-      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
       "deadnix.cachix.org-1:R7kK+K1CLDbLrGph/vSDVxUslAmq8vhpbcz6SH9haJE="
       "nichijou.cachix.org-1:rbaTU9nLgVW9BK/HSV41vsag6A7/A/caBpcX+cR/6Ps="
