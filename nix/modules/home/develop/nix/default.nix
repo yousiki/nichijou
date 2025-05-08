@@ -21,7 +21,7 @@ in
     # Install required packages.
     home.packages = with pkgs; [
       alejandra
-      cachix
+      # cachix
       deadnix
       deploy-rs
       nil
