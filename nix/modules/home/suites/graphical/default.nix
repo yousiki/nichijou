@@ -20,6 +20,7 @@ in
     ${namespace} = {
       programs = {
         kitty.enable = true;
+        zed-editor.enable = true;
       };
     };
   };
