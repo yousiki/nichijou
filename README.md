@@ -6,9 +6,9 @@
 <p align="center" style="font-size:large;"><i>nix configurations for daily life</i></p>
 <p align="center">
 <a href="https://nixos.org/"><img src="https://img.shields.io/badge/NixOS-5277C3?logo=nixos&logoColor=fff" alt="NixOS"></a>
-<a href="https://github.com/YOUSIKI/nichijou/actions/workflows/check.yaml"><img src="https://github.com/YOUSIKI/nichijou/actions/workflows/check.yaml/badge.svg" alt="Check"></a>
-<a href="https://github.com/YOUSIKI/nichijou/actions/workflows/update.yaml"><img src="https://github.com/YOUSIKI/nichijou/actions/workflows/update.yaml/badge.svg" alt="Update"></a>
-<a href="https://github.com/YOUSIKI/nichijou/actions/workflows/build-hosts.yaml"><img src="https://github.com/YOUSIKI/nichijou/actions/workflows/build-hosts.yaml/badge.svg" alt="Build hosts"></a>
+<a href="https://github.com/yousiki/nichijou/actions/workflows/check.yaml"><img src="https://github.com/yousiki/nichijou/actions/workflows/check.yaml/badge.svg" alt="Check"></a>
+<a href="https://github.com/yousiki/nichijou/actions/workflows/update.yaml"><img src="https://github.com/yousiki/nichijou/actions/workflows/update.yaml/badge.svg" alt="Update"></a>
+<a href="https://github.com/yousiki/nichijou/actions/workflows/build-hosts.yaml"><img src="https://github.com/yousiki/nichijou/actions/workflows/build-hosts.yaml/badge.svg" alt="Build hosts"></a>
 </p>
 
 <p align="center">
