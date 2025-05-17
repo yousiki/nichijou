@@ -20,10 +20,7 @@ in
   config = lib.mkIf cfg.enable {
     # Install required packages.
     home.packages = with pkgs; [
-      alejandra
-      # cachix
       deadnix
-      deploy-rs
       nil
       nixd
       nixfmt-rfc-style
