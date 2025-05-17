@@ -152,6 +152,7 @@
       "https://nichijou.cachix.org" # priority=41
       "https://nix-community.cachix.org" # priority=41
       "https://numtide.cachix.org" # priority=41
+      "https://catppuccin.cachix.org" # priority=41
       # Mirrors for cache.nixos.org in China.
       "https://mirrors.sjtug.sjtu.edu.cn/nix-channels/store?priority=39"
       "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=38"
@@ -160,6 +161,7 @@
     trusted-substituters = substituters;
     trusted-public-keys = [
       "cache.nixos.org-1:6NCHdD59X431o0gWypbMrAURkbJ16ZPMQFGspcDShjY="
+      "catppuccin.cachix.org-1:noG/4HkbhJb+lUAdKrph6LaozJvAeEEZj4N732IysmU="
       "deadnix.cachix.org-1:R7kK+K1CLDbLrGph/vSDVxUslAmq8vhpbcz6SH9haJE="
       "nichijou.cachix.org-1:rbaTU9nLgVW9BK/HSV41vsag6A7/A/caBpcX+cR/6Ps="
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
