@@ -19,9 +19,6 @@
     sessionPath = [ "${config.home.homeDirectory}/.local/bin" ];
 
     # Set home-manager state version.
-    stateVersion = "24.11";
-
-    # TODO: Remove after upgrading to home-manager 25.05
-    enableNixpkgsReleaseCheck = false;
+    stateVersion = "25.05";
   };
 }
