@@ -53,6 +53,7 @@
     };
     kernelModules = [ "kvm-intel" ];
     extraModulePackages = [ ];
+    supportedFilesystems = [ "bcachefs" ];
   };
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
