@@ -28,7 +28,7 @@ in
         fzf.enable = true;
         gdu.enable = true;
         git.enable = true;
-        mcfly.enable = false; # TODO: Enable mcfly
+        mcfly.enable = true;
         nh.enable = true;
         nix-index.enable = true;
         starship.enable = true;
