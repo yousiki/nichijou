@@ -6,6 +6,5 @@ _: {
       graphical.enable = true;
       terminal.enable = true;
     };
-    develop.latex.enable = true;
   };
 }
