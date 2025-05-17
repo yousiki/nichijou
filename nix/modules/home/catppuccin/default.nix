@@ -2,6 +2,6 @@
 _: {
   catppuccin = {
     enable = true;
-    flavor = "mocha";
+    flavor = "frappe";
   };
 }
