@@ -2,6 +2,7 @@
   lib,
   namespace,
   config,
+  pkgs,
   ...
 }:
 let
@@ -17,9 +18,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    programs.vscode = {
-      enable = true;
-      mutableExtensionsDir = true;
-    };
+    home.packages = with pkgs; [
+      vscode.fhs
+    ];
   };
 }
