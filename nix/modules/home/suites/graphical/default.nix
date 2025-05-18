@@ -19,6 +19,7 @@ in
   config = lib.mkIf cfg.enable {
     ${namespace} = {
       programs = {
+        _1password.enable = true;
         firefox.enable = true;
         google-chrome.enable = true;
         kitty.enable = true;
