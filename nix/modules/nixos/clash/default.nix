@@ -16,7 +16,7 @@ in
     networking = {
       # Enable system proxy.
       proxy.default = "http://127.0.0.1:7890";
-      proxy.noProxy = "127.0.0.1,localhost,siki.moe";
+      proxy.noProxy = "127.0.0.1,localhost";
       # Open firewall for clash.
       firewall.allowedTCPPorts = [
         7890

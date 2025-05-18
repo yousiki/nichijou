@@ -19,7 +19,10 @@ in
   config = lib.mkIf cfg.enable {
     ${namespace} = {
       programs = {
+        firefox.enable = true;
+        google-chrome.enable = true;
         kitty.enable = true;
+        vscode.enable = true;
         zed-editor.enable = true;
       };
     };
