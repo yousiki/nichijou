@@ -19,7 +19,7 @@ in
 
   config = lib.mkIf cfg.enable {
     home.packages = with pkgs; [
-      vscode.fhs
+      vscode
     ];
   };
 }
