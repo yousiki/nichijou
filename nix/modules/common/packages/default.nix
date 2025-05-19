@@ -28,7 +28,6 @@
     htop
     jq
     neovim
-    rclone
     ripgrep
     rsync
     unzip
