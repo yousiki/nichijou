@@ -1,5 +1,6 @@
 {
   lib,
+  pkgs,
   namespace,
   config,
   ...
@@ -17,11 +18,11 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    programs.firefox = {
-      enable = true;
-      languagePacks = [
-        "zh-CN"
-      ];
-    };
+    home.packages = lib.optionals pkgs.stdenv.isLinux (
+      with pkgs;
+      [
+        firefox
+      ]
+    );
   };
 }

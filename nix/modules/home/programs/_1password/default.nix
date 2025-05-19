@@ -18,9 +18,15 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      _1password-cli
-      _1password-gui
-    ];
+    home.packages =
+      with pkgs;
+      (
+        [
+          _1password-cli
+        ]
+        ++ lib.optionals pkgs.stdenv.isLinux [
+          _1password-gui
+        ]
+      );
   };
 }

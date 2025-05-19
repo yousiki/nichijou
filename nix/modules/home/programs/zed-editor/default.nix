@@ -3,7 +3,6 @@
   pkgs,
   namespace,
   config,
-  system,
   ...
 }:
 let
@@ -19,10 +18,13 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      zed-editor
-    ];
+    home.packages = lib.optionals pkgs.stdenv.isLinux (
+      with pkgs;
+      [
+        zed-editor
+      ]
+    );
 
-    nixGL.vulkan.enable = system == "x86_64-linux" || system == "aarch64-linux";
+    nixGL.vulkan.enable = pkgs.stdenv.isLinux;
   };
 }

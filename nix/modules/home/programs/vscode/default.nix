@@ -18,8 +18,11 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = with pkgs; [
-      vscode
-    ];
+    home.packages = lib.optionals pkgs.stdenv.isLinux (
+      with pkgs;
+      [
+        vscode
+      ]
+    );
   };
 }
