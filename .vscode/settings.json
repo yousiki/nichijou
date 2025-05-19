@@ -6,6 +6,7 @@
   },
   "nix.enableLanguageServer": true,
   "nix.formatterPath": "nixfmt",
+  "nix.serverPath": "nil",
   "nix.serverSettings": {
     "nil": {
       "flake": {
@@ -20,14 +21,6 @@
     "nixd": {
       "formatting": {
         "command": ["nixfmt"]
-      },
-      "nixpkgs": {
-        "expr": "import (builtins.getFlake (builtins.toString ./.)).inputs.nixpkgs {}"
-      },
-      "options": {
-        "nixos": {
-          "expr": "(builtins.getFlake (builtins.toString ./.)).nixosConfigurations.hakase.options"
-        }
       }
     }
   },
