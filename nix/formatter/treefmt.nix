@@ -33,5 +33,10 @@ _: {
       "secrets/*"
       "static/*"
     ];
+    yamlfmt.excludes = [
+      "^.*\/[^\/\.]+$"
+      "secrets/*"
+      "static/*"
+    ];
   };
 }
