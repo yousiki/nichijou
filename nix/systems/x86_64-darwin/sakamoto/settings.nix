@@ -29,4 +29,7 @@ _: {
       TrackpadThreeFingerDrag = true; # Enable three-finger drag gesture on the trackpad
     };
   };
+
+  # Set the primary user for the system
+  system.primaryUser = "yousiki";
 }
