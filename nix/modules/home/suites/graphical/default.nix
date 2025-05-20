@@ -24,7 +24,7 @@ in
         google-chrome.enable = true;
         kitty.enable = true;
         vscode.enable = true;
-        zed-editor.enable = true;
+        zed-editor.enable = false;
       };
     };
   };
