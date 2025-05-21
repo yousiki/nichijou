@@ -60,6 +60,14 @@ in
     inherit registry;
   };
 
-  # The platform the configuration will be used on.
-  nixpkgs.hostPlatform = system;
+  nixpkgs = {
+    # The platform the configuration will be used on.
+    hostPlatform = system;
+
+    # Nixpkgs configs.
+    config = {
+      allowUnfree = true;
+      allowBroken = false;
+    };
+  };
 }
