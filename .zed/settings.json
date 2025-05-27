@@ -1,0 +1,11 @@
+{
+  "lsp": {
+    "yaml-language-server": {
+      "settings": {
+        "files": {
+          "exclude": ["**/secrets/**", "**/static/**"]
+        }
+      }
+    }
+  }
+}
