@@ -22,7 +22,7 @@ jobs:
       - name: Install nix and flakes
         uses: DeterminateSystems/nix-installer-action@v17
       - name: Update flake lock
-        uses: DeterminateSystems/update-flake-lock@v24
+        uses: DeterminateSystems/update-flake-lock@v25
         id: update-lock
         with:
           token: ${{ secrets.ACTIONS_PR_TOKEN }}
