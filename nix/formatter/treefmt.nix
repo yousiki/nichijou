@@ -1,4 +1,13 @@
-_: {
+_:
+let
+  # Common exclusion patterns for all formatters
+  commonExcludes = [
+    "^.*\/[^\/\.]+$"
+    "secrets/*"
+    "static/*"
+  ];
+in
+{
   # Used to find the project root
   projectRootFile = "flake.nix";
 
@@ -22,21 +31,18 @@ _: {
     statix.enable = true;
     # Enable typos for spell checking
     typos.enable = true;
-    # Enable yamlfmt for yaml formatting
-    yamlfmt.enable = true;
   };
 
   # Settings
   settings.formatter = {
-    typos.excludes = [
-      "^.*\/[^\/\.]+$"
-      "secrets/*"
-      "static/*"
-    ];
-    yamlfmt.excludes = [
-      "^.*\/[^\/\.]+$"
-      "secrets/*"
-      "static/*"
-    ];
+    deadnix.excludes = commonExcludes;
+    keep-sorted.excludes = commonExcludes;
+    nixfmt.excludes = commonExcludes;
+    prettier.excludes = commonExcludes;
+    stylua.excludes = commonExcludes;
+    shellcheck.excludes = commonExcludes;
+    shfmt.excludes = commonExcludes;
+    statix.excludes = commonExcludes;
+    typos.excludes = commonExcludes;
   };
 }
