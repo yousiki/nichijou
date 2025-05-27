@@ -31,6 +31,7 @@ in
         mcfly.enable = true;
         nh.enable = true;
         nix-index.enable = true;
+        proxychains.enable = true;
         starship.enable = true;
         tmux.enable = true;
         yazi.enable = true;
