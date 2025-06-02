@@ -32,7 +32,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Check Nix flake inputs
-        uses: DeterminateSystems/flake-checker-action@v9
+        uses: DeterminateSystems/flake-checker-action@v10
       - name: Install nix and flakes
         uses: DeterminateSystems/nix-installer-action@v17
       - name: Use magic nix cache
@@ -48,7 +48,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Check flake.lock file
-        uses: DeterminateSystems/flake-checker-action@v9
+        uses: DeterminateSystems/flake-checker-action@v10
       - name: Install nix and flakes
         uses: DeterminateSystems/nix-installer-action@v17
       - name: Use magic nix cache
@@ -68,7 +68,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Check flake.lock file
-        uses: DeterminateSystems/flake-checker-action@v9
+        uses: DeterminateSystems/flake-checker-action@v10
       - name: Install nix and flakes
         uses: DeterminateSystems/nix-installer-action@v17
       - name: Use magic nix cache
