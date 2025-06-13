@@ -115,6 +115,12 @@ in
       ];
       description = "Localnet exclusion list - addresses that will be accessed directly.";
     };
+
+    enableAlias = lib.mkOption {
+      type = lib.types.bool;
+      default = true;
+      description = "Whether to enable the proxychains alias.";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -123,6 +129,15 @@ in
     home.sessionVariables = {
       PROXYCHAINS_CONF_FILE = "${config.xdg.configHome}/proxychains/proxychains.conf";
     };
+
+    home.shellAliases =
+      let
+        bin = "${cfg.package}/bin/proxychains4";
+      in
+      lib.mkIf cfg.enableAlias {
+        pc = bin;
+        proxychains = bin;
+      };
 
     xdg.configFile."proxychains/proxychains.conf".text = ''
       # proxychains.conf VER 4.x
