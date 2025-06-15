@@ -1,5 +1,42 @@
 {
+  "auto_install_extensions": {
+    "nix": true
+  },
+  "edit_predictions": {
+    "disabled_globs": ["**/secrets/**", "**/static/**"]
+  },
+  "languages": {
+    "Nix": {
+      "tab_size": 2,
+      "formatter": "language_server",
+      "format_on_save": "on",
+      "language_servers": ["nil", "nixd"]
+    }
+  },
   "lsp": {
+    "nil": {
+      "settings": {
+        "formatting": {
+          "command": ["nixfmt"]
+        },
+        "nix": {
+          "flake": {
+            "autoArchive": true,
+            "nixpkgsInputName": "nixpkgs"
+          }
+        }
+      }
+    },
+    "nixd": {
+      "settings": {
+        "nixpkgs": {
+          "expr": "import <nixpkgs> {}"
+        },
+        "formatting": {
+          "command": ["nixfmt"]
+        }
+      }
+    },
     "yaml-language-server": {
       "settings": {
         "files": {

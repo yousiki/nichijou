@@ -1,5 +1,5 @@
 # Secrets management for Darwin.
-{ lib, ... }:
+_:
 {
-  imports = [ (lib.snowfall.fs.get-file "nix/modules/common/secrets/default.nix") ];
+  # imports = [ (lib.snowfall.fs.get-file "nix/modules/common/secrets/default.nix") ];
 }
