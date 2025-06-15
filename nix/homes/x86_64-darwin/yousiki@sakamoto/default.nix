@@ -2,7 +2,7 @@
 _: {
   nichijou = {
     suites = {
-      develop.enable = true;
+      develop.enable = false;
       graphical.enable = true;
       terminal.enable = true;
     };

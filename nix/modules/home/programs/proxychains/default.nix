@@ -124,20 +124,20 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    home.packages = [ cfg.package ];
-
-    home.sessionVariables = {
-      PROXYCHAINS_CONF_FILE = "${config.xdg.configHome}/proxychains/proxychains.conf";
-    };
-
-    home.shellAliases =
-      let
-        bin = "${cfg.package}/bin/proxychains4";
-      in
-      lib.mkIf cfg.enableAlias {
-        pc = bin;
-        proxychains = bin;
+    home = {
+      packages = [ cfg.package ];
+      sessionVariables = {
+        PROXYCHAINS_CONF_FILE = "${config.xdg.configHome}/proxychains/proxychains.conf";
       };
+      shellAliases =
+        let
+          bin = "${cfg.package}/bin/proxychains4";
+        in
+        lib.mkIf cfg.enableAlias {
+          pc = bin;
+          proxychains = bin;
+        };
+    };
 
     xdg.configFile."proxychains/proxychains.conf".text = ''
       # proxychains.conf VER 4.x
