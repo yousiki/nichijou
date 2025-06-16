@@ -28,6 +28,7 @@ in
         fzf.enable = true;
         gdu.enable = true;
         git.enable = true;
+        helix.enable = true;
         mcfly.enable = true;
         nh.enable = true;
         nix-index.enable = true;
