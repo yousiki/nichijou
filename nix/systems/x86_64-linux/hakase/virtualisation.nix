@@ -4,6 +4,7 @@ _: {
       enable = true;
       rootless.enable = true;
       autoPrune.enable = true;
+      storageDriver = "overlay2";
     };
   };
 }
