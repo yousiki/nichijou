@@ -17,6 +17,7 @@ _: {
     "mihomo-party"
     "monitorcontrol"
     "mos"
+    "orbstack"
     "tailscale"
     "tencent-meeting"
     "visual-studio-code"

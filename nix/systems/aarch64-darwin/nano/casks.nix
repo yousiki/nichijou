@@ -19,6 +19,7 @@ _: {
     "mihomo-party"
     "monitorcontrol"
     "mos"
+    "orbstack"
     "raycast"
     "rectangle"
     "tailscale"
