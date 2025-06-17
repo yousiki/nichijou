@@ -5,7 +5,7 @@ let
     ${pkgs.nix-update}/bin/nix-update \
       zed-editor \
       --flake \
-      --override-filename packages/zed-editor/packages.nix \
+      --override-filename packages/zed-editor/package.nix \
       --version-regex "^v(?!.*(?:-pre|0\.999999\.0|0\.9999-temporary)$)(.+)$"
   '';
 in
