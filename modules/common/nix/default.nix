@@ -58,11 +58,9 @@
       lib.filterAttrs (n: _v: !(lib.hasPrefix "nixpkgs" n) && n != "self") inputs
     );
   };
-
   nixpkgs = {
     # The platform the configuration will be used on.
     hostPlatform = system;
-
     # Nixpkgs configs.
     config = {
       allowUnfree = true;

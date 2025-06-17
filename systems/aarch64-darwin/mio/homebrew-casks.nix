@@ -2,10 +2,11 @@
 _: {
   homebrew.casks = [
     "1password"
-    "google-chrome"
     "feishu"
-    "wechat"
+    "google-chrome"
+    "mihomo-party"
     "qq"
+    "wechat"
     "zed"
   ];
 }

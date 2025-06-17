@@ -10,6 +10,7 @@ mkShell {
     nil
     nixd
     nixfmt-rfc-style
+    snowfallorg.drift
     statix
   ];
 }

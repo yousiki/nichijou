@@ -7,6 +7,10 @@
       url = "github:snowfallorg/lib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    snowfall-drift = {
+      url = "github:snowfallorg/drift";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -17,6 +21,10 @@
     };
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    catppuccin = {
+      url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -34,17 +42,12 @@
           title = "NixOS and nix-darwin configurations for daily life";
         };
       };
-      channels-configs = {
+      channels-config = {
         allowUnfree = true;
       };
-      overlays = [ ];
-      home.modules = [ ];
-      system = {
-        modules = {
-          darwin = [ ];
-          nixos = [ ];
-        };
-      };
+      overlays = with inputs; [
+        snowfall-drift.overlays.default
+      ];
       outputs-builder = channels: {
         formatter = import ./formatter.nix { inherit self inputs channels; };
       };
