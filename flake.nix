@@ -7,10 +7,6 @@
       url = "github:snowfallorg/lib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    snowfall-drift = {
-      url = "github:snowfallorg/drift";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     darwin = {
       url = "github:LnL7/nix-darwin";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -45,9 +41,6 @@
       channels-config = {
         allowUnfree = true;
       };
-      overlays = with inputs; [
-        snowfall-drift.overlays.default
-      ];
       outputs-builder = channels: {
         formatter = import ./formatter.nix { inherit self inputs channels; };
       };
