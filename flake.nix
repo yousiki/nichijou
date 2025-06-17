@@ -36,8 +36,6 @@
       };
       channels-configs = {
         allowUnfree = true;
-        allowBroken = false;
-        permittedInsecurePackages = [ ];
       };
       overlays = [ ];
       home.modules = [ ];
