@@ -6,7 +6,7 @@
   ...
 }:
 {
-  options.${namespace}.programs.zed = {
+  options.${namespace}.programs.zed-editor = {
     enable = lib.mkEnableOption "Zed Editor";
     enableAlias = lib.mkOption {
       type = lib.types.bool;
@@ -17,12 +17,11 @@
 
   config =
     let
-      cfg = config.${namespace}.programs.zed;
+      cfg = config.${namespace}.programs.zed-editor;
     in
     lib.mkIf cfg.enable {
       programs.zed-editor = {
         enable = true;
-        package = pkgs.${namespace}.zed-editor;
         extensions = [
           "astro"
           "catppuccin"

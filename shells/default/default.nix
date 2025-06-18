@@ -1,12 +1,11 @@
 # Develop shell for nichijou
 { pkgs, mkShell, ... }:
 let
-  update-zed-editor = pkgs.writeShellScriptBin "update-zed-editor" ''
+  update-keepingyouawake = pkgs.writeShellScriptBin "update-keepingyouawake" ''
     ${pkgs.nix-update}/bin/nix-update \
-      zed-editor \
+      keepingyouawake \
       --flake \
-      --override-filename packages/zed-editor/package.nix \
-      --version-regex "^v(?!.*(?:-pre|0\.999999\.0|0\.9999-temporary)$)(.+)$"
+      --override-filename packages/keepingyouawake/package.nix
   '';
 in
 mkShell {
@@ -20,6 +19,6 @@ mkShell {
     nixd
     nixfmt-rfc-style
     statix
-    update-zed-editor
+    update-keepingyouawake
   ];
 }
