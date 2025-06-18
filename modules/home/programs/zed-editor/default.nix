@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   namespace,
   ...
 }:
@@ -33,17 +32,12 @@
           "html"
           "latex"
           "log"
+          "lua"
           "make"
           "nix"
           "ruff"
           "toml"
           "vue"
-        ];
-        extraPackages = with pkgs; [
-          nil
-          nixd
-          nixfmt-rfc-style
-          ruff
         ];
         userSettings = {
           auto_update = false;
@@ -147,6 +141,9 @@
               thread_summary_model = model;
             };
         };
+      };
+      home.shellAliases = lib.mkIf cfg.enableAlias {
+        zed = "zeditor";
       };
     };
 }

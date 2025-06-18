@@ -7,6 +7,7 @@ let
       deadnix.enable = true;
       nixfmt.enable = true;
       statix.enable = true;
+      stylua.enable = true;
     };
     settings.formatter =
       let
@@ -20,6 +21,7 @@ let
         deadnix.excludes = commonExcludes;
         nixfmt.excludes = commonExcludes;
         statix.excludes = commonExcludes;
+        stylua.excludes = commonExcludes;
       };
   };
 

@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   namespace,
   ...
 }:
@@ -16,6 +17,31 @@
     lib.mkIf cfg.enable {
       programs.helix = {
         enable = true;
+        defaultEditor = true;
+        extraPackages = with pkgs; [
+          helix-gpt
+        ];
+        languages = {
+          language-server = {
+            gpt = {
+              command = "${pkgs.helix-gpt}/bin/helix-gpt";
+            };
+          };
+          language = [
+            {
+              name = "nix";
+              auto-format = true;
+              language-servers = [
+                "nil"
+                "nixd"
+                "gpt"
+              ];
+            }
+          ];
+        };
       };
+      home.packages = with pkgs; [
+        helix-gpt
+      ];
     };
 }
