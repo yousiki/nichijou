@@ -7,7 +7,7 @@
 }:
 {
   options.${namespace}.programs.google-chrome = {
-    enable = lib.mkEnableOption "google-chrome";
+    enable = lib.mkEnableOption "Google Chrome";
     enableAlias = lib.mkOption {
       type = lib.types.bool;
       default = true;

@@ -19,6 +19,10 @@
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-index-database = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     catppuccin = {
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -40,6 +44,13 @@
       };
       channels-config = {
         allowUnfree = true;
+      };
+      homes.modules = with inputs; [
+        nix-index-database.hmModules.nix-index
+      ];
+      systems.modules = {
+        nixos = with inputs; [ nix-index-database.nixosModules.nix-index ];
+        darwin = with inputs; [ nix-index-database.darwinModules.nix-index ];
       };
       outputs-builder = channels: {
         formatter = import ./formatter.nix { inherit self inputs channels; };

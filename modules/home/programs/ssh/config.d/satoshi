@@ -1,0 +1,14 @@
+Host satoshi
+  HostName satoshi.siki.moe
+  Port 23
+  User yousiki
+  ForwardAgent yes
+  RequestTTY yes
+
+Host satoshi-ts
+  HostName 100.106.54.87
+  Port 22
+  User yousiki
+  ForwardAgent yes
+  Compression yes
+  RequestTTY yes

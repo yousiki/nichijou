@@ -42,12 +42,13 @@
         userSettings = {
           auto_update = false;
           buffer_font_family = "CaskaydiaCove Nerd Font Mono";
-          buffer_font_size = 12;
+          buffer_font_size = 13;
           ui_font_family = "CaskaydiaCove Nerd Font Mono";
-          ui_font_size = 12;
+          ui_font_size = 14;
+          agent_font_size = 14;
           terminal = {
             font_family = "CaskaydiaCove Nerd Font Mono";
-            font_size = 10;
+            font_size = 12;
             copy_on_select = true;
           };
           current_line_highlight = "line";
