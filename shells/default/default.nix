@@ -5,7 +5,7 @@ let
     ${pkgs.nix-update}/bin/nix-update \
       keepingyouawake \
       --flake \
-      --override-filename packages/keepingyouawake/package.nix
+      --override-filename packages/keepingyouawake/default.nix
   '';
 in
 mkShell {
