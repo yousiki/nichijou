@@ -1,7 +1,7 @@
 {
+  fetchurl,
   lib,
   stdenvNoCC,
-  fetchurl,
   unzip,
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
@@ -36,8 +36,6 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     description = "Prevents your Mac from going to sleep.";
     homepage = "https://keepingyouawake.app/";
     license = lib.licenses.mit;
-    maintainers = with lib.maintainers; [
-    ];
     platforms = [
       "aarch64-darwin"
       "x86_64-darwin"

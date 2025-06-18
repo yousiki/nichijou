@@ -1,13 +1,9 @@
 # Develop shell for nichijou
-{ pkgs, mkShell, ... }:
-let
-  update-keepingyouawake = pkgs.writeShellScriptBin "update-keepingyouawake" ''
-    ${pkgs.nix-update}/bin/nix-update \
-      keepingyouawake \
-      --flake \
-      --override-filename packages/keepingyouawake/default.nix
-  '';
-in
+{
+  pkgs,
+  mkShell,
+  ...
+}:
 mkShell {
   packages = with pkgs; [
     deadnix
@@ -19,6 +15,5 @@ mkShell {
     nixd
     nixfmt-rfc-style
     statix
-    update-keepingyouawake
   ];
 }

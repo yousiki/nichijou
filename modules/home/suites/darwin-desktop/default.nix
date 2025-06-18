@@ -16,6 +16,8 @@
     lib.mkIf cfg.enable {
       nichijou.programs = {
         _1password.enable = true;
+        cyberduck.enable = true;
+        easydict.enable = true;
         google-chrome.enable = true;
         iina.enable = true;
         keepingyouawake.enable = true;
