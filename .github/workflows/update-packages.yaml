@@ -60,6 +60,7 @@ jobs:
             dependencies
             merge-queue
       - name: Enable auto-merge for Pull Request
+        if: steps.create-pull-request.outputs.pull-request-operation == 'created'
         run: gh pr merge --merge --auto --delete-branch $PR_NUMBER
         env:
           PR_NUMBER: ${{ steps.create-pull-request.outputs.pull-request-number }}
@@ -114,6 +115,7 @@ jobs:
             dependencies
             merge-queue
       - name: Enable auto-merge for Pull Request
+        if: steps.create-pull-request.outputs.pull-request-operation == 'created'
         run: gh pr merge --merge --auto --delete-branch $PR_NUMBER
         env:
           PR_NUMBER: ${{ steps.create-pull-request.outputs.pull-request-number }}
