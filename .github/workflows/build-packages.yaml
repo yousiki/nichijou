@@ -47,13 +47,14 @@ jobs:
       - name: Build package
         run: |
           platform=$(nix eval --raw --impure --expr 'builtins.currentSystem')
+          echo "Current platform: $platform"
           packages=$(nix flake show --json | jq -r ".packages | to_entries[] | select(.key == \"${platform}\") | .value | to_entries[] | .key")
-          if [[ ! " ${packages[@]} " =~ " ${PACKAGE} " ]]; then
-            echo "Package ${PACKAGE} is not available for ${platform}."
-            exit 0
-          else
-            echo "Building ${package} on ${platform}"
-            nix build .#${package} --no-link
-          fi
+          echo "Available packages: $packages"
+          for package in $packages; do
+            if [[ "${package}" =~ "${PACKAGE}" ]]; then
+              echo "Building ${package} on ${platform}"
+              nix build .#${package} --no-link
+            fi
+          done
         env:
           PACKAGE: ${{ matrix.package }}
