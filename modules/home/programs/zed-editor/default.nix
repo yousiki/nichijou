@@ -2,6 +2,7 @@
   config,
   lib,
   namespace,
+  pkgs,
   ...
 }:
 {
@@ -38,6 +39,13 @@
           "ruff"
           "toml"
           "vue"
+        ];
+        extraPackages = with pkgs; [
+          nil
+          nixd
+          nixfmt-rfc-style
+          nodejs
+          ruff
         ];
         userSettings = {
           auto_update = false;
