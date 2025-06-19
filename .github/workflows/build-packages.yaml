@@ -6,6 +6,7 @@ on:
   pull_request:
   push:
     paths:
+      - ".github/workflows/build-packages.yaml"
       - "flake.lock"
       - "flake.nix"
       - "packages/**"
