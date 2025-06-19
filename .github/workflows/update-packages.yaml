@@ -1,0 +1,66 @@
+name: Update packages
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 * * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  check-branch:
+    name: Check if update-packages branch exists
+    runs-on: ubuntu-latest
+    outputs:
+      branch-exists: ${{ steps.check-branch.outputs.branch-exists }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Check if update-packages branch exists
+        id: check-branch
+        run: |
+          if git ls-remote --heads origin update-packages | grep -q update-packages; then
+            echo "branch-exists=true" >> $GITHUB_OUTPUT
+            echo "Branch 'update-packages' already exists. Skipping workflow."
+          else
+            echo "branch-exists=false" >> $GITHUB_OUTPUT
+            echo "Branch 'update-packages' does not exist. Proceeding with workflow."
+          fi
+
+  update-packages:
+    name: Update packages
+    runs-on: ubuntu-latest
+    needs: check-branch
+    if: needs.check-branch.outputs.branch-exists != 'true'
+    outputs:
+      pull-request-number: ${{ steps.update-packages.outputs.pull-request-number }}
+      pull-request-operation: ${{ steps.update-packages.outputs.pull-request-operation }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install nix and flakes
+        uses: DeterminateSystems/nix-installer-action@v17
+      - name: Update packages
+        run: nix run .#update-packages
+      - name: Create Pull Request if there are changes
+        uses: peter-evans/create-pull-request@v7
+        id: create-pull-request
+        with:
+          token: ${{ secrets.ACTIONS_PR_TOKEN }}
+          commit-message: "chore: update packages"
+          title: "Automated update of packages"
+          body: |
+            This Pull Request updates packages to the latest versions.
+          branch: update-packages
+          labels: |
+            automated
+            dependencies
+            merge-queue
+      - name: Enable auto-merge for Pull Request
+        run: gh pr merge --merge --auto --delete-branch $PR_NUMBER
+        env:
+          PR_NUMBER: ${{ steps.create-pull-request.outputs.pull-request-number }}
+          GH_TOKEN: ${{ secrets.ACTIONS_PR_TOKEN }}

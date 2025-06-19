@@ -1,28 +1,34 @@
 # Use treefmt-nix for code formatting
-{ channels, inputs, ... }:
+{
+  channels,
+  inputs,
+  ...
+}:
 let
+  inherit (inputs.nixpkgs) lib;
+
+  formatters = [
+    "deadnix"
+    "nixfmt"
+    "prettier"
+    "statix"
+    "stylua"
+  ];
+
+  excludes = [
+    "^.*\/[^\/\.]+$"
+    "secrets/*"
+    "static/*"
+  ];
+
   treefmtConfig = _: {
     projectRootFile = "flake.nix";
-    programs = {
-      deadnix.enable = true;
-      nixfmt.enable = true;
-      statix.enable = true;
-      stylua.enable = true;
-    };
-    settings.formatter =
-      let
-        commonExcludes = [
-          "^.*\/[^\/\.]+$"
-          "secrets/*"
-          "static/*"
-        ];
-      in
-      {
-        deadnix.excludes = commonExcludes;
-        nixfmt.excludes = commonExcludes;
-        statix.excludes = commonExcludes;
-        stylua.excludes = commonExcludes;
-      };
+    programs = lib.genAttrs formatters (_name: {
+      enable = true;
+    });
+    settings.formatter = lib.genAttrs formatters (_name: {
+      inherit excludes;
+    });
   };
 
   treefmtEval = inputs.treefmt-nix.lib.evalModule channels.nixpkgs treefmtConfig;
