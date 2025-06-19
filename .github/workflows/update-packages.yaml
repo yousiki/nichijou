@@ -8,11 +8,12 @@ on:
 
 permissions:
   contents: write
+  id-token: write
   pull-requests: write
 
 jobs:
   check-branch-darwin:
-    name: Check if update-packages-darwin branch exists
+    name: Check update-packages-darwin
     runs-on: ubuntu-latest
     outputs:
       branch-exists: ${{ steps.check-branch.outputs.branch-exists }}
@@ -43,6 +44,14 @@ jobs:
         uses: actions/checkout@v4
       - name: Install nix and flakes
         uses: DeterminateSystems/nix-installer-action@v17
+      - name: Setup flakehub cache
+        uses: DeterminateSystems/flakehub-cache-action@v2
+      - name: Setup cachix cache
+        uses: cachix/cachix-action@v16
+        with:
+          name: nichijou
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          extraPullNames: catppuccin,colmena,deadnix,hyprland,nix-community,nixpkgs-wayland,numtide
       - name: Update packages
         run: nix run .#update-packages
       - name: Create Pull Request if there are changes
@@ -67,7 +76,7 @@ jobs:
           GH_TOKEN: ${{ secrets.ACTIONS_PR_TOKEN }}
 
   check-branch-nixos:
-    name: Check if update-packages-nixos branch exists
+    name: Check update-packages-nixos
     runs-on: ubuntu-latest
     outputs:
       branch-exists: ${{ steps.check-branch.outputs.branch-exists }}
@@ -98,6 +107,14 @@ jobs:
         uses: actions/checkout@v4
       - name: Install nix and flakes
         uses: DeterminateSystems/nix-installer-action@v17
+      - name: Setup flakehub cache
+        uses: DeterminateSystems/flakehub-cache-action@v2
+      - name: Setup cachix cache
+        uses: cachix/cachix-action@v16
+        with:
+          name: nichijou
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          extraPullNames: catppuccin,colmena,deadnix,hyprland,nix-community,nixpkgs-wayland,numtide
       - name: Update packages
         run: nix run .#update-packages
       - name: Create Pull Request if there are changes
