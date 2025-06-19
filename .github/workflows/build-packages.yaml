@@ -43,5 +43,5 @@ jobs:
               continue
             fi
             echo "Building ${package} on ${platform}"
-            nix build .#packages.${package} --no-link
+            nix build .#${package} --no-link --accept-flake-config
           done
