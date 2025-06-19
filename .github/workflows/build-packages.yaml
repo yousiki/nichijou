@@ -38,6 +38,9 @@ jobs:
           platform=$(nix eval --raw --impure --expr 'builtins.currentSystem')
           packages=$(nix flake show --json | jq -r ".packages | to_entries[] | select(.key == \"${platform}\") | .value | to_entries[] | .key")
           for package in ${packages}; do
+            if [[ "${package}" == "update-packages" ]]; then
+              continue
+            fi
             echo "Building ${package} on ${platform}"
             nix build .#packages.${package} --no-link
           done
