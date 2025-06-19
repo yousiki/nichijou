@@ -66,10 +66,6 @@
     extra-substituters = [
       # Official cache server.
       "https://cache.nixos.org" # priority=40
-      # Mirrors for cache.nixos.org in China.
-      "https://mirrors.sjtug.sjtu.edu.cn/nix-channels/store?priority=39"
-      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=38"
-      "https://mirrors.ustc.edu.cn/nix-channels/store?priority=39"
       # Additional cache servers.
       "https://cache.garnix.io" # priority=41
       "https://catppuccin.cachix.org" # priority=41
