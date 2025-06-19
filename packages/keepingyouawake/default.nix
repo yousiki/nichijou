@@ -36,9 +36,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     description = "Prevents your Mac from going to sleep.";
     homepage = "https://keepingyouawake.app/";
     license = lib.licenses.mit;
-    platforms = [
-      "aarch64-darwin"
-      "x86_64-darwin"
-    ];
+    platforms = lib.platforms.darwin;
+    sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
   };
 })

@@ -36,9 +36,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     description = "A concise and elegant Dictionary and Translator macOS App for looking up words and translating text.";
     homepage = "https://www.easydict.app/";
     license = lib.licenses.gpl3Only;
-    platforms = [
-      "aarch64-darwin"
-      "x86_64-darwin"
-    ];
+    platforms = lib.platforms.darwin;
+    sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
   };
 })

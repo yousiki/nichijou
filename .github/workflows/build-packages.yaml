@@ -1,0 +1,43 @@
+name: Build packages
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  pull_request:
+  push:
+    paths:
+      - "flake.lock"
+      - "flake.nix"
+      - "packages/**"
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  build-packages:
+    strategy:
+      matrix:
+        os: [ubuntu-latest, ubuntu-24.04-arm, macos-latest, macos-13]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install nix and flakes
+        uses: DeterminateSystems/nix-installer-action@v17
+      - name: Setup flakehub cache
+        uses: DeterminateSystems/flakehub-cache-action@v2
+      - name: Setup cachix cache
+        uses: cachix/cachix-action@v16
+        with:
+          name: nichijou
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          extraPullNames: catppuccin,colmena,deadnix,hyprland,nix-community,nixpkgs-wayland,numtide,zed
+      - name: Build packages
+        run: |
+          platform=$(nix eval --raw --impure --expr 'builtins.currentSystem')
+          packages=$(nix flake show --json | jq -r ".packages | to_entries[] | select(.key == \"${platform}\") | .value | to_entries[] | .key")
+          for package in ${packages}; do
+            echo "Building ${package} on ${platform}"
+            nix build .#packages.${package} --no-link
+          done

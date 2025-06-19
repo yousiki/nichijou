@@ -17,6 +17,7 @@
       nichijou.programs = {
         bat.enable = true;
         bottom.enable = true;
+        btop.enable = true;
         direnv.enable = true;
         duf.enable = true;
         eza.enable = true;

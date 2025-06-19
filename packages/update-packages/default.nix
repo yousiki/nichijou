@@ -24,7 +24,7 @@ let
     );
 
   nix-update-packages-darwin = nix-update-packages-template [
-    "alt-tab"
+    "alt-tab-macos"
     "easydict"
     "ice"
     "keepingyouawake"

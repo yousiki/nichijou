@@ -51,7 +51,7 @@ jobs:
         with:
           name: nichijou
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          extraPullNames: catppuccin,colmena,deadnix,hyprland,nix-community,nixpkgs-wayland,numtide
+          extraPullNames: catppuccin,colmena,deadnix,hyprland,nix-community,nixpkgs-wayland,numtide,zed
       - name: Update packages
         run: nix run .#update-packages
       - name: Create Pull Request if there are changes
@@ -114,7 +114,7 @@ jobs:
         with:
           name: nichijou
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          extraPullNames: catppuccin,colmena,deadnix,hyprland,nix-community,nixpkgs-wayland,numtide
+          extraPullNames: catppuccin,colmena,deadnix,hyprland,nix-community,nixpkgs-wayland,numtide,zed
       - name: Update packages
         run: nix run .#update-packages
       - name: Create Pull Request if there are changes

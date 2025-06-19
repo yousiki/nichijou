@@ -36,9 +36,7 @@ stdenvNoCC.mkDerivation (finalAttrs: {
     description = "Powerful menu bar manager for macOS.";
     homepage = "https://icemenubar.app/";
     license = lib.licenses.gpl3Only;
-    platforms = [
-      "aarch64-darwin"
-      "x86_64-darwin"
-    ];
+    platforms = lib.platforms.darwin;
+    sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
   };
 })

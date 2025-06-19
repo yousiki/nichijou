@@ -16,7 +16,7 @@
     in
     lib.mkIf cfg.enable {
       home.packages = [
-        pkgs.${namespace}.alt-tab
+        pkgs.${namespace}.alt-tab-macos
       ];
     };
 }
