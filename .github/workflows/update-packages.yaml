@@ -51,6 +51,7 @@ jobs:
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         id: create-pull-request
+        if: steps.check-branch.outputs.branch-exists == 'false'
         with:
           token: ${{ secrets.ACTIONS_PR_TOKEN }}
           commit-message: "chore: update packages"
@@ -63,7 +64,7 @@ jobs:
             dependencies
             merge-queue
       - name: Enable auto-merge for Pull Request
-        if: steps.create-pull-request.outputs.pull-request-operation == 'created'
+        if: steps.check-branch.outputs.branch-exists == 'false' && steps.create-pull-request.outputs.pull-request-operation == 'created'
         run: gh pr merge --merge --auto --delete-branch $PR_NUMBER
         env:
           PR_NUMBER: ${{ steps.create-pull-request.outputs.pull-request-number }}

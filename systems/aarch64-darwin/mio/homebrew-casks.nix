@@ -6,6 +6,7 @@ _: {
     "microsoft-office"
     "mihomo-party"
     "qq"
+    "tencent-meeting"
     "wechat"
   ];
 }
