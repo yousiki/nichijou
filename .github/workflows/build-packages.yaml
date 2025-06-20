@@ -88,3 +88,16 @@ jobs:
           extraPullNames: catppuccin,colmena,deadnix,hyprland,nix-community,nixpkgs-wayland,numtide,zed
       - name: Build package
         run: nix build .#${{ matrix.ospackages.package }} --no-link
+
+  build-packages-finalize:
+    name: Build packages finalize
+    needs:
+      - list-packages
+      - build-packages
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "All packages built successfully."
+          echo "Packages: $ospackages"
+        env:
+          ospackages: ${{ fromJson(needs.list-packages.outputs.ospackages) }}
