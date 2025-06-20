@@ -33,7 +33,9 @@ jobs:
           extraPullNames: catppuccin,colmena,deadnix,hyprland,nix-community,nixpkgs-wayland,numtide,zed
       - name: Get current platform
         id: get-platform
-        run: echo "platform=$(nix eval --raw --impure --expr 'builtins.currentSystem')" >> $GITHUB_ENV
+        run: |
+          platform=$(nix eval --raw --impure --expr 'builtins.currentSystem')"
+          echo "platform=$platform" >> $GITHUB_OUTPUT
       - name: Check if branch exists
         id: check-branch
         run: |
@@ -58,7 +60,7 @@ jobs:
           title: "Automated update of packages"
           body: |
             This Pull Request updates packages to the latest versions.
-          branch: update-packages-darwin
+          branch: update-packages-${{ steps.get-platform.outputs.platform }}
           labels: |
             automated
             dependencies
