@@ -91,13 +91,7 @@ jobs:
 
   build-packages-finalize:
     name: Build packages finalize
-    needs:
-      - list-packages
-      - build-packages
+    needs: build-packages
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "All packages built successfully."
-          echo "Packages: $ospackages"
-        env:
-          ospackages: ${{ fromJson(needs.list-packages.outputs.ospackages) }}
+      - run: echo "All packages built successfully."
