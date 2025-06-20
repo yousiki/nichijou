@@ -1,11 +1,13 @@
 { pkgs, ... }:
 let
+  # TODO: update nix-update-template to filter version tags for stable releases only
   nix-update-template =
     package:
     pkgs.writeShellScriptBin "update-${package}" ''
       ${pkgs.nix-update}/bin/nix-update \
         ${package} \
         --flake \
+        --version-regex "^v?([0-9]+\\.[0-9]+\\.[0-9]+)$" \
         --override-filename packages/${package}/default.nix
     '';
 
@@ -30,7 +32,9 @@ let
     "keepingyouawake"
   ];
 
-  nix-update-packages-nixos = nix-update-packages-template [ ];
+  nix-update-packages-nixos = nix-update-packages-template [
+    "zed-editor"
+  ];
 in
 if pkgs.stdenv.isLinux then
   nix-update-packages-nixos
