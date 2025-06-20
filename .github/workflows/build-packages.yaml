@@ -28,12 +28,7 @@ jobs:
       - name: List packages
         id: list-packages
         run: |
-          # First, let's see what the JSON structure looks like
-          echo "=== Raw JSON structure ==="
-          nix flake show --all-systems --json | jq '.packages'
-
-          echo "=== Processing packages ==="
-          ospackages=$(nix flake show --all-systems --json | jq -r '
+          ospackages=$(nix flake show --all-systems --json | jq -cr '
             .packages // {} |
             with_entries(
               if (.value | type) == "object" then
@@ -67,9 +62,6 @@ jobs:
               }
             )
           ')
-
-          echo "=== Final result ==="
-          echo "$ospackages"
           echo "ospackages=$ospackages" >> $GITHUB_OUTPUT
 
   build-packages:
