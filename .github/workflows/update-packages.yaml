@@ -34,7 +34,7 @@ jobs:
       - name: Get current platform
         id: get-platform
         run: |
-          platform=$(nix eval --raw --impure --expr 'builtins.currentSystem')"
+          platform=$(nix eval --raw --impure --expr 'builtins.currentSystem')
           echo "platform=$platform" >> $GITHUB_OUTPUT
       - name: Check if branch exists
         id: check-branch
