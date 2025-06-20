@@ -12,49 +12,42 @@ permissions:
   pull-requests: write
 
 jobs:
-  check-branch-darwin:
-    name: Check update-packages-darwin
-    runs-on: ubuntu-latest
-    outputs:
-      branch-exists: ${{ steps.check-branch.outputs.branch-exists }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Check if update-packages-darwin branch exists
-        id: check-branch
-        run: |
-          if git ls-remote --heads origin update-packages-darwin | grep -q update-packages-darwin; then
-            echo "branch-exists=true" >> $GITHUB_OUTPUT
-            echo "Branch 'update-packages-darwin' already exists. Skipping workflow."
-          else
-            echo "branch-exists=false" >> $GITHUB_OUTPUT
-            echo "Branch 'update-packages-darwin' does not exist. Proceeding with workflow."
-          fi
-
-  update-packages-darwin:
-    name: Update packages on darwin
-    runs-on: macos-latest
-    needs: check-branch-darwin
-    if: needs.check-branch-darwin.outputs.branch-exists != 'true'
-    outputs:
-      pull-request-number: ${{ steps.update-packages.outputs.pull-request-number }}
-      pull-request-operation: ${{ steps.update-packages.outputs.pull-request-operation }}
+  update-packages:
+    strategy:
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install nix and flakes
         uses: DeterminateSystems/nix-installer-action@v17
-      - name: Setup flakehub cache
-        uses: DeterminateSystems/flakehub-cache-action@v2
       - name: Setup cachix cache
         uses: cachix/cachix-action@v16
         with:
           name: nichijou
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
           extraPullNames: catppuccin,colmena,deadnix,hyprland,nix-community,nixpkgs-wayland,numtide,zed
+      - name: Get current platform
+        id: get-platform
+        run: echo "platform=$(nix eval --raw --impure --expr 'builtins.currentSystem')" >> $GITHUB_ENV
+      - name: Check if branch exists
+        id: check-branch
+        run: |
+          branch_name="update-packages-${{ steps.get-platform.outputs.platform }}"
+          if git ls-remote --heads origin $branch_name | grep -q $branch_name; then
+            echo "branch-exists=true" >> $GITHUB_OUTPUT
+            echo "Branch $branch_name already exists. Skipping workflow."
+          else
+            echo "branch-exists=false" >> $GITHUB_OUTPUT
+            echo "Branch $branch_name does not exist. Proceeding with workflow."
+          fi
       - name: Update packages
+        if: steps.check-branch.outputs.branch-exists == 'false'
         run: nix run .#update-packages
-      - name: Create Pull Request if there are changes
+      - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         id: create-pull-request
         with:
@@ -64,69 +57,6 @@ jobs:
           body: |
             This Pull Request updates packages to the latest versions.
           branch: update-packages-darwin
-          labels: |
-            automated
-            dependencies
-            merge-queue
-      - name: Enable auto-merge for Pull Request
-        if: steps.create-pull-request.outputs.pull-request-operation == 'created'
-        run: gh pr merge --merge --auto --delete-branch $PR_NUMBER
-        env:
-          PR_NUMBER: ${{ steps.create-pull-request.outputs.pull-request-number }}
-          GH_TOKEN: ${{ secrets.ACTIONS_PR_TOKEN }}
-
-  check-branch-nixos:
-    name: Check update-packages-nixos
-    runs-on: ubuntu-latest
-    outputs:
-      branch-exists: ${{ steps.check-branch.outputs.branch-exists }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Check if update-packages-nixos branch exists
-        id: check-branch
-        run: |
-          if git ls-remote --heads origin update-packages-nixos | grep -q update-packages-nixos; then
-            echo "branch-exists=true" >> $GITHUB_OUTPUT
-            echo "Branch 'update-packages-nixos' already exists. Skipping workflow."
-          else
-            echo "branch-exists=false" >> $GITHUB_OUTPUT
-            echo "Branch 'update-packages-nixos' does not exist. Proceeding with workflow."
-          fi
-
-  update-packages-nixos:
-    name: Update packages on nixos
-    runs-on: ubuntu-latest
-    needs: check-branch-nixos
-    if: needs.check-branch-darwin.outputs.branch-exists != 'true'
-    outputs:
-      pull-request-number: ${{ steps.update-packages.outputs.pull-request-number }}
-      pull-request-operation: ${{ steps.update-packages.outputs.pull-request-operation }}
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Install nix and flakes
-        uses: DeterminateSystems/nix-installer-action@v17
-      - name: Setup flakehub cache
-        uses: DeterminateSystems/flakehub-cache-action@v2
-      - name: Setup cachix cache
-        uses: cachix/cachix-action@v16
-        with:
-          name: nichijou
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
-          extraPullNames: catppuccin,colmena,deadnix,hyprland,nix-community,nixpkgs-wayland,numtide,zed
-      - name: Update packages
-        run: nix run .#update-packages
-      - name: Create Pull Request if there are changes
-        uses: peter-evans/create-pull-request@v7
-        id: create-pull-request
-        with:
-          token: ${{ secrets.ACTIONS_PR_TOKEN }}
-          commit-message: "chore: update packages"
-          title: "Automated update of packages"
-          body: |
-            This Pull Request updates packages to the latest versions.
-          branch: update-packages-nixos
           labels: |
             automated
             dependencies
