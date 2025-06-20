@@ -258,7 +258,7 @@ craneLib.buildPackage (
 
           # Physical location of the CLI must be inside the app bundle as this is used
           # to determine which app to start
-          ln -s "$out/Applications/Zed.app/Contents/MacOS/cli" $out/bin/zed
+          ln -s "$out/Applications/Zed.app/Contents/MacOS/cli" $out/bin/zeditor
 
           runHook postInstall
         ''
@@ -267,19 +267,18 @@ craneLib.buildPackage (
           runHook preInstall
 
           mkdir -p $out/bin $out/libexec
-          cp $TARGET_DIR/zed $out/libexec/zed-editor
-          cp $TARGET_DIR/cli  $out/bin/zed
-          ln -s $out/bin/zed $out/bin/zeditor  # home-manager expects the CLI binary to be here
 
+          install -Dm755 $TARGET_DIR/zed $out/libexec/zed-editor
+          install -Dm755 $TARGET_DIR/cli $out/bin/zeditor
 
-          install -D "crates/zed/resources/app-icon@2x.png" \
+          install -Dm644 "crates/zed/resources/app-icon@2x.png" \
             "$out/share/icons/hicolor/1024x1024@2x/apps/zed.png"
-          install -D crates/zed/resources/app-icon.png \
+          install -Dm644 crates/zed/resources/app-icon.png \
             $out/share/icons/hicolor/512x512/apps/zed.png
 
           (
             export DO_STARTUP_NOTIFY="true"
-            export APP_CLI="zed"
+            export APP_CLI="zeditor"
             export APP_ICON="zed"
             export APP_NAME="Zed"
             export APP_ARGS="%U"
@@ -300,7 +299,7 @@ craneLib.buildPackage (
       changelog = "https://zed.dev/releases/stable";
       license = lib.licenses.gpl3Only;
       platforms = lib.platforms.linux ++ lib.platforms.darwin;
-      mainProgram = "zed";
+      mainProgram = "zeditor";
     };
   }
 )
