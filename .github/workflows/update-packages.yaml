@@ -13,6 +13,7 @@ permissions:
 
 jobs:
   update-packages:
+    name: Update packages
     strategy:
       matrix:
         os:
