@@ -27,7 +27,7 @@ jobs:
       - name: List packages
         id: list-packages
         run: |
-          ospackages=$(nix flake show --json | jq -r '
+          ospackages=$(nix flake show --all-systems --json | jq -r '
             .packages |
             with_entries(.value |= with_entries(select(.key != "update-packages"))) |
             with_entries(.value |= keys) |
