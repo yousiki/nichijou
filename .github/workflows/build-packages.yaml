@@ -4,7 +4,11 @@ on:
   repository_dispatch:
   workflow_dispatch:
   pull_request:
+    branches:
+      - main
   push:
+    branches:
+      - main
     paths:
       - ".github/workflows/build-packages.yaml"
       - "flake.lock"
