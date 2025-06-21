@@ -1,0 +1,75 @@
+name: Nix checks
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check-flake-inputs:
+    name: Check flake inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Check flake.lock file
+        uses: DeterminateSystems/flake-checker-action@v10
+
+  check-nix-flake:
+    name: Check nix flake
+    needs: check-flake-inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install nix and flakes
+        uses: DeterminateSystems/nix-installer-action@v17
+      - name: Setup cachix cache
+        uses: cachix/cachix-action@v16
+        with:
+          name: nichijou
+      - name: Check flake lock
+        run: nix flake check --all-systems --no-update-lock-file --no-write-lock-file
+
+  check-statix:
+    name: Check with statix
+    needs: check-flake-inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install nix and flakes
+        uses: DeterminateSystems/nix-installer-action@v17
+      - name: Setup cachix cache
+        uses: cachix/cachix-action@v16
+        with:
+          name: nichijou
+          extraPullNames: statix,nix-community
+      - name: Run statix
+        uses: jocelynthode/statix-action@1.0
+
+  check-deadnix:
+    name: Check with deadnix
+    needs: check-flake-inputs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install nix and flakes
+        uses: DeterminateSystems/nix-installer-action@v17
+      - name: Use cachix nix cache
+        uses: cachix/cachix-action@v16
+        with:
+          name: nichijou
+          extraPullNames: deadnix,nix-community
+      - name: Run deadnix
+        uses: astro/deadnix-action@main

@@ -1,4 +1,4 @@
-name: Update packages
+name: Update flake lock
 
 on:
   repository_dispatch:
@@ -12,33 +12,16 @@ permissions:
   pull-requests: write
 
 jobs:
-  update-packages:
-    name: Update packages
-    strategy:
-      matrix:
-        os:
-          - ubuntu-latest
-          - macos-latest
-    runs-on: ${{ matrix.os }}
+  update-flake-lock:
+    name: Update flake lock
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      - name: Install nix and flakes
-        uses: DeterminateSystems/nix-installer-action@v17
-      - name: Setup cachix cache
-        uses: cachix/cachix-action@v16
-        with:
-          name: nichijou
-          extraPullNames: nix-community,numtide
-      - name: Get current platform
-        id: get-platform
-        run: |
-          platform=$(nix eval --raw --impure --expr 'builtins.currentSystem')
-          echo "platform=$platform" >> $GITHUB_OUTPUT
       - name: Check if branch exists
         id: check-branch
         run: |
-          branch_name="update-packages-${{ steps.get-platform.outputs.platform }}"
+          branch_name="update-flake-lock"
           if git ls-remote --heads origin $branch_name | grep -q $branch_name; then
             echo "branch-exists=true" >> $GITHUB_OUTPUT
             echo "Branch $branch_name already exists. Skipping workflow."
@@ -46,20 +29,23 @@ jobs:
             echo "branch-exists=false" >> $GITHUB_OUTPUT
             echo "Branch $branch_name does not exist. Proceeding with workflow."
           fi
-      - name: Update packages
+      - name: Install nix and flakes
         if: steps.check-branch.outputs.branch-exists == 'false'
-        run: nix run .#update-packages
+        uses: DeterminateSystems/nix-installer-action@v17
+      - name: Update flake lock
+        if: steps.check-branch.outputs.branch-exists == 'false'
+        run: nix flake update
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v7
         id: create-pull-request
         if: steps.check-branch.outputs.branch-exists == 'false'
         with:
           token: ${{ secrets.ACTIONS_PR_TOKEN }}
-          commit-message: "chore: update packages"
-          title: "Automated update of packages"
+          commit-message: "chore: update flake lock"
+          title: "Automated update of flake lock"
           body: |
-            This Pull Request updates packages to the latest versions.
-          branch: update-packages-${{ steps.get-platform.outputs.platform }}
+            This Pull Request updates flake lock.
+          branch: update-flake-lock
           labels: |
             automated
             dependencies
