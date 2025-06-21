@@ -26,7 +26,7 @@
     };
     cleanup = lib.mkOption {
       type = lib.types.str;
-      default = "uninstall";
+      default = "none";
       description = "What to do with outdated casks on activation. Options are 'uninstall' or 'none'.";
     };
   };

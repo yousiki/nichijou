@@ -2,6 +2,7 @@
 _: {
   homebrew.casks = [
     "1password"
+    "cursor"
     "feishu"
     "microsoft-office"
     "mihomo-party"
