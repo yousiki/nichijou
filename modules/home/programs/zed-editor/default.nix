@@ -47,6 +47,8 @@
           nixfmt-rfc-style
           nodejs
           ruff
+          rust-analyzer
+          rustfmt
         ];
         userSettings = {
           auto_update = false;
