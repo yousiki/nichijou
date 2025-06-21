@@ -118,6 +118,9 @@
                 "pyright"
               ];
             };
+            Rust = {
+              tab_size = 4;
+            };
           };
           lsp = {
             nil.settings = {
