@@ -46,13 +46,13 @@
 }:
 assert withGLES -> stdenv.hostPlatform.isLinux;
 let
-  version = "0.191.6";
+  version = "0.191.7";
 
   src = fetchFromGitHub {
     owner = "zed-industries";
     repo = "zed";
     tag = "v${version}";
-    hash = "sha256-GQzAXjOvtjbkBgBkX9Xp6mn3uP5wXStpsaC6rQMwTvs=";
+    hash = "sha256-Kx9VolPqKR0ML7F7ITnp5GPT4ULJvmTsRHKgkKZPGwQ=";
   };
 
   crane = inputs.crane.mkLib pkgs;
