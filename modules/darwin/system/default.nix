@@ -10,6 +10,8 @@
         tilesize = 32;
       };
       finder = {
+        AppleShowAllExtensions = true;
+        NewWindowTarget = "Home";
         QuitMenuItem = true;
         ShowPathbar = true;
         ShowStatusBar = true;
