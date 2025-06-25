@@ -9,16 +9,8 @@
 }:
 {
   options.${namespace}.homebrew = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Whether to enable homebrew.";
-    };
-    enableMirror = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Whether to enable homebrew mirror (Tsinghua TUNA).";
-    };
+    enable = lib.mkEnableOption "Homebrew";
+    enableMirror = lib.mkEnableOption "TUNA mirror";
     upgrade = lib.mkOption {
       type = lib.types.bool;
       default = true;

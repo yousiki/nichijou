@@ -4,6 +4,13 @@ _: {
     ./homebrew-casks.nix
   ];
 
+  nichijou = {
+    homebrew = {
+      enable = true;
+      enableMirror = true;
+    };
+  };
+
   networking = {
     computerName = "YouSiki's Nano";
     hostName = "nano";

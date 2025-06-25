@@ -16,6 +16,7 @@
     lib.mkIf cfg.enable {
       nichijou.programs = {
         _1password.enable = true;
+        aerospace.enable = true;
         alt-tab.enable = true;
         cyberduck.enable = true;
         easydict.enable = true;
