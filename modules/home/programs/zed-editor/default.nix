@@ -8,11 +8,6 @@
 {
   options.${namespace}.programs.zed-editor = {
     enable = lib.mkEnableOption "Zed Editor";
-    enableAlias = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Enable alias for Zed Editor.";
-    };
   };
 
   config =
@@ -156,9 +151,6 @@
               thread_summary_model = model;
             };
         };
-      };
-      home.shellAliases = lib.mkIf cfg.enableAlias {
-        zed = "zeditor";
       };
     };
 }
