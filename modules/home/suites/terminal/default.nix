@@ -23,6 +23,7 @@
         eza.enable = true;
         fzf.enable = true;
         gdu.enable = true;
+        gemini-cli.enable = true;
         gh.enable = true;
         git.enable = true;
         gitui.enable = true;
