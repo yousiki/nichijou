@@ -65,13 +65,11 @@
       ];
       systems.modules = {
         nixos = with inputs; [
-          nix-index-database.nixosModules.nix-index
+          disko.nixosModules.disko
           inputs.nix-ld.nixosModules.nix-ld
+          nix-index-database.nixosModules.nix-index
         ];
         darwin = with inputs; [ nix-index-database.darwinModules.nix-index ];
-        hosts.yukko.modules = with inputs; [
-          disko.nixosModules.disko
-        ];
       };
       outputs-builder = channels: {
         formatter = import ./formatter.nix { inherit self inputs channels; };

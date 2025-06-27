@@ -21,11 +21,8 @@
     environment.systemPackages = with pkgs; [
       coreutils
       curl
-      dig
-      duf
       eza
       git
-      jq
       unzip
       wget
       zoxide

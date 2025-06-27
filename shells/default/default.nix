@@ -6,6 +6,7 @@
 }:
 mkShell {
   packages = with pkgs; [
+    colmena
     deadnix
     gh
     git
