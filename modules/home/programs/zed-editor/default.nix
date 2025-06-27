@@ -134,9 +134,17 @@
           };
           agent =
             let
-              model = {
+              claude = {
                 provider = "copilot_chat";
                 model = "claude-sonnet-4";
+              };
+              gemini-pro = {
+                provider = "copilot_chat";
+                model = "gemini-2.5-pro-preview-06-05";
+              };
+              gemini-flash = {
+                provider = "copilot_chat";
+                model = "gemini-2.0-flash-001";
               };
             in
             {
@@ -145,10 +153,10 @@
               always_allow_tool_actions = true;
               play_sound_when_agent_done = true;
               default_profile = "write";
-              default_model = model;
-              inline_assistant_model = model;
-              commit_message_model = model;
-              thread_summary_model = model;
+              default_model = claude;
+              inline_assistant_model = gemini-pro;
+              commit_message_model = gemini-pro;
+              thread_summary_model = gemini-flash;
             };
         };
       };

@@ -32,12 +32,16 @@
           ];
           key-mapping.preset = "qwerty";
           gaps = {
-            inner.horizontal = 3;
-            inner.vertical = 3;
-            outer.bottom = 5;
-            outer.left = 5;
-            outer.right = 5;
-            outer.top = 5;
+            inner = {
+              horizontal = 4;
+              vertical = 4;
+            };
+            outer = {
+              bottom = 5;
+              left = 5;
+              right = 5;
+              top = 5;
+            };
           };
           mode = {
             main.binding = {
