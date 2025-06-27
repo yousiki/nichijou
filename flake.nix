@@ -23,6 +23,10 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-ld = {
+      url = "github:nix-community/nix-ld";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     catppuccin = {
       url = "github:catppuccin/nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -54,7 +58,10 @@
         nix-index-database.hmModules.nix-index
       ];
       systems.modules = {
-        nixos = with inputs; [ nix-index-database.nixosModules.nix-index ];
+        nixos = with inputs; [
+          nix-index-database.nixosModules.nix-index
+          inputs.nix-ld.nixosModules.nix-ld
+        ];
         darwin = with inputs; [ nix-index-database.darwinModules.nix-index ];
       };
       outputs-builder = channels: {
