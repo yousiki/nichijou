@@ -138,13 +138,9 @@
                 provider = "copilot_chat";
                 model = "claude-sonnet-4";
               };
-              gemini-pro = {
+              o4-mini = {
                 provider = "copilot_chat";
-                model = "gemini-2.5-pro-preview-06-05";
-              };
-              gemini-flash = {
-                provider = "copilot_chat";
-                model = "gemini-2.0-flash-001";
+                model = "o4-mini";
               };
             in
             {
@@ -154,9 +150,9 @@
               play_sound_when_agent_done = true;
               default_profile = "write";
               default_model = claude;
-              inline_assistant_model = gemini-pro;
-              commit_message_model = gemini-pro;
-              thread_summary_model = gemini-flash;
+              commit_message_model = claude;
+              inline_assistant_model = o4-mini;
+              thread_summary_model = o4-mini;
             };
         };
       };
