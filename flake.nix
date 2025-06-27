@@ -36,6 +36,10 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     crane.url = "github:ipetkov/crane";
+    disko = {
+      url = "github:nix-community/disko";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -55,6 +59,7 @@
         allowUnfree = true;
       };
       homes.modules = with inputs; [
+        catppuccin.homeModules.catppuccin
         nix-index-database.hmModules.nix-index
       ];
       systems.modules = {
@@ -64,6 +69,9 @@
         ];
         darwin = with inputs; [ nix-index-database.darwinModules.nix-index ];
       };
+      hosts.yukko.modules = with inputs; [
+        disko.nixosModules.disko
+      ];
       outputs-builder = channels: {
         formatter = import ./formatter.nix { inherit self inputs channels; };
       };

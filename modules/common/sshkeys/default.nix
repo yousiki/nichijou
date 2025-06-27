@@ -1,5 +1,7 @@
 {
+  config,
   lib,
+  namespace,
   pkgs,
   system,
   ...
@@ -13,14 +15,20 @@ let
   authorizedKeys = lib.splitString "\n" (builtins.readFile githubKeys);
 in
 {
-  config = lib.mkMerge (
-    [
-      {
-        users.users.yousiki.openssh.authorizedKeys.keys = authorizedKeys;
-      }
-    ]
-    ++ (lib.optional (lib.snowfall.system.is-linux system) {
-      users.users.root.openssh.authorizedKeys.keys = authorizedKeys;
-    })
+  options.${namespace}.sshkeys = {
+    enable = lib.mkEnableOption "SSH keys";
+  };
+
+  config = lib.mkIf config.${namespace}.sshkeys.enable (
+    lib.mkMerge (
+      [
+        {
+          users.users.yousiki.openssh.authorizedKeys.keys = authorizedKeys;
+        }
+      ]
+      ++ (lib.optional (lib.snowfall.system.is-linux system) {
+        users.users.root.openssh.authorizedKeys.keys = authorizedKeys;
+      })
+    )
   );
 }

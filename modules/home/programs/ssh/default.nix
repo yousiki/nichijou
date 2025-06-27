@@ -22,6 +22,7 @@
             ./config.d/hakase
             ./config.d/nano
             ./config.d/satoshi
+            ./config.d/yukko
           ];
 
           configText = lib.concatStringsSep "\n" (map (file: lib.readFile file) configFiles);

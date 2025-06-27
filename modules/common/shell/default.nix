@@ -1,21 +1,34 @@
 # Basic shell environment
-{ pkgs, ... }:
 {
-  programs = {
-    fish.enable = true;
-    tmux.enable = true;
-    zsh.enable = true;
+  config,
+  lib,
+  namespace,
+  pkgs,
+  ...
+}:
+{
+  options.${namespace}.shell = {
+    enable = lib.mkEnableOption "Basic shell environment";
   };
-  environment.systemPackages = with pkgs; [
-    coreutils
-    curl
-    dig
-    duf
-    eza
-    git
-    jq
-    unzip
-    wget
-    zoxide
-  ];
+
+  config = lib.mkIf config.${namespace}.shell.enable {
+    programs = {
+      fish.enable = true;
+      tmux.enable = true;
+      zsh.enable = true;
+    };
+
+    environment.systemPackages = with pkgs; [
+      coreutils
+      curl
+      dig
+      duf
+      eza
+      git
+      jq
+      unzip
+      wget
+      zoxide
+    ];
+  };
 }

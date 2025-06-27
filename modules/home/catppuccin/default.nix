@@ -1,17 +1,12 @@
 # Catppuccin configuration for all users
 {
   config,
-  inputs,
   lib,
   namespace,
   pkgs,
   ...
 }:
 {
-  imports = [
-    inputs.catppuccin.homeModules.catppuccin
-  ];
-
   options.${namespace}.catppuccin = {
     enable = lib.mkEnableOption "Catppuccin theme for terminal applications";
     flavor = lib.mkOption {

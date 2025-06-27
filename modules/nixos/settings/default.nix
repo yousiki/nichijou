@@ -7,5 +7,5 @@
   # Set timezone.
   time.timeZone = "Asia/Shanghai";
   # Used for backwards compatibility, please read the changelog before changing.
-  system.stateVersion = "25.04";
+  system.stateVersion = "25.05";
 }

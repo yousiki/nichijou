@@ -5,10 +5,14 @@ _: {
   ];
 
   nichijou = {
+    fonts.enable = true;
     homebrew = {
       enable = true;
       enableMirror = true;
     };
+    nix.enableMirror = true;
+    shell.enable = true;
+    sshkeys.enable = true;
   };
 
   networking = {

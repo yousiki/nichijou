@@ -1,18 +1,14 @@
 # Common configuration for fonts
 {
-  lib,
-  pkgs,
   config,
+  lib,
   namespace,
+  pkgs,
   ...
 }:
 {
   options.${namespace}.fonts = {
-    enable = lib.mkOption {
-      type = lib.types.bool;
-      default = true;
-      description = "Whether to enable fonts configuration.";
-    };
+    enable = lib.mkEnableOption "Fonts support";
     packages = lib.mkOption {
       type = lib.types.listOf lib.types.package;
       default = with pkgs; [

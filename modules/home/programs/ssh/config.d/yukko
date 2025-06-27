@@ -1,0 +1,6 @@
+Host yukko
+  HostName yukko.siki.moe
+  Port 22
+  User yousiki
+  ForwardAgent yes
+  Compression yes

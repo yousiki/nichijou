@@ -1,13 +1,10 @@
 {
   config,
   lib,
-  modulesPath,
   pkgs,
   ...
 }:
 {
-  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
-
   networking = {
     # Set the hostname
     hostName = "hakase";
@@ -30,6 +27,13 @@
     useDHCP = lib.mkDefault true;
     # interfaces.enp2s0.useDHCP = lib.mkDefault true;
     # interfaces.wlo1.useDHCP = lib.mkDefault true;
+  };
+
+  services = {
+    xserver.enable = true;
+    displayManager.sddm.enable = true;
+    displayManager.sddm.wayland.enable = true;
+    desktopManager.plasma6.enable = true;
   };
 
   boot = {
