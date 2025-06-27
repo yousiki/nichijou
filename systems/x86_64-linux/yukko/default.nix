@@ -4,7 +4,7 @@
     (modulesPath + "/installer/scan/not-detected.nix")
     (modulesPath + "/profiles/qemu-guest.nix")
     ./configuration.nix
-    ./disk-configuration.nix
+    ./disko-configuration.nix
     ./hardware-configuration.nix
   ];
 

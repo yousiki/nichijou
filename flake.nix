@@ -12,7 +12,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      url = "github:nix-community/home-manager";
+      # TODO: remove pin after https://github.com/nix-community/home-manager/issues/7327 is fixed
+      url = "github:nix-community/home-manager?rev=951f0b30c535a46817aa5ef4c66ddc4445f3e324";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     treefmt-nix = {
