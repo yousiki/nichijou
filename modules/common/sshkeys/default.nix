@@ -19,10 +19,8 @@ in
         users.users.yousiki.openssh.authorizedKeys.keys = authorizedKeys;
       }
     ]
-    ++ lib.optional (lib.snowfall.system.is-linux system) [
-      {
-        users.users.root.openssh.authorizedKeys.keys = authorizedKeys;
-      }
-    ]
+    ++ (lib.optional (lib.snowfall.system.is-linux system) {
+      users.users.root.openssh.authorizedKeys.keys = authorizedKeys;
+    })
   );
 }
