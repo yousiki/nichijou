@@ -33,4 +33,4 @@ let
 
   treefmtEval = inputs.treefmt-nix.lib.evalModule channels.nixpkgs treefmtConfig;
 in
-treefmtEval.config.build.wrapper
+treefmtEval

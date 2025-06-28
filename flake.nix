@@ -41,10 +41,18 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    deploy-rs = {
+      url = "github:serokell/deploy-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
-    inputs@{ self, snowfall-lib, ... }:
+    inputs@{
+      self,
+      snowfall-lib,
+      ...
+    }:
     snowfall-lib.mkFlake {
       inherit inputs;
       src = ./.;
@@ -56,6 +64,8 @@
           title = "NixOS and nix-darwin configurations for daily life";
         };
       };
+      overlays = with inputs; [
+      ];
       channels-config = {
         allowUnfree = true;
       };
@@ -71,8 +81,22 @@
         ];
         darwin = with inputs; [ nix-index-database.darwinModules.nix-index ];
       };
-      outputs-builder = channels: {
-        formatter = import ./formatter.nix { inherit self inputs channels; };
+      outputs-builder =
+        channels:
+        let
+          inherit (channels.nixpkgs) system;
+          treefmtEval = import ./formatter.nix { inherit self inputs channels; };
+          deployChecks = inputs.deploy-rs.lib.${system}.deployChecks self.deploy;
+          formattingCheck = {
+            treefmt-nix = treefmtEval.config.build.check self;
+          };
+        in
+        {
+          formatter = treefmtEval.config.build.wrapper;
+          checks = deployChecks // formattingCheck;
+        };
+      deploy = import ./deploy.nix {
+        inherit self inputs;
       };
     };
 

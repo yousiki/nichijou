@@ -6,8 +6,8 @@
 }:
 mkShell {
   packages = with pkgs; [
-    colmena
     deadnix
+    deploy-rs
     gh
     git
     helix
