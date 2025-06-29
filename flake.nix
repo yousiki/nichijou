@@ -64,8 +64,6 @@
           title = "NixOS and nix-darwin configurations for daily life";
         };
       };
-      overlays = with inputs; [
-      ];
       channels-config = {
         allowUnfree = true;
       };
@@ -86,20 +84,7 @@
         let
           inherit (channels.nixpkgs) system;
           treefmtEval = import ./formatter.nix { inherit self inputs channels; };
-          system2Nodes = {
-            x86_64-linux = [
-              "hakase"
-              "yukko"
-            ];
-            aarch64-darwin = [
-              "nano"
-            ];
-          };
-          nodes = if builtins.hasAttr system system2Nodes then system2Nodes.${system} else [ ];
-          deploy = {
-            nodes = channels.nixpkgs.lib.filterAttrs (n: _v: builtins.elem n nodes) self.deploy.nodes;
-          };
-          deployChecks = inputs.deploy-rs.lib.${system}.deployChecks deploy;
+          deployChecks = inputs.deploy-rs.lib.${system}.deployChecks self.deploy;
           formattingCheck = {
             treefmt-nix = treefmtEval.config.build.check self;
           };

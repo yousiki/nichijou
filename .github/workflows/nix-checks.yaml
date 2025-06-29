@@ -27,13 +27,7 @@ jobs:
   check-nix-flake:
     name: Check nix flake
     needs: check-flake-inputs
-    strategy:
-      matrix:
-        os:
-          - macos-13
-          - macos-latest
-          - ubuntu-latest
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
