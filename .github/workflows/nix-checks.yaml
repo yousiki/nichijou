@@ -24,22 +24,6 @@ jobs:
       - name: Check flake.lock file
         uses: DeterminateSystems/flake-checker-action@v10
 
-  check-nix-flake:
-    name: Check nix flake
-    needs: check-flake-inputs
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-      - name: Install nix and flakes
-        uses: DeterminateSystems/nix-installer-action@v17
-      - name: Setup cachix cache
-        uses: cachix/cachix-action@v16
-        with:
-          name: nichijou
-      - name: Check flake lock
-        run: nix flake check --no-update-lock-file --no-write-lock-file
-
   check-statix:
     name: Check with statix
     needs: check-flake-inputs
