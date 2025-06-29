@@ -27,7 +27,13 @@ jobs:
   check-nix-flake:
     name: Check nix flake
     needs: check-flake-inputs
-    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        os:
+          - macos-13
+          - macos-latest
+          - ubuntu-latest
+    runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -38,7 +44,7 @@ jobs:
         with:
           name: nichijou
       - name: Check flake lock
-        run: nix flake check --all-systems --no-update-lock-file --no-write-lock-file
+        run: nix flake check --no-update-lock-file --no-write-lock-file
 
   check-statix:
     name: Check with statix

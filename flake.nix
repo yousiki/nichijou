@@ -86,7 +86,20 @@
         let
           inherit (channels.nixpkgs) system;
           treefmtEval = import ./formatter.nix { inherit self inputs channels; };
-          deployChecks = inputs.deploy-rs.lib.${system}.deployChecks self.deploy;
+          system2Nodes = {
+            x86_64-linux = [
+              "hakase"
+              "yukko"
+            ];
+            aarch64-darwin = [
+              "nano"
+            ];
+          };
+          nodes = if builtins.hasAttr system system2Nodes then system2Nodes.${system} else [ ];
+          deploy = {
+            nodes = channels.nixpkgs.lib.filterAttrs (n: _v: builtins.elem n nodes) self.deploy.nodes;
+          };
+          deployChecks = inputs.deploy-rs.lib.${system}.deployChecks deploy;
           formattingCheck = {
             treefmt-nix = treefmtEval.config.build.check self;
           };
