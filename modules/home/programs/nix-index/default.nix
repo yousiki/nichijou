@@ -5,7 +5,6 @@
   pkgs,
   ...
 }:
-
 {
   options.${namespace}.programs.nix-index = {
     enable = lib.mkEnableOption "nix-index";
