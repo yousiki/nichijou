@@ -92,6 +92,7 @@
         {
           formatter = treefmtEval.config.build.wrapper;
           checks = deployChecks // formattingCheck;
+          packages.deploy-rs = inputs.deploy-rs.packages.${system}.default;
         };
       deploy = import ./deploy.nix {
         inherit self inputs;

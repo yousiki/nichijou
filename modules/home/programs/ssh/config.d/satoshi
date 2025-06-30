@@ -6,7 +6,7 @@ Host satoshi
   RequestTTY yes
 
 Host satoshi-ts
-  HostName 100.106.54.87
+  HostName satoshi.tail5d997.ts.net
   Port 22
   User yousiki
   ForwardAgent yes

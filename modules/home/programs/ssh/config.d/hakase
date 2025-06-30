@@ -5,7 +5,7 @@ Host hakase
   ForwardAgent yes
 
 Host hakase-ts
-  HostName 100.118.195.97
+  HostName hakase.tail5d997.ts.net
   Port 22
   User yousiki
   ForwardAgent yes

@@ -20,6 +20,7 @@
         let
           configFiles = [
             ./config.d/hakase
+            ./config.d/mio
             ./config.d/nano
             ./config.d/satoshi
             ./config.d/yukko

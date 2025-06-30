@@ -1,0 +1,5 @@
+Host mio-ts
+  HostName mio.tail5d997.ts.net
+  Port 22
+  User yousiki
+  Compression yes

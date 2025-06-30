@@ -2,6 +2,7 @@
 _: {
   homebrew.casks = [
     "1password"
+    "baidunetdisk"
     "cursor"
     "feishu"
     "microsoft-office"

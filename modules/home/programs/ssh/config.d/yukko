@@ -4,3 +4,10 @@ Host yukko
   User yousiki
   ForwardAgent yes
   Compression yes
+
+Host yukko-ts
+  HostName yukko.tail5d997.ts.net
+  Port 22
+  User yousiki
+  ForwardAgent yes
+  Compression yes

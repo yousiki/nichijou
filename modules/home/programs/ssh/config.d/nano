@@ -5,7 +5,7 @@ Host nano
   ForwardAgent yes
 
 Host nano-ts
-  Hostname 100.123.19.7
+  Hostname nano.tail5d997.ts.net
   Port 22
   User yousiki
   ForwardAgent yes
