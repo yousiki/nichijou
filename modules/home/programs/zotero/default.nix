@@ -15,8 +15,8 @@
       cfg = config.${namespace}.programs.zotero;
     in
     lib.mkIf cfg.enable {
-      home.packages = with pkgs; [
-        zotero
+      home.packages = [
+        pkgs.${namespace}.zotero
       ];
     };
 }
