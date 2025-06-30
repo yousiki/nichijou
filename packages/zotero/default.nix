@@ -4,14 +4,14 @@
   ...
 }:
 pkgs.zotero.overrideAttrs (
-  finalAttrs: prevAttrs: {
-    version = "7.0.19";
+  finalAttrs: _prevAttrs: {
+    version = if pkgs.stdenv.hostPlatform.isDarwin then "7.0.18" else "7.0.19";
 
     src =
       if pkgs.stdenv.hostPlatform.isDarwin then
         fetchurl {
           url = "https://download.zotero.org/client/release/${finalAttrs.version}/Zotero-${finalAttrs.version}.dmg";
-          hash = "";
+          hash = "sha256-Eu1DOq6cyUvgDmdAZOPWR/xVPWjnPsN8u6OyYhue/5o=";
         }
       else
         fetchurl {
