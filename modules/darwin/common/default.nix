@@ -7,5 +7,6 @@
     "modules/common/nix/default.nix"
     "modules/common/shell/default.nix"
     "modules/common/sshkeys/default.nix"
+    "modules/common/tailscale/default.nix"
   ];
 }

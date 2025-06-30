@@ -1,3 +1,4 @@
+# Tailscale VPN
 {
   config,
   lib,
@@ -6,7 +7,7 @@
 }:
 {
   options.${namespace}.tailscale = {
-    enable = lib.mkEnableOption "tailscale";
+    enable = lib.mkEnableOption "Tailscale VPN";
   };
 
   config = lib.mkIf config.${namespace}.tailscale.enable {

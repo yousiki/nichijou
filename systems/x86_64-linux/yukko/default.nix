@@ -11,5 +11,6 @@
   nichijou = {
     shell.enable = true;
     sshkeys.enable = true;
+    tailscale.enable = true;
   };
 }

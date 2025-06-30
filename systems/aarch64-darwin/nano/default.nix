@@ -13,6 +13,7 @@ _: {
     nix.enableMirror = true;
     shell.enable = true;
     sshkeys.enable = true;
+    tailscale.enable = true;
   };
 
   networking = {

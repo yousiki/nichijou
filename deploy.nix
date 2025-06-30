@@ -24,7 +24,7 @@
         fastConnection = false;
         autoRollback = true;
         magicRollback = true;
-        remoteBuild = false;
+        remoteBuild = true;
       };
     };
 
