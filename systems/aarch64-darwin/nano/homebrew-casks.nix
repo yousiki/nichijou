@@ -3,6 +3,7 @@ _: {
   homebrew.casks = [
     "1password"
     "baidunetdisk"
+    "chatgpt"
     "cursor"
     "feishu"
     "logi-options+"
