@@ -11,6 +11,7 @@ _: {
     "mihomo-party"
     "qq"
     "tencent-meeting"
+    "thebrowsercompany-dia"
     "wechat"
   ];
 }
