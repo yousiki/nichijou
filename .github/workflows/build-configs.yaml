@@ -48,4 +48,4 @@ jobs:
           authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
           extraPullNames: nix-community,numtide,zed
       - name: Build package
-        run: nix build .#${{ matrix.ospackages.config }} --no-link
+        run: nix build .#${{ matrix.osconfigs.config }} --no-link
