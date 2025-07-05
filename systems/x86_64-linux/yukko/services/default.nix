@@ -1,6 +1,6 @@
 _: {
   imports = [
-    # ./open-webui.nix
+    ./open-webui.nix
     ./traefik.nix
   ];
 }
