@@ -3,10 +3,11 @@ _: {
     isNormalUser = true;
     group = "yousiki";
     extraGroups = [
+      "docker"
+      "podman"
+      "sudo"
       "users"
       "wheel"
-      "docker"
-      "sudo"
     ];
   };
 

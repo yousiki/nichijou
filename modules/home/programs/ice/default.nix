@@ -15,8 +15,6 @@
       cfg = config.${namespace}.programs.ice;
     in
     lib.mkIf cfg.enable {
-      home.packages = [
-        pkgs.${namespace}.ice
-      ];
+      home.packages = with pkgs; [ ice-bar ];
     };
 }

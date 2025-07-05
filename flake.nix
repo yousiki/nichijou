@@ -2,7 +2,7 @@
   description = "NixOS and nix-darwin configurations for daily life";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    nixpkgs.url = "github:nixos/nixpkgs/master";
     snowfall-lib = {
       url = "github:snowfallorg/lib";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -12,8 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     home-manager = {
-      # TODO: remove pin after https://github.com/nix-community/home-manager/issues/7327 is fixed
-      url = "github:nix-community/home-manager?rev=951f0b30c535a46817aa5ef4c66ddc4445f3e324";
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     treefmt-nix = {

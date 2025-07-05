@@ -6,6 +6,7 @@
     ./configuration.nix
     ./disko-configuration.nix
     ./hardware-configuration.nix
+    ./services
   ];
 
   nichijou = {
