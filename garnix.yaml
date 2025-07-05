@@ -2,9 +2,9 @@ builds:
   exclude:
     - "packages.*.update-packages"
   include:
-    - "darwinConfigurations.*.config.environment.systemPackages.*"
-    - "homeConfigurations.*.config.home.packages.*"
-    - "nixosConfigurations.*.config.environment.systemPackages.*"
-    - "packages.aarch64-darwin.*"
-    - "packages.x86_64-darwin.*"
-    - "packages.x86_64-linux.*"
+    - "*.aarch64-darwin.*"
+    - "*.x86_64-darwin.*"
+    - "*.x86_64-linux.*"
+    - "nixosConfigurations.*"
+    - "darwinConfigurations.*"
+    - "homeConfigurations.*"
