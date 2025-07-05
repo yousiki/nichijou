@@ -1,0 +1,51 @@
+name: Build configs
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+    paths:
+      - ".github/workflows/build-configs.yaml"
+      - "flake.lock"
+      - "homes/**"
+      - "modules/**"
+      - "packages/**"
+      - "systems/**"
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  build-configs:
+    name: Build configs
+    strategy:
+      matrix:
+        osconfigs:
+          - os: ubuntu-latest
+            config: nixosConfigurations.hakase.config.system.build.toplevel
+          - os: ubuntu-latest
+            config: nixosConfigurations.yukko.config.system.build.toplevel
+          - os: macos-latest
+            config: darwinConfigurations.mio.config.system.build.toplevel
+          - os: macos-latest
+            config: darwinConfigurations.nano.config.system.build.toplevel
+    runs-on: ${{ matrix.osconfigs.os }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Install nix and flakes
+        uses: DeterminateSystems/nix-installer-action@v17
+      - name: Setup cachix cache
+        uses: cachix/cachix-action@v16
+        with:
+          name: nichijou
+          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
+          extraPullNames: nix-community,numtide,zed
+      - name: Build package
+        run: nix build .#${{ matrix.ospackages.config }} --no-link
