@@ -6,6 +6,7 @@
 }:
 mkShell {
   packages = with pkgs; [
+    age
     deadnix
     deploy-rs
     gh
@@ -15,6 +16,8 @@ mkShell {
     nil
     nixd
     nixfmt-rfc-style
+    sops
+    ssh-to-age
     statix
   ];
 }

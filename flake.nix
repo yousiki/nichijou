@@ -44,6 +44,10 @@
       url = "github:serokell/deploy-rs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    sops-nix = {
+      url = "github:Mic92/sops-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -67,17 +71,26 @@
       channels-config = {
         allowUnfree = true;
       };
+      overlays = with inputs; [
+        nix-index-database.overlays.nix-index
+        sops-nix.overlays.default
+      ];
       homes.modules = with inputs; [
         catppuccin.homeModules.catppuccin
         nix-index-database.hmModules.nix-index
+        sops-nix.homeManagerModules.sops
       ];
       systems.modules = {
         nixos = with inputs; [
           disko.nixosModules.disko
-          inputs.nix-ld.nixosModules.nix-ld
+          nix-ld.nixosModules.nix-ld
           nix-index-database.nixosModules.nix-index
+          sops-nix.nixosModules.sops
         ];
-        darwin = with inputs; [ nix-index-database.darwinModules.nix-index ];
+        darwin = with inputs; [
+          nix-index-database.darwinModules.nix-index
+          sops-nix.darwinModules.sops
+        ];
       };
       outputs-builder =
         channels:

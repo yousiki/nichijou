@@ -1,5 +1,4 @@
-{ config, ... }:
-{
+_: {
   networking.firewall.allowedTCPPorts = [
     80
     443
@@ -31,27 +30,6 @@
       log = {
         level = "INFO";
         format = "json";
-      };
-    };
-    dynamicConfigOptions = {
-      http.routers = {
-        open-webui = {
-          entryPoints = [
-            "http"
-            "https"
-          ];
-          rule = "Host(`chat.siki.moe`)";
-          service = "open-webui";
-        };
-      };
-      http.services = {
-        open-webui.loadBalancer.servers =
-          let
-            port = builtins.toString config.services.open-webui.port;
-          in
-          [
-            { url = "http://localhost:${port}"; }
-          ];
       };
     };
   };

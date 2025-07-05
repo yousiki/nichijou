@@ -1,0 +1,20 @@
+keys:
+  - &hakase age13m8rakh7w2zkawjuqgd29sp7wtceqt4mkw38mcg9fsrurs5x2urq9dgqg0
+  - &mio age1vfpgfps2ugmdu3q9mmq3te5py4fvzv3p89c5mlstq9l8vvccve6qdxk69g
+  - &nano age1qz7m2fmm4e0wfnp7z23w5uj3gtx92amr3xp6tc0a3u6un0g8ugrsf8x6mc
+  - &yukko age1a0cp6jjg5uuqvgazwl36f2jmtmgyv800pqvatkenpxgfgnj9a99qzjj6kk
+  - &yousiki-hakase age1v2f38zx3fyn789lemwf8jm2wcx2d7krjc82z74t2qwcrk6hsjsqs8xsjhh
+  - &yousiki-mio age198l4w4fhhpnwepnp2tme37kk8xh5dxdn3pa9s7klxdw4jxmvgyqq49xnzf
+  - &yousiki-nano age1yznykzrsa65lg50rtku2yaqq4mln4lk2u8hkyz4r4hy28tlvug8s3p88uh
+
+creation_rules:
+  - path_regex: secrets/[^/]+\.(yaml|json|env|ini)$
+    key_groups:
+      - age:
+          - *hakase
+          - *mio
+          - *nano
+          - *yukko
+          - *yousiki-hakase
+          - *yousiki-mio
+          - *yousiki-nano
