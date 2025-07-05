@@ -28,12 +28,10 @@ let
   nix-update-packages-darwin = nix-update-packages-template [
     "alt-tab-macos"
     "easydict"
-    "ice"
     "keepingyouawake"
   ];
 
   nix-update-packages-nixos = nix-update-packages-template [
-    "zed-editor"
   ];
 in
 if pkgs.stdenv.isLinux then

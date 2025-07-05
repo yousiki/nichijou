@@ -17,7 +17,7 @@
     lib.mkIf cfg.enable {
       programs.zed-editor = {
         enable = true;
-        package = pkgs.${namespace}.zed-editor;
+        package = pkgs.zed-editor;
         extensions = [
           "astro"
           "catppuccin"

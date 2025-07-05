@@ -2,6 +2,7 @@
 {
   channels,
   inputs,
+  self,
   ...
 }:
 let
@@ -33,4 +34,7 @@ let
 
   treefmtEval = inputs.treefmt-nix.lib.evalModule channels.nixpkgs treefmtConfig;
 in
-treefmtEval
+{
+  formatter = treefmtEval.config.build.wrapper;
+  checks.formatting = treefmtEval.config.build.check self;
+}

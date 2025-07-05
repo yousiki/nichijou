@@ -49,6 +49,7 @@
   outputs =
     inputs@{
       self,
+      nixpkgs,
       snowfall-lib,
       ...
     }:
@@ -81,21 +82,16 @@
       outputs-builder =
         channels:
         let
-          inherit (channels.nixpkgs) system;
-          treefmtEval = import ./formatter.nix { inherit self inputs channels; };
-          deployChecks = inputs.deploy-rs.lib.${system}.deployChecks self.deploy;
-          formattingCheck = {
-            treefmt-nix = treefmtEval.config.build.check self;
-          };
+          inherit (nixpkgs.lib) foldl recursiveUpdate map;
         in
-        {
-          formatter = treefmtEval.config.build.wrapper;
-          checks = deployChecks // formattingCheck;
-          packages.deploy-rs = inputs.deploy-rs.packages.${system}.default;
-        };
-      deploy = import ./deploy.nix {
-        inherit self inputs;
-      };
+        foldl recursiveUpdate { } (
+          map (p: (import p { inherit self inputs channels; })) [
+            ./utils/deploy-checks.nix
+            ./utils/formatter.nix
+            ./utils/packages.nix
+          ]
+        );
+      deploy = import ./utils/deploy.nix { inherit self inputs; };
     };
 
   nixConfig = {

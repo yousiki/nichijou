@@ -1,5 +1,5 @@
 # Use deploy-rs for multi-profile deployment
-{ self, inputs }:
+{ self, inputs, ... }:
 {
   nodes = {
     hakase = {
