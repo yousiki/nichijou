@@ -32,6 +32,7 @@
         garbage-collection = {
           interval = "12 hours";
         };
+        jwt = { };
       };
     };
     postgresql = {
@@ -65,5 +66,7 @@
     sopsFile = lib.snowfall.fs.get-file "secrets/atticd.env";
     format = "dotenv";
     key = "";
+    owner = config.services.atticd.user;
+    inherit (config.services.atticd) group;
   };
 }
