@@ -7,10 +7,12 @@
       settings = {
         listen = "[::]:8080";
         database = {
-          url = "/var/lib/postgresql";
+          url = "postgresql://attic@/attic?host=/run/postgresql";
         };
         storage = {
           type = "s3";
+          region = "auto";
+          bucket = "attic";
           endpoint = "https://3ba1aaf889ad9e15eebee459ff361919.r2.cloudflarestorage.com/attic";
         };
         chunking =
@@ -21,7 +23,7 @@
             nar-size-threshold = 32 * MiB;
             min-size = 16 * MiB;
             avg-size = 32 * MiB;
-            max-size = 128 * MiB;
+            max-size = 64 * MiB;
           };
         compression = {
           type = "zstd";
@@ -35,11 +37,7 @@
     postgresql = {
       enable = true;
       ensureDatabases = [ "attic" ];
-      ensureUsers = [
-        {
-          name = "attic";
-        }
-      ];
+      ensureUsers = [ { name = "attic"; } ];
       authentication = lib.mkOverride 10 ''
         #type database  DBuser  auth-method
         local all       all     trust
