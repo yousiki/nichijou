@@ -4,7 +4,6 @@ _: {
     "1password"
     "baidunetdisk"
     "chatgpt"
-    "cursor"
     "feishu"
     "microsoft-office"
     "mihomo-party"
