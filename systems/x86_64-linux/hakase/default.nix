@@ -7,8 +7,8 @@
   ];
 
   nichijou = {
-    clash.enable = true;
     fonts.enable = true;
+    mihomo.enable = true;
     nix.enableMirror = true;
     nvidia.enable = true;
     shell.enable = true;

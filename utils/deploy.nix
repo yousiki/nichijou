@@ -1,9 +1,9 @@
 # Use deploy-rs for multi-profile deployment
 { self, inputs, ... }:
 {
-  nodes = {
+  nodes = rec {
     hakase = {
-      hostname = "hakase-ts";
+      hostname = "hakase";
       profiles.system = {
         user = "root";
         sshUser = "yousiki";
@@ -15,8 +15,12 @@
       };
     };
 
+    hakase-ts = hakase // {
+      hostname = "hakase-ts";
+    };
+
     yukko = {
-      hostname = "yukko-ts";
+      hostname = "yukko";
       profiles.system = {
         user = "root";
         sshUser = "yousiki";
@@ -26,6 +30,10 @@
         magicRollback = true;
         remoteBuild = true;
       };
+    };
+
+    yukko-ts = yukko // {
+      hostname = "yukko-ts";
     };
 
     nano = {
@@ -42,6 +50,10 @@
       };
     };
 
+    nano-ts = nano // {
+      hostname = "nano-ts";
+    };
+
     mio = {
       hostname = "mio-ts";
       profiles.system = {
@@ -54,6 +66,10 @@
         magicRollback = true;
         remoteBuild = true;
       };
+    };
+
+    mio-ts = mio // {
+      hostname = "mio-ts";
     };
   };
 }

@@ -6,13 +6,13 @@
   ...
 }:
 {
-  options.${namespace}.clash = {
-    enable = lib.mkEnableOption "clash";
+  options.${namespace}.mihomo = {
+    enable = lib.mkEnableOption "mihomo";
   };
 
   config =
     let
-      cfg = config.${namespace}.clash;
+      cfg = config.${namespace}.mihomo;
     in
     lib.mkIf cfg.enable {
       networking = {
@@ -30,7 +30,7 @@
         mihomo = {
           enable = true;
           webui = pkgs.metacubexd;
-          configFile = "/etc/clash/config.yaml";
+          configFile = "/etc/mihomo/config.yaml";
         };
       };
     };
