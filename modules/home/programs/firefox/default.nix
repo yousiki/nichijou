@@ -20,6 +20,7 @@
           "zh-CN"
           "zh-TW"
         ];
+        profiles.default.extensions.force = true;
       };
     };
 }
