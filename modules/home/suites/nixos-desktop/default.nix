@@ -18,7 +18,6 @@
         _1password.enable = true;
         google-chrome.enable = true;
         kitty.enable = true;
-        thunderbird.enable = true;
         vscode.enable = true;
         wezterm.enable = true;
         zed-editor.enable = true;
