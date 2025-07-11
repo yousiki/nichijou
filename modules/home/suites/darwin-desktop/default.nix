@@ -32,6 +32,7 @@
         raycast.enable = true;
         rectangle.enable = true;
         vscode.enable = true;
+        warp-terminal.enable = true;
         wezterm.enable = true;
         zed-editor.enable = true;
         zotero.enable = true;
