@@ -37,6 +37,14 @@ jobs:
             config: darwinConfigurations.nano.config.system.build.toplevel
     runs-on: ${{ matrix.osconfigs.os }}
     steps:
+      - name: Maximize build space
+        uses: easimon/maximize-build-space@v10
+        with:
+          remove-android: "true"
+          remove-codeql: "true"
+          remove-docker-images: "true"
+          remove-dotnet: "true"
+          remove-haskell: "true"
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install nix and flakes
