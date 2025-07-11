@@ -118,7 +118,6 @@
       # Additional cache servers.
       "https://cache.garnix.io" # priority=50
       "https://catppuccin.cachix.org" # priority=41
-      "https://garnix.siki.moe" # priority=50
       "https://nichijou.cachix.org" # priority=41
       "https://nix-community.cachix.org" # priority=41
       "https://numtide.cachix.org" # priority=41
