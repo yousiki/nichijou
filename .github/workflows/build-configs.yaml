@@ -39,7 +39,7 @@ jobs:
     steps:
       - name: Maximize build space
         uses: easimon/maximize-build-space@v10
-        if: ${{ matrix.osconfigs.os }} == 'ubuntu-latest'
+        if: ${{ matrix.osconfigs.os == 'ubuntu-latest' }}
         with:
           remove-android: "true"
           remove-codeql: "true"
