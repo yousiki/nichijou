@@ -41,6 +41,7 @@
             github.copilot-chat
             github.vscode-github-actions
             github.vscode-pull-request-github
+            james-yu.latex-workshop
             jeff-hykin.better-nix-syntax
             jnoortheen.nix-ide
             ms-azuretools.vscode-docker
@@ -65,6 +66,7 @@
             rooveterinaryinc.roo-cline
             rust-lang.rust-analyzer
             tamasfe.even-better-toml
+            tecosaur.latex-utilities
             visualstudioexptteam.intellicode-api-usage-examples
             visualstudioexptteam.vscodeintellicode
             vscodevim.vim
@@ -117,6 +119,73 @@
             "githubPullRequests.experimental.chat" = true;
             "githubPullRequests.experimental.notificationsView" = true;
             "githubPullRequests.experimental.useQuickChat" = true;
+            "latex-workshop.latex.recipes" = [
+              {
+                name = "latexmk";
+                tools = [
+                  "latexmk"
+                ];
+              }
+              {
+                name = "pdflatex -> bibtex -> pdflatex * 2";
+                tools = [
+                  "pdflatex"
+                  "bibtex"
+                  "pdflatex"
+                  "pdflatex"
+                ];
+              }
+              {
+                name = "tectonic";
+                tools = [
+                  "tectonic"
+                ];
+              }
+            ];
+            "latex-workshop.latex.tools" = [
+              {
+                "name" = "tectonic";
+                "command" = "tectonic";
+                "args" = [
+                  "-X"
+                  "build"
+                  "--keep-intermediates"
+                  "--keep-logs"
+                ];
+              }
+              {
+                "name" = "latexmk";
+                "command" = "latexmk";
+                "args" = [
+                  "-synctex=1"
+                  "-interaction=nonstopmode"
+                  "-file-line-error"
+                  "-pdf"
+                  "-outdir=%OUTDIR%"
+                  "%DOC%"
+                ];
+                "env" = { };
+              }
+              {
+                "name" = "pdflatex";
+                "command" = "pdflatex";
+                "args" = [
+                  "-synctex=1"
+                  "-interaction=nonstopmode"
+                  "-file-line-error"
+                  "%DOC%"
+                ];
+                "env" = { };
+              }
+              {
+                "name" = "bibtex";
+                "command" = "bibtex";
+                "args" = [
+                  "%DOCFILE%"
+                ];
+                "env" = { };
+              }
+            ];
             "nix.enableLanguageServer" = true;
             "nix.formatterPath" = "nixfmt";
             "nix.serverPath" = "nil";
