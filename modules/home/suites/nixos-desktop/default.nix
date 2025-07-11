@@ -16,7 +16,6 @@
     lib.mkIf cfg.enable {
       nichijou.programs = {
         _1password.enable = true;
-        firefox.enable = true;
         google-chrome.enable = true;
         kitty.enable = true;
         thunderbird.enable = true;

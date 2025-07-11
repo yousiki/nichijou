@@ -20,7 +20,6 @@
         alt-tab.enable = true;
         cyberduck.enable = true;
         easydict.enable = true;
-        firefox.enable = true;
         google-chrome.enable = true;
         ice-bar.enable = true;
         iina.enable = true;
