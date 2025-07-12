@@ -29,6 +29,7 @@
           "html"
           "latex"
           "log"
+          "ltex"
           "lua"
           "make"
           "nix"
