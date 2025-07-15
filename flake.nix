@@ -2,7 +2,7 @@
   description = "NixOS and nix-darwin configurations for daily life";
 
   inputs = {
-    nixpkgs.url = "github:nixos/nixpkgs/master";
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     snowfall-lib = {
       url = "github:snowfallorg/lib";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -77,14 +77,14 @@
       ];
       homes.modules = with inputs; [
         catppuccin.homeModules.catppuccin
-        nix-index-database.hmModules.nix-index
+        nix-index-database.homeModules.nix-index
         sops-nix.homeManagerModules.sops
       ];
       systems.modules = {
         nixos = with inputs; [
           disko.nixosModules.disko
-          nix-ld.nixosModules.nix-ld
           nix-index-database.nixosModules.nix-index
+          nix-ld.nixosModules.nix-ld
           sops-nix.nixosModules.sops
         ];
         darwin = with inputs; [

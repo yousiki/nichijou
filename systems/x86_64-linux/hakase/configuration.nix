@@ -8,18 +8,6 @@
   networking = {
     # Set the hostname
     hostName = "hakase";
-    # Open firewall for docker swarm
-    firewall = {
-      allowedTCPPorts = [
-        2376
-        2377
-        7946
-      ];
-      allowedUDPPorts = [
-        7946
-        4789
-      ];
-    };
     # Enables DHCP on each ethernet and wireless interface. In case of scripted networking
     # (the default) this is the recommended approach. When using systemd-networkd it's
     # still possible to use this option, but it's recommended to use it in conjunction
@@ -37,7 +25,17 @@
   };
 
   boot = {
-    kernelPackages = pkgs.linuxPackages_latest;
+    kernelPackages = pkgs.linuxPackagesFor (
+      pkgs.buildLinux rec {
+        version = "${modDirVersion}-bcachefs";
+        modDirVersion = "6.16.0-rc2";
+        src = pkgs.fetchgit {
+          url = "https://evilpiepirate.org/git/bcachefs.git";
+          rev = "37c2ea3bd694e1ea27fa9979013ec712030841a7";
+          hash = "sha256-2ygTxdt/yXAogSGbSlSFJU8Ztsk0Apu3GQXzfmkppMI=";
+        };
+      }
+    );
     loader = {
       systemd-boot.enable = true;
       efi.canTouchEfiVariables = true;
