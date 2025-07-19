@@ -6,12 +6,12 @@
 }:
 stdenvNoCC.mkDerivation (finalAttrs: {
   pname = "keepingyouawake";
-  version = "1.6.6";
+  version = "1.6.7";
 
   src = fetchurl {
     name = "KeepingYouAwake-${finalAttrs.version}.zip";
     url = "https://github.com/newmarcel/KeepingYouAwake/releases/download/${finalAttrs.version}/KeepingYouAwake-${finalAttrs.version}.zip";
-    hash = "sha256-5f63jlIIDORtrMyA1aZcfXrNWLEGsSEuI1JMdfPYlDo=";
+    hash = "sha256-/Y2y7FNvP7AmB7vBe+Goaxc6n3IzE1HrB2pjMpzF2RU=";
   };
 
   dontPatch = true;
