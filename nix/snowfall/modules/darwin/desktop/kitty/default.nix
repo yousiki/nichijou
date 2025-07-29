@@ -1,4 +1,4 @@
-# Install WezTerm for desktops.
+# Install Kitty terminal for desktops.
 {
   config,
   lib,
@@ -7,6 +7,6 @@
 }:
 lib.mkIf (builtins.elem "desktop" config.${namespace}.tags) {
   homebrew.casks = [
-    "wezterm"
+    "kitty"
   ];
 }
