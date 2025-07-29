@@ -7,30 +7,41 @@
   perSystem =
     { pkgs, ... }:
     {
-      devshells.default = {
-        commands = [
-          {
-            name = "fmt";
-            help = "format files";
-            command =
-              let
-                flake-fmt = inputs.flake-fmt.packages.${pkgs.system}.default;
-              in
-              "${flake-fmt}/bin/flake-fmt";
-          }
-          {
-            name = "switch";
-            help = "switch nixos/darwin configuration";
-            command =
-              let
-                inherit (pkgs) nh;
-              in
-              if pkgs.stdenv.hostPlatform.isDarwin then
-                "${nh}/bin/nh darwin switch ."
-              else
-                "${nh}/bin/nh os switch .";
-          }
-        ];
-      };
+      devshells.default =
+        let
+          inherit (pkgs) nh;
+          nh-os-alias =
+            if pkgs.stdenv.hostPlatform.isDarwin then "${nh}/bin/nh darwin" else "${nh}/bin/nh os";
+          flake-fmt = inputs.flake-fmt.packages.${pkgs.system}.default;
+        in
+        {
+          commands = [
+            {
+              name = "fmt";
+              help = "format files";
+              command = "${flake-fmt}/bin/flake-fmt";
+            }
+            {
+              name = "build";
+              help = "build nixos/darwin configuration";
+              command = "${nh-os-alias} build .";
+            }
+            {
+              name = "switch";
+              help = "switch nixos/darwin configuration";
+              command = "${nh-os-alias} switch .";
+            }
+            {
+              name = "clean";
+              help = "clean all nix profiles";
+              command = "${nh}/bin/nh clean all";
+            }
+          ];
+
+          packages = [
+            flake-fmt
+            nh
+          ];
+        };
     };
 }
