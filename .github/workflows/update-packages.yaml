@@ -24,7 +24,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
       - name: Install nix and flakes
-        uses: DeterminateSystems/nix-installer-action@v18
+        uses: DeterminateSystems/nix-installer-action@v19
       - name: Setup cachix cache
         uses: cachix/cachix-action@v16
         with:
