@@ -19,7 +19,6 @@
           };
         })
         [
-          "_1password-gui"
           "alt-tab-macos"
           "baidunetdisk"
           "chatgpt"
@@ -35,7 +34,6 @@
           "keka"
           "kitty"
           "maccy"
-          "mihomo-party"
           "monitorcontrol"
           "mos"
           "qq"
@@ -44,7 +42,6 @@
           "tencent-meeting"
           "thunderbird"
           "vscode"
-          "warp-terminal"
           "wechat"
           "zed"
           "zoom-us"

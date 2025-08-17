@@ -18,6 +18,6 @@
       }
     ];
 
-    home.packages = [ pkgs.cyberduck ];
+    home.packages = [ pkgs.brewCasks.cyberduck ];
   };
 }

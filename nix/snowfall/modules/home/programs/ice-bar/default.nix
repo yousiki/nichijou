@@ -18,6 +18,6 @@
       }
     ];
 
-    home.packages = [ pkgs.ice-bar ];
+    home.packages = [ pkgs.brewCasks.jordanbaird-ice ];
   };
 }

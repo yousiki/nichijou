@@ -18,6 +18,6 @@
       }
     ];
 
-    home.packages = [ pkgs.chatgpt ];
+    home.packages = [ pkgs.brewCasks.chatgpt ];
   };
 }

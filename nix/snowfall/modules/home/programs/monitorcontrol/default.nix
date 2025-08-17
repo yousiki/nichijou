@@ -18,6 +18,6 @@
       }
     ];
 
-    home.packages = [ pkgs.monitorcontrol ];
+    home.packages = [ pkgs.brewCasks.monitorcontrol ];
   };
 }

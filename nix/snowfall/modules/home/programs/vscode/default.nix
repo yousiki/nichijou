@@ -11,6 +11,10 @@
   };
 
   config = lib.mkIf config.${namespace}.programs.vscode.enable {
-    home.packages = [ pkgs.vscode ];
+    home.packages =
+      let
+        vscode = with pkgs; if stdenv.hostPlatform.isDarwin then brewCasks.visual-studio-code else vscode;
+      in
+      [ vscode ];
   };
 }

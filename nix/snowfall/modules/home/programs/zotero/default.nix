@@ -11,6 +11,10 @@
   };
 
   config = lib.mkIf config.${namespace}.programs.zotero.enable {
-    home.packages = [ pkgs.zotero ];
+    home.packages =
+      let
+        zotero = with pkgs; if stdenv.hostPlatform.isDarwin then brewCasks.zotero else zotero;
+      in
+      [ zotero ];
   };
 }

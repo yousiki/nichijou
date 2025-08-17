@@ -18,6 +18,6 @@
       }
     ];
 
-    home.packages = [ pkgs.iina ];
+    home.packages = [ pkgs.brewCasks.iina ];
   };
 }

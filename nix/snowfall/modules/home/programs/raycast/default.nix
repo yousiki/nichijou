@@ -18,6 +18,6 @@
       }
     ];
 
-    home.packages = [ pkgs.raycast ];
+    home.packages = [ pkgs.brewCasks.raycast ];
   };
 }

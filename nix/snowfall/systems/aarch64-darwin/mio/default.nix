@@ -21,8 +21,10 @@
       tailscale.enable = true;
     };
     programs = {
-      _1password.enable = true;
+      _1password-gui.enable = true;
       adobe-creative-cloud.enable = true;
+      microsoft-office.enable = true;
+      mihomo-party.enable = true;
       orbstack.enable = true;
     };
   };

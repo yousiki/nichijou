@@ -18,6 +18,6 @@
       }
     ];
 
-    home.packages = [ pkgs.rectangle ];
+    home.packages = [ pkgs.brewCasks.rectangle ];
   };
 }

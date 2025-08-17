@@ -18,6 +18,6 @@
       }
     ];
 
-    home.packages = [ pkgs.mos ];
+    home.packages = [ pkgs.brewCasks.mos ];
   };
 }

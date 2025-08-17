@@ -11,6 +11,10 @@
   };
 
   config = lib.mkIf config.${namespace}.programs.qq.enable {
-    home.packages = [ pkgs.qq ];
+    home.packages =
+      let
+        qq = with pkgs; if stdenv.hostPlatform.isDarwin then brewCasks.qq else qq;
+      in
+      [ qq ];
   };
 }

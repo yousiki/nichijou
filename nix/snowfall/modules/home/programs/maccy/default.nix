@@ -18,6 +18,6 @@
       }
     ];
 
-    home.packages = [ pkgs.maccy ];
+    home.packages = [ pkgs.brewCasks.maccy ];
   };
 }

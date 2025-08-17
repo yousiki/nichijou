@@ -18,6 +18,6 @@
       }
     ];
 
-    home.packages = [ pkgs.keka ];
+    home.packages = [ pkgs.${namespace}.keka ];
   };
 }
