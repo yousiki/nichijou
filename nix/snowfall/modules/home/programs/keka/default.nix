@@ -18,6 +18,15 @@
       }
     ];
 
+    warnings =
+      let
+        isOlder = v: (builtins.compareVersions pkgs.${namespace}.keka.version v) == -1;
+        nixpkgsVer = pkgs.keka.version;
+        homebrewVer = lib.${namespace}.casks.keka.version;
+        mkWarn = name: ver: lib.optional (isOlder ver) "Keka is older than ${name}. Consider updating it.";
+      in
+      (mkWarn "nixpkgs" nixpkgsVer) ++ (mkWarn "homebrew" homebrewVer);
+
     home.packages = [ pkgs.${namespace}.keka ];
   };
 }
