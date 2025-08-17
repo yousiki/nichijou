@@ -51,6 +51,10 @@
   };
 
   outputs =
-    { nixpkgs, ... }@inputs:
-    nixpkgs.lib.recursiveUpdate (import ./nix/flake-parts inputs) (import ./nix/snowfall inputs);
+    inputs:
+    let
+      flake-parts = import ./nix/flake-parts inputs;
+      snowfall = import ./nix/snowfall inputs;
+    in
+    inputs.nixpkgs.lib.recursiveUpdate flake-parts snowfall;
 }

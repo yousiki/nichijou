@@ -1,4 +1,6 @@
-{ lib, ... }:
-{
-  nichijou.tags = import (lib.snowfall.fs.get-file "tags/mio.nix");
+_: {
+  nichijou.suites = {
+    darwin-desktop.enable = true;
+    terminal.enable = true;
+  };
 }

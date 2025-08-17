@@ -1,4 +1,3 @@
-# Install fonts to systems tagged with "desktop".
 {
   config,
   lib,
@@ -7,14 +6,14 @@
   ...
 }:
 {
-  config = lib.mkIf (builtins.elem "desktop" config.${namespace}.tags) {
+  options.${namespace}.fonts = {
+    enable = lib.mkEnableOption "fonts";
+  };
+
+  config = lib.mkIf config.${namespace}.fonts.enable {
     fonts.packages = with pkgs; [
-      maple-mono.NF-CN
       nerd-fonts.caskaydia-cove
       nerd-fonts.caskaydia-mono
-      nerd-fonts.fira-code
-      nerd-fonts.fira-mono
-      nerd-fonts.jetbrains-mono
       nerd-fonts.zed-mono
     ];
   };

@@ -22,24 +22,23 @@
               command = "${flake-fmt}/bin/flake-fmt";
             }
             {
-              name = "build";
+              name = "bd";
               help = "build nixos/darwin configuration";
               command = "${nh-os-alias} build .";
             }
             {
-              name = "switch";
+              name = "sw";
               help = "switch nixos/darwin configuration";
               command = "${nh-os-alias} switch .";
             }
             {
-              name = "clean";
+              name = "cl";
               help = "clean all nix profiles";
               command = "${nh}/bin/nh clean all";
             }
           ];
 
           packages = [
-            flake-fmt
             nh
           ];
         };
