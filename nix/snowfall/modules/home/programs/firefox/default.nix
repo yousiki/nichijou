@@ -11,6 +11,10 @@
   };
 
   config = lib.mkIf config.${namespace}.programs.firefox.enable {
-    home.packages = [ pkgs.firefox ];
+    home.packages =
+      let
+        firefox = with pkgs; if stdenv.hostPlatform.isDarwin then brewCasks.firefox else firefox;
+      in
+      [ firefox ];
   };
 }
