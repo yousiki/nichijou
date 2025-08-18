@@ -36,6 +36,7 @@
           "maccy"
           "monitorcontrol"
           "mos"
+          "prettyclean"
           "qq"
           "raycast"
           "rectangle"
