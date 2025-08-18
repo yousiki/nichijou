@@ -18,6 +18,6 @@
       }
     ];
 
-    home.packages = [ pkgs.brewCasks.alt-tab ];
+    home.packages = [ pkgs.${namespace}.alt-tab-macos ];
   };
 }
