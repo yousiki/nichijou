@@ -1,8 +1,8 @@
 {
+  alt-tab-macos,
   fetchurl,
-  pkgs,
 }:
-pkgs.alt-tab-macos.overrideAttrs (
+alt-tab-macos.overrideAttrs (
   finalAttrs: _prevAttrs: {
     version = "7.27.0";
 

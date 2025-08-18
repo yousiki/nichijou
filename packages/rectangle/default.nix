@@ -1,8 +1,8 @@
 {
   fetchurl,
-  pkgs,
+  rectangle,
 }:
-pkgs.rectangle.overrideAttrs (
+rectangle.overrideAttrs (
   finalAttrs: _prevAttrs: {
     version = "0.89";
 

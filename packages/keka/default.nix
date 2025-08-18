@@ -1,9 +1,9 @@
 {
   fetchzip,
+  keka,
   nix-update-script,
-  pkgs,
 }:
-pkgs.keka.overrideAttrs (
+keka.overrideAttrs (
   finalAttrs: _prevAttrs: {
     version = "1.5.2";
 
