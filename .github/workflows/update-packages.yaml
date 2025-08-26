@@ -22,7 +22,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
       - name: Install nix and flakes
         uses: DeterminateSystems/nix-installer-action@v18
       - name: Setup cachix cache
