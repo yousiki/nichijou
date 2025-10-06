@@ -32,8 +32,11 @@
       trusted-substituters = [
         "https://cache.clan.lol"
         "https://cache.nixos.org"
+        "https://cuda-maintainers.cachix.org"
         "https://nichijou.cachix.org"
         "https://nix-community.cachix.org"
+        "https://numtide.cachix.org"
+        "https://zed-industries.cachix.org"
       ];
     };
 
