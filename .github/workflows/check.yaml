@@ -1,0 +1,23 @@
+name: Check
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  check-flake-lock:
+    name: Health check for flake.lock
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Check flake.lock file
+        uses: DeterminateSystems/flake-checker-action@v12
