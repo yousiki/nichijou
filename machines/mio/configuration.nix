@@ -17,6 +17,9 @@
 
   home-manager.users.yousiki = {
     imports = with self.modules.home; [
+      app.orbstack
+      app.wezterm
+      app.zed-editor
       awesome-shell
       catppuccin
       develop.nix
@@ -25,8 +28,6 @@
       develop.rust
       shared
       user-yousiki
-      wezterm
-      zed-editor
     ];
   };
 
