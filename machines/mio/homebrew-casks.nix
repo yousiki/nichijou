@@ -16,7 +16,6 @@ _: {
     "jordanbaird-ice@beta"
     "keepingyouawake"
     "keka"
-    "kitty"
     "logi-options+"
     "maccy"
     "microsoft-auto-update"
