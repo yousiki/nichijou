@@ -26,6 +26,7 @@
       shared
       user-yousiki
       wezterm
+      zed-editor
     ];
   };
 
