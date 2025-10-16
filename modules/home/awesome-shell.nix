@@ -72,7 +72,7 @@
   };
 
   programs.gitui = {
-    enable = true;
+    enable = false; # temporarily disabled due to package broken
   };
 
   programs.gh = {
