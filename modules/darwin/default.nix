@@ -1,9 +1,16 @@
 # This is your nix-darwin configuration.
 # For home configuration, see /modules/home/*
-{
+{flake, ...}: let
+  inherit (flake) inputs;
+in {
   imports = [
     ./common
     ./homebrew.nix
+  ];
+
+  nixpkgs.overlays = [
+    # Up-to-date Claude Code package
+    inputs.claude-code.overlays.default
   ];
 
   # Use TouchID for `sudo` authentication

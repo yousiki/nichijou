@@ -60,5 +60,6 @@
   nixpkgs.config = {
     allowBroken = false;
     allowUnsupported = false;
+    allowUnfree = true;
   };
 }
