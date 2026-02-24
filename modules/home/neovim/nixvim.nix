@@ -1,7 +1,7 @@
 # Neovim configuration managed using https://github.com/nix-community/nixvim
 {
   # Theme
-  colorschemes.tokyonight.enable = true;
+  colorschemes.catppuccin.enable = true;
 
   # Settings
   opts = {
