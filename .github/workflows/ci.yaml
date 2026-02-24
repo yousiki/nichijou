@@ -1,0 +1,25 @@
+name: "CI"
+on:
+  push:
+    branches:
+      - main
+      - ci/**
+  pull_request:
+jobs:
+  nix:
+    runs-on: ${{ matrix.system }}
+    strategy:
+      matrix:
+        system: [aarch64-darwin, x86_64-darwin, x86_64-linux]
+      fail-fast: false
+    steps:
+      - uses: actions/checkout@v4
+      - name: om show
+        run: om show .
+      - name: om ci
+        run: om ci run --extra-access-tokens "github.com=${{ secrets.GITHUB_TOKEN }}" --systems "${{ matrix.system }}"
+
+      - name: om init tests
+        run: |
+          om init --test .
+
