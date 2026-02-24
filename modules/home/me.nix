@@ -1,6 +1,9 @@
 # User configuration module
-{ config, lib, ... }:
 {
+  config,
+  lib,
+  ...
+}: {
   options = {
     me = {
       username = lib.mkOption {

@@ -1,12 +1,12 @@
 # See /modules/darwin/* for actual settings
 # This file is just *top-level* configuration.
-{ flake, lib, ... }:
-
-let
+{
+  flake,
+  ...
+}: let
   inherit (flake) inputs;
   inherit (inputs) self;
-in
-{
+in {
   imports = [
     self.darwinModules.default
   ];

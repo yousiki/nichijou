@@ -1,10 +1,11 @@
-{ flake, ... }:
-{
+{flake, ...}: {
   imports = [
     flake.inputs.nixvim.homeManagerModules.nixvim
   ];
 
-  programs.nixvim = import ./nixvim.nix // {
-    enable = true;
-  };
+  programs.nixvim =
+    import ./nixvim.nix
+    // {
+      enable = true;
+    };
 }

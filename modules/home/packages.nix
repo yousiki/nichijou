@@ -1,5 +1,4 @@
-{ pkgs, ... }:
-{
+{pkgs, ...}: {
   # Nix packages to install to $HOME
   #
   # Search for packages here: https://search.nixos.org/packages
@@ -18,7 +17,6 @@
     nil # Nix language server
     nix-info
     nixpkgs-fmt
-
 
     # On ubuntu, we need this less for `man home-configuration.nix`'s pager to
     # work.

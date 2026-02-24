@@ -19,7 +19,6 @@
   };
 
   plugins = {
-
     # UI
     web-devicons.enable = true;
     lualine.enable = true;
@@ -76,7 +75,7 @@
     lazygit.enable = true;
   };
   keymaps = [
-    # Open lazygit within nvim. 
+    # Open lazygit within nvim.
     {
       action = "<cmd>LazyGit<CR>";
       key = "<leader>gg";

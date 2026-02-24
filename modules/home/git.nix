@@ -1,5 +1,4 @@
-{ config, ... }:
-{
+{config, ...}: {
   home.shellAliases = {
     g = "git";
     lg = "lazygit";
@@ -11,7 +10,10 @@
       enable = true;
       userName = config.me.fullname;
       userEmail = config.me.email;
-      ignores = [ "*~" "*.swp" ];
+      ignores = [
+        "*~"
+        "*.swp"
+      ];
       aliases = {
         ci = "commit";
       };
@@ -22,5 +24,4 @@
     };
     lazygit.enable = true;
   };
-
 }

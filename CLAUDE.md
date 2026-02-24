@@ -34,3 +34,7 @@ This is a personal Nix configuration repo based on [nixos-unified-template](http
 **Adding a new host**: create `configurations/darwin/<hostname>.nix` (or nixos equivalent), import `self.darwinModules.default`, set `nixpkgs.hostPlatform` and `networking.hostName`.
 
 **CI** (`vira.hs`): builds on `x86_64-linux` and `aarch64-darwin` via [Vira](https://vira.nixos.asia/).
+
+## Gotchas
+
+**New files must be `git add`-ed before nix flake can see them**: The flake uses `git+file:///` to reference the local path, so untracked files are invisible to Nix. After creating a new `.nix` file, run `git add <file>` before using `nix fmt`, `nix flake check`, etc., or you will get a `does not provide attribute` error.
