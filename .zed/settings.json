@@ -1,0 +1,42 @@
+{
+	"languages": {
+		"JSON": {
+			"formatter": {
+				"language_server": { "name": "biome" }
+			}
+		},
+		"JSONC": {
+			"formatter": {
+				"language_server": { "name": "biome" }
+			}
+		},
+		"Nix": {
+			"formatter": {
+				"external": {
+					"command": "nix",
+					"arguments": ["run", "nixpkgs#alejandra", "--"]
+				}
+			}
+		}
+	},
+	"lsp": {
+		"nixd": {
+			"binary": {
+				"path": "nix",
+				"arguments": ["run", "nixpkgs#nixd", "--"]
+			}
+		},
+		"nil": {
+			"binary": {
+				"path": "nix",
+				"arguments": ["run", "nixpkgs#nil", "--"]
+			}
+		},
+		"biome": {
+			"binary": {
+				"path": "nix",
+				"arguments": ["run", "nixpkgs#biome", "--", "lsp-proxy"]
+			}
+		}
+	}
+}
