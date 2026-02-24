@@ -3,6 +3,7 @@
 {
   imports = [
     ./common
+    ./homebrew.nix
   ];
 
   # Use TouchID for `sudo` authentication
