@@ -58,7 +58,9 @@
       "Bash(nix repl*)",
       "Bash(brew info*)",
       "Bash(brew list*)",
-      "Bash(brew search*)"
+      "Bash(brew search*)",
+      "Skill(commit-commands:commit)",
+      "Skill(commit-commands:commit-push-pr)"
     ]
   }
 }
