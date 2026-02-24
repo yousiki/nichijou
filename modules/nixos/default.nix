@@ -1,15 +1,8 @@
 # This is your nixos configuration.
 # For home configuration, see /modules/home/*
-{flake, ...}: let
-  inherit (flake) inputs;
-in {
+{flake, ...}: {
   imports = [
-    inputs.self.nixosModules.common
-  ];
-
-  nixpkgs.overlays = [
-    # Up-to-date Claude Code package
-    inputs.claude-code.overlays.default
+    flake.inputs.self.nixosModules.common
   ];
 
   services.openssh.enable = true;

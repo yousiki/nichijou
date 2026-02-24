@@ -56,10 +56,4 @@
     # Pin the flake registry to match this flake's inputs
     registry = lib.mkForce (lib.mapAttrs (_: flake: {inherit flake;}) flakeInputs);
   };
-
-  nixpkgs.config = {
-    allowBroken = false;
-    allowUnsupported = false;
-    allowUnfree = true;
-  };
 }

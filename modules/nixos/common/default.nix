@@ -1,6 +1,7 @@
 {
   imports = [
     ./myusers.nix
-    ./nix-settings.nix
+    ./nix.nix
+    ./nixpkgs.nix
   ];
 }
