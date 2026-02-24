@@ -9,10 +9,8 @@ in {
   # Defined by /modules/home/me.nix
   # And used all around in /modules/home/*
   me = {
-    username = "runner";
-    fullname = "John Doe";
-    email = "johndoe@example.com";
+    username = "yousiki";
+    fullname = "yousiki";
+    email = "you.siki@outlook.com";
   };
-
-  home.stateVersion = "24.11";
 }

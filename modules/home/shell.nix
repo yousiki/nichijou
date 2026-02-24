@@ -14,6 +14,13 @@ _: {
       autosuggestion.enable = true;
       syntaxHighlighting.enable = true;
       enableCompletion = true;
+      history = {
+        size = 50000;
+        save = 50000;
+        ignoreAllDups = true;
+        ignoreSpace = true;
+        share = true;
+      };
       envExtra = ''
         # Custom ~/.zshenv goes here
       '';
@@ -29,7 +36,28 @@ _: {
     };
 
     # Type `z <pat>` to cd to some directory
-    zoxide.enable = true;
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    # Fuzzy finder
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    # Modern ls replacement
+    eza = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    # Shell history search (replaces ctrl-r)
+    mcfly = {
+      enable = true;
+      enableZshIntegration = true;
+    };
 
     # Better shell prompt!
     starship = {
