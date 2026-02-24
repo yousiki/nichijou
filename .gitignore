@@ -14,7 +14,6 @@ keys.txt
 
 ### direnv ###
 .direnv
-.envrc
 
 ### Emacs ###
 # -*- mode: gitignore; -*-
