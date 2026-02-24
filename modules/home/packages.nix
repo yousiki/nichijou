@@ -9,8 +9,6 @@
   # Search for packages here: https://search.nixos.org/packages
   home.packages =
     (with pkgs; [
-      omnix
-
       # Unix tools
       ripgrep # Better `grep`
       fd

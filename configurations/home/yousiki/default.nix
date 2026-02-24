@@ -13,6 +13,4 @@ in {
     fullname = "yousiki";
     email = "you.siki@outlook.com";
   };
-
-  home.stateVersion = "25.11";
 }

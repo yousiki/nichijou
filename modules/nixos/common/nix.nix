@@ -1,11 +1,11 @@
 {
   pkgs,
   lib,
-  inputs,
+  flake,
   ...
 }: {
   nix = let
-    flakeInputs = lib.filterAttrs (_: lib.isType "flake") inputs;
+    flakeInputs = lib.filterAttrs (_: lib.isType "flake") flake.inputs;
   in {
     settings = {
       # Allow remote builders to use their own substitutes

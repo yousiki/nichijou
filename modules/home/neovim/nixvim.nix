@@ -59,10 +59,6 @@
     lsp = {
       enable = true;
       servers = {
-        hls = {
-          enable = true;
-          installGhc = false; # Managed by Nix devShell
-        };
         marksman.enable = true;
         nil_ls.enable = true;
         rust_analyzer = {

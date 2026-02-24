@@ -6,6 +6,6 @@
   programs.nixvim =
     import ./nixvim.nix
     // {
-      enable = true;
+      enable = false;
     };
 }

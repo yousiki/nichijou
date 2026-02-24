@@ -23,11 +23,19 @@ in {
       defaultText = "All users under ./configuration/users are included by default";
       default = let
         dirContents = builtins.readDir (self + /configurations/home);
-        fileNames = builtins.attrNames dirContents; # Extracts keys: [ "runner.nix" ]
-        regularFiles = builtins.filter (name: dirContents.${name} == "regular") fileNames; # Filters for regular files
-        baseNames = map (name: builtins.replaceStrings [".nix"] [""] name) regularFiles; # Removes .nix extension
+        # Accept both "user.nix" files and "user/" directories
+        baseNames =
+          lib.mapAttrsToList (
+            name: type:
+              if type == "regular" && lib.hasSuffix ".nix" name
+              then lib.removeSuffix ".nix" name
+              else if type == "directory"
+              then name
+              else null
+          )
+          dirContents;
       in
-        baseNames;
+        builtins.filter (x: x != null) baseNames;
     };
   };
 
@@ -45,8 +53,15 @@ in {
     );
 
     # Enable home-manager for our user
-    home-manager.users = mapListToAttrs config.myusers (name: {
-      imports = [(self + /configurations/home/${name}.nix)];
+    home-manager.users = mapListToAttrs config.myusers (name: let
+      filePath = self + /configurations/home/${name}.nix;
+      dirPath = self + /configurations/home/${name};
+      path =
+        if builtins.pathExists filePath
+        then filePath
+        else dirPath;
+    in {
+      imports = [path];
     });
 
     # All users can add Nix caches.
