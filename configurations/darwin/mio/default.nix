@@ -6,6 +6,7 @@
 in {
   imports = [
     self.darwinModules.default
+    self.darwinModules.sops
     ./homebrew.nix
   ];
 

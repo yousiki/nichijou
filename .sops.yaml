@@ -1,0 +1,7 @@
+keys:
+  - &yousiki_mio age1qaq9ury5jqdu2tn3zgea0e0vz6a5ztm4g56tl64puckwl46fddwq337z5q
+creation_rules:
+  - path_regex: secrets/.*
+    key_groups:
+      - age:
+          - *yousiki_mio

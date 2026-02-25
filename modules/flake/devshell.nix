@@ -5,7 +5,11 @@
       meta.description = "Shell environment for modifying this Nix configuration";
       packages = with pkgs; [
         just
-        nixd
+
+        # Secrets management
+        sops
+        age
+        ssh-to-age
       ];
     };
   };

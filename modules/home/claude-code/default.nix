@@ -7,8 +7,9 @@
   selfPackages = flake.inputs.self.packages.${pkgs.system};
 
   plugins = [
-    selfPackages.claude-code-plugin-superpowers
     selfPackages.claude-code-plugin-astral
+    selfPackages.claude-code-plugin-context7
+    selfPackages.claude-code-plugin-superpowers
   ];
 
   basePackage = pkgs.claude-code;
