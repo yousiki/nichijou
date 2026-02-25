@@ -1,0 +1,13 @@
+{
+  "tabWidth": 2,
+  "printWidth": 80,
+  "overrides": [
+    {
+      "files": ["*.jsonc"],
+      "options": {
+        "parser": "json",
+        "trailingComma": "none"
+      }
+    }
+  ]
+}

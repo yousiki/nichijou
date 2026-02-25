@@ -1,42 +1,50 @@
 {
-	"languages": {
-		"JSON": {
-			"formatter": {
-				"language_server": { "name": "biome" }
-			}
-		},
-		"JSONC": {
-			"formatter": {
-				"language_server": { "name": "biome" }
-			}
-		},
-		"Nix": {
-			"formatter": {
-				"external": {
-					"command": "nix",
-					"arguments": ["run", "nixpkgs#alejandra", "--"]
-				}
-			}
-		}
-	},
-	"lsp": {
-		"nixd": {
-			"binary": {
-				"path": "nix",
-				"arguments": ["run", "nixpkgs#nixd", "--"]
-			}
-		},
-		"nil": {
-			"binary": {
-				"path": "nix",
-				"arguments": ["run", "nixpkgs#nil", "--"]
-			}
-		},
-		"biome": {
-			"binary": {
-				"path": "nix",
-				"arguments": ["run", "nixpkgs#biome", "--", "lsp-proxy"]
-			}
-		}
-	}
+  "languages": {
+    "Nix": {
+      "formatter": {
+        "external": {
+          "command": "nix",
+          "arguments": ["run", "nixpkgs#alejandra", "--"]
+        }
+      }
+    },
+    "JSON": {
+      "formatter": "prettier"
+    },
+    "JSONC": {
+      "formatter": "prettier"
+    }
+  },
+  "file_types": {
+    "JSON": [".prettierrc"]
+  },
+  "prettier": {
+    "allowed": true
+  },
+  "lsp": {
+    "nixd": {
+      "binary": {
+        "path": "nix",
+        "arguments": ["run", "nixpkgs#nixd", "--"]
+      }
+    },
+    "nil": {
+      "binary": {
+        "path": "nix",
+        "arguments": ["run", "nixpkgs#nil", "--"]
+      }
+    },
+    "json-language-server": {
+      "settings": {
+        "json": {
+          "schemas": [
+            {
+              "fileMatch": [".claude/*.json"],
+              "url": "https://www.schemastore.org/claude-code-settings.json"
+            }
+          ]
+        }
+      }
+    }
+  }
 }

@@ -9,7 +9,8 @@
       programs.deadnix.enable = true;
       programs.statix.enable = true;
       # JSON / JSONC
-      programs.biome.enable = true;
+      programs.prettier.enable = true;
+      programs.prettier.includes = ["*.json" "*.jsonc"];
     };
   };
 }
