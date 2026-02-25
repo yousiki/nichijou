@@ -28,6 +28,13 @@ in {
   programs.claude-code = {
     enable = true;
     package = wrappedPackage;
+    mcpServers = {
+      nixos = {
+        type = "stdio";
+        command = lib.getExe flake.inputs.mcp-nixos.packages.${pkgs.system}.mcp-nixos;
+        args = [];
+      };
+    };
     settings = {
       env = {
         CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";

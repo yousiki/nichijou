@@ -42,6 +42,9 @@
     # Secrets management
     sops-nix.url = "github:mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # MCP server for NixOS/HomeManager/nix-darwin
+    mcp-nixos.url = "github:utensils/mcp-nixos";
   };
 
   # Wired using https://nixos-unified.org/guide/autowiring
