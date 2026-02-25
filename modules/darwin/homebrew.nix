@@ -31,7 +31,9 @@ in {
       upgrade = false;
     };
 
-    taps = [];
+    taps = [
+      "buo/cask-upgrade" # Upgrading every outdated cask
+    ];
     brews = [];
     casks = [];
   };
