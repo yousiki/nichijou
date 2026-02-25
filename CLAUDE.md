@@ -33,7 +33,9 @@ This is a personal Nix configuration repo based on [nixos-unified-template](http
 
 **Adding a new host**: create `configurations/darwin/<hostname>.nix` (or nixos equivalent), import `self.darwinModules.default`, set `nixpkgs.hostPlatform` and `networking.hostName`.
 
-**CI** (`vira.hs`): builds on `x86_64-linux` and `aarch64-darwin` via [Vira](https://vira.nixos.asia/).
+## Command Execution
+
+**Prefer allowed commands to minimize permission prompts**: Use commands from the settings allow-list whenever possible. Avoid combining commands with `|` or `$()` — even two individually allowed commands require user approval when piped together. Instead, split compound operations into multiple sequential commands.
 
 ## Gotchas
 
