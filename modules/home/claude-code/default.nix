@@ -36,8 +36,130 @@ in {
       };
     };
     settings = {
+      theme = "dark";
       env = {
         CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = "1";
+      };
+      sandbox = {
+        enabled = true;
+        network = {
+          allowedDomains = [
+            "api.github.com"
+          ];
+        };
+      };
+      permissions = {
+        allow = [
+          # Built-in tools
+          "Read"
+          "Glob"
+          "Grep"
+          "WebFetch"
+          "WebSearch"
+          # Skills
+          "Skill(commit-commands:commit)"
+          "Skill(commit-commands:commit-push-pr)"
+          # File viewing
+          "Bash(cat *)"
+          "Bash(head *)"
+          "Bash(tail *)"
+          "Bash(wc *)"
+          "Bash(file *)"
+          "Bash(stat *)"
+          # Directory listing
+          "Bash(ls)"
+          "Bash(ls *)"
+          "Bash(tree)"
+          "Bash(tree *)"
+          "Bash(pwd)"
+          # Search
+          "Bash(find *)"
+          "Bash(fd *)"
+          "Bash(grep *)"
+          "Bash(rg *)"
+          "Bash(which *)"
+          "Bash(type *)"
+          # Text processing
+          "Bash(echo *)"
+          "Bash(sort *)"
+          "Bash(uniq *)"
+          "Bash(cut *)"
+          "Bash(tr *)"
+          "Bash(awk *)"
+          "Bash(jq *)"
+          "Bash(printf *)"
+          # Path utilities
+          "Bash(realpath *)"
+          "Bash(dirname *)"
+          "Bash(basename *)"
+          # System info
+          "Bash(uname *)"
+          "Bash(whoami)"
+          "Bash(id)"
+          "Bash(env)"
+          "Bash(printenv)"
+          "Bash(printenv *)"
+          "Bash(hostname)"
+          "Bash(date)"
+          "Bash(date *)"
+          # Disk & process info
+          "Bash(df)"
+          "Bash(df *)"
+          "Bash(du *)"
+          "Bash(ps)"
+          "Bash(ps *)"
+          "Bash(pgrep *)"
+          # Checksums
+          "Bash(shasum *)"
+          "Bash(md5 *)"
+          # Git (read-only)
+          "Bash(git status)"
+          "Bash(git status *)"
+          "Bash(git log)"
+          "Bash(git log *)"
+          "Bash(git diff)"
+          "Bash(git diff *)"
+          "Bash(git show *)"
+          "Bash(git branch)"
+          "Bash(git branch *)"
+          "Bash(git remote)"
+          "Bash(git remote *)"
+          "Bash(git stash list)"
+          "Bash(git rev-parse *)"
+          "Bash(git describe *)"
+          "Bash(git tag)"
+          "Bash(git tag *)"
+          "Bash(git ls-files)"
+          "Bash(git ls-files *)"
+          "Bash(git blame *)"
+          # Nix (read-only)
+          "Bash(nix eval *)"
+          "Bash(nix flake show)"
+          "Bash(nix flake show *)"
+          "Bash(nix flake metadata)"
+          "Bash(nix flake metadata *)"
+          "Bash(nix search *)"
+          "Bash(nix path-info *)"
+          "Bash(nix why-depends *)"
+          "Bash(nix store *)"
+          "Bash(nix hash *)"
+          "Bash(nix derivation show *)"
+          "Bash(nix log *)"
+          # GitHub CLI (read-only)
+          "Bash(gh api *)"
+          "Bash(gh pr list)"
+          "Bash(gh pr list *)"
+          "Bash(gh pr view *)"
+          "Bash(gh issue list)"
+          "Bash(gh issue list *)"
+          "Bash(gh issue view *)"
+          "Bash(gh repo view *)"
+          # Homebrew (read-only)
+          "Bash(brew info *)"
+          "Bash(brew list)"
+          "Bash(brew list *)"
+          "Bash(brew search *)"
+        ];
       };
     };
   };
