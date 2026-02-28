@@ -8,6 +8,7 @@
 
   plugins = [
     selfPackages.claude-code-plugin-astral
+    selfPackages.claude-code-plugin-commit-commands
     selfPackages.claude-code-plugin-context7
     selfPackages.claude-code-plugin-superpowers
   ];
@@ -28,13 +29,7 @@ in {
   programs.claude-code = {
     enable = true;
     package = wrappedPackage;
-    mcpServers = {
-      nixos = {
-        type = "stdio";
-        command = lib.getExe flake.inputs.mcp-nixos.packages.${pkgs.system}.mcp-nixos;
-        args = [];
-      };
-    };
+    enableMcpIntegration = true;
     settings = {
       theme = "dark";
       env = {
@@ -44,7 +39,10 @@ in {
         enabled = true;
         network = {
           allowedDomains = [
-            "api.github.com"
+            # GitHub
+            "github.com"
+            "*.github.com"
+            "raw.githubusercontent.com"
           ];
         };
       };
