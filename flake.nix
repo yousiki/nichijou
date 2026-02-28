@@ -41,6 +41,9 @@
     # OpenCode
     opencode.url = "github:anomalyco/opencode";
 
+    # MCP for NixOS
+    mcp-nixos.url = "github:utensils/mcp-nixos";
+
     # Secrets management
     sops-nix.url = "github:mic92/sops-nix";
     sops-nix.inputs.nixpkgs.follows = "nixpkgs";
