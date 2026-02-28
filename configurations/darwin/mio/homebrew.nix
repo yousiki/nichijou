@@ -24,6 +24,7 @@ _: {
     "raycast"
     "rectangle"
     "spotify"
+    "superset"
     "tailscale-app"
     "telegram"
     "tencent-meeting"

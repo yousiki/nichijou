@@ -8,8 +8,18 @@
 
   plugins = [
     selfPackages.claude-code-plugin-astral
+    selfPackages.claude-code-plugin-claude-code-setup
+    selfPackages.claude-code-plugin-claude-md-management
+    selfPackages.claude-code-plugin-code-review
+    selfPackages.claude-code-plugin-code-simplifier
     selfPackages.claude-code-plugin-commit-commands
     selfPackages.claude-code-plugin-context7
+    selfPackages.claude-code-plugin-feature-dev
+    selfPackages.claude-code-plugin-hookify
+    selfPackages.claude-code-plugin-plugin-dev
+    selfPackages.claude-code-plugin-pr-review-toolkit
+    selfPackages.claude-code-plugin-ralph-loop
+    selfPackages.claude-code-plugin-skill-creator
     selfPackages.claude-code-plugin-superpowers
   ];
 
