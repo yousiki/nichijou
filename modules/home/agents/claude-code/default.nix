@@ -10,16 +10,27 @@
     selfPackages.claude-code-plugin-astral
     selfPackages.claude-code-plugin-claude-code-setup
     selfPackages.claude-code-plugin-claude-md-management
+    selfPackages.claude-code-plugin-clangd-lsp
     selfPackages.claude-code-plugin-code-review
     selfPackages.claude-code-plugin-code-simplifier
     selfPackages.claude-code-plugin-commit-commands
     selfPackages.claude-code-plugin-context7
+    selfPackages.claude-code-plugin-csharp-lsp
     selfPackages.claude-code-plugin-feature-dev
+    selfPackages.claude-code-plugin-gopls-lsp
     selfPackages.claude-code-plugin-hookify
+    selfPackages.claude-code-plugin-jdtls-lsp
+    selfPackages.claude-code-plugin-kotlin-lsp
+    selfPackages.claude-code-plugin-lua-lsp
+    selfPackages.claude-code-plugin-php-lsp
     selfPackages.claude-code-plugin-pr-review-toolkit
+    selfPackages.claude-code-plugin-pyright-lsp
     selfPackages.claude-code-plugin-ralph-loop
+    selfPackages.claude-code-plugin-rust-analyzer-lsp
     selfPackages.claude-code-plugin-skill-creator
     selfPackages.claude-code-plugin-superpowers
+    selfPackages.claude-code-plugin-swift-lsp
+    selfPackages.claude-code-plugin-typescript-lsp
   ];
 
   basePackage = pkgs.claude-code;

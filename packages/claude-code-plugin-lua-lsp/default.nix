@@ -5,14 +5,14 @@
   nix-update-script,
 }:
 stdenvNoCC.mkDerivation {
-  pname = "claude-code-plugin-astral";
-  version = "unstable-2026-02-27";
+  pname = "claude-code-plugin-lua-lsp";
+  version = "unstable-2026-02-25";
 
   src = fetchFromGitHub {
-    owner = "astral-sh";
-    repo = "claude-code-plugins";
-    rev = "f3ce88a7ba830f53afd6d944c1d0278ed318e142";
-    hash = "sha256-yQ8R2R95QFXjYYbwAN0NdySObo8S2Cf/TecOQ9Ucr/A=";
+    owner = "anthropics";
+    repo = "claude-plugins-official";
+    rev = "55b58ec6e5649104f926ba7558b567dc8d33c5ff";
+    hash = "sha256-pcMIh9sgdMDs0dlc0POomxnPOLoP5/EOdCGMKoESmoc=";
   };
 
   dontBuild = true;
@@ -21,7 +21,7 @@ stdenvNoCC.mkDerivation {
     runHook preInstall
 
     mkdir -p $out
-    cp -r plugins/astral/. $out/
+    cp -r plugins/lua-lsp/. $out/
 
     runHook postInstall
   '';
@@ -35,8 +35,8 @@ stdenvNoCC.mkDerivation {
   };
 
   meta = {
-    description = "Claude Code plugin for Python development with Astral tools (ruff, ty, uv)";
-    homepage = "https://github.com/astral-sh/claude-code-plugins";
+    description = "Claude Code plugin for Lua development with language server support";
+    homepage = "https://github.com/anthropics/claude-plugins-official";
     license = lib.licenses.mit;
     maintainers = [];
     platforms = lib.platforms.all;

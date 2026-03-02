@@ -5,14 +5,14 @@
   nix-update-script,
 }:
 stdenvNoCC.mkDerivation {
-  pname = "claude-code-plugin-context7";
+  pname = "claude-code-plugin-gopls-lsp";
   version = "unstable-2026-02-25";
 
   src = fetchFromGitHub {
-    owner = "upstash";
-    repo = "context7";
-    rev = "dfe9863f306b12e488196d6f90623979fba172bf";
-    hash = "sha256-2Lty599xhkk8/AXrFKkY1sLZWMjAXpCSdT30jgwXeg0=";
+    owner = "anthropics";
+    repo = "claude-plugins-official";
+    rev = "55b58ec6e5649104f926ba7558b567dc8d33c5ff";
+    hash = "sha256-pcMIh9sgdMDs0dlc0POomxnPOLoP5/EOdCGMKoESmoc=";
   };
 
   dontBuild = true;
@@ -21,9 +21,7 @@ stdenvNoCC.mkDerivation {
     runHook preInstall
 
     mkdir -p $out
-    cp -r plugins/claude/context7/. $out/
-    cp -r plugins/claude/context7/.claude-plugin $out/
-    cp plugins/claude/context7/.mcp.json $out/
+    cp -r plugins/gopls-lsp/. $out/
 
     runHook postInstall
   '';
@@ -37,8 +35,8 @@ stdenvNoCC.mkDerivation {
   };
 
   meta = {
-    description = "Claude Code plugin for Context7 — up-to-date documentation lookup via MCP";
-    homepage = "https://github.com/upstash/context7";
+    description = "Claude Code plugin for Go development with gopls language server (code intelligence, refactoring, analysis)";
+    homepage = "https://github.com/anthropics/claude-plugins-official";
     license = lib.licenses.mit;
     maintainers = [];
     platforms = lib.platforms.all;
