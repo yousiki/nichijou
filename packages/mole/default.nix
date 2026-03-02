@@ -7,7 +7,7 @@
 }:
 buildGoModule rec {
   pname = "mole";
-  version = "1.27.0";
+  version = "1.28.1";
 
   src = fetchFromGitHub {
     owner = "tw93";

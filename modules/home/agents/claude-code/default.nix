@@ -16,7 +16,6 @@
     selfPackages.claude-code-plugin-context7
     selfPackages.claude-code-plugin-feature-dev
     selfPackages.claude-code-plugin-hookify
-    selfPackages.claude-code-plugin-plugin-dev
     selfPackages.claude-code-plugin-pr-review-toolkit
     selfPackages.claude-code-plugin-ralph-loop
     selfPackages.claude-code-plugin-skill-creator
