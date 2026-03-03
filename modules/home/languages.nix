@@ -11,6 +11,6 @@
     rustup
   ];
 
-  # Make rustup-managed binaries (rustc, cargo, clippy…) available in PATH
-  home.sessionPath = ["$HOME/.cargo/bin"];
+  # Make user-managed language tool binaries available in PATH
+  home.sessionPath = ["$HOME/.bun/bin" "$HOME/.cargo/bin"];
 }
