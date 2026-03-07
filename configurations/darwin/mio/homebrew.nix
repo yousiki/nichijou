@@ -12,7 +12,6 @@ _: {
     "codex-app"
     "font-caskaydia-cove-nerd-font"
     "font-maple-mono-nf-cn"
-    "ghostty"
     "google-chrome"
     "iina"
     "keepingyouawake"
