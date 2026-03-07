@@ -7,16 +7,16 @@
 }:
 buildGoModule rec {
   pname = "mole";
-  version = "1.28.1";
+  version = "1.29.0";
 
   src = fetchFromGitHub {
     owner = "tw93";
     repo = "Mole";
     rev = "V${version}";
-    hash = "sha256-7a5oQfJJIESjit+gl7FrbkT5wptxBhhWuTLCpULlQ6w=";
+    hash = "sha256-pnV7xZ49dZhdh6uVMGILwTsKg2hnlFRxe4U2w4zdEag=";
   };
 
-  vendorHash = "sha256-OKM5rmbLxqh5Khw5BlR/gPJlwmQhklGdZst92aUTZhM=";
+  vendorHash = "sha256-oepnMZcaTB9u3h6S0jcP4W0pqNkDDgETVqDdCL0jarM=";
 
   passthru.updateScript = nix-update-script {
     extraArgs = [

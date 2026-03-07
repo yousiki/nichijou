@@ -6,13 +6,13 @@
 }:
 stdenvNoCC.mkDerivation {
   pname = "claude-code-plugin-pyright-lsp";
-  version = "unstable-2026-02-25";
+  version = "unstable-2026-03-04";
 
   src = fetchFromGitHub {
     owner = "anthropics";
     repo = "claude-plugins-official";
-    rev = "55b58ec6e5649104f926ba7558b567dc8d33c5ff";
-    hash = "sha256-pcMIh9sgdMDs0dlc0POomxnPOLoP5/EOdCGMKoESmoc=";
+    rev = "205b6e0b30366a969412d9aab7b99bea99d58db1";
+    hash = "sha256-0iZO5ZS0BO0LKkCDxwk+H07w/re7+w84X17h3GH23eM=";
   };
 
   dontBuild = true;

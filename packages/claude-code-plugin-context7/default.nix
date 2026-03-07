@@ -6,13 +6,13 @@
 }:
 stdenvNoCC.mkDerivation {
   pname = "claude-code-plugin-context7";
-  version = "unstable-2026-02-25";
+  version = "unstable-2026-03-06";
 
   src = fetchFromGitHub {
     owner = "upstash";
     repo = "context7";
-    rev = "dfe9863f306b12e488196d6f90623979fba172bf";
-    hash = "sha256-2Lty599xhkk8/AXrFKkY1sLZWMjAXpCSdT30jgwXeg0=";
+    rev = "c796a74ee421b80122a3aefda7e016576652509f";
+    hash = "sha256-vT26oWQI+J7s/0YBEQw9Db2eSNKTJ2i8ojntFzYyuvQ=";
   };
 
   dontBuild = true;
