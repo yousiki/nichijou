@@ -38,6 +38,9 @@
     # Claude Code
     claude-code.url = "github:sadjow/claude-code-nix";
 
+    # Codex CLI
+    codex-cli-nix.url = "github:sadjow/codex-cli-nix";
+
     # OpenCode
     opencode.url = "github:anomalyco/opencode";
 

@@ -9,7 +9,6 @@ _: {
     "clash-party"
     "claude"
     "cloudflare-warp"
-    "codex"
     "codex-app"
     "font-caskaydia-cove-nerd-font"
     "font-maple-mono-nf-cn"
