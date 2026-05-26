@@ -21,6 +21,7 @@ Install these desktop applications:
 - `monitorcontrol`
 - `slack`
 - `zoom-us`
+- `zed-editor`
 
 Do not install these applications in this change:
 
@@ -45,6 +46,7 @@ pkgs._1password-gui
 pkgs.monitorcontrol
 pkgs.slack
 pkgs.zoom-us
+pkgs.zed-editor
 ```
 
 Use `brew-nix` for DockDoor:
@@ -56,6 +58,8 @@ pkgs.brewCasks.dockdoor
 `dockdoor` was checked in the current `sakurai` nix-darwin package set. `pkgs.brewCasks.dockdoor` exists, evaluates as `dockdoor-1.38.1`, supports `aarch64-darwin`, is not marked broken, has a fixed SHA-256 source hash, and builds successfully with the locked inputs.
 
 Do not add DockDoor to `homebrew.casks` unless `brew-nix` breaks in a future lock update.
+
+Zed should use the nixpkgs package `pkgs.zed-editor`, not `pkgs.zed`. The `pkgs.zed` attribute is a different data tool. `pkgs.zed-editor` was checked in the current `sakurai` nix-darwin package set, evaluates as `zed-editor-1.3.6`, supports `aarch64-darwin`, is not marked broken, and builds successfully with the locked inputs.
 
 ## Module Structure
 
@@ -118,6 +122,7 @@ Implementation should verify at least:
 ```bash
 nix eval --impure --json --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; pkgs = flake.darwinConfigurations.sakurai.pkgs; in builtins.hasAttr "dockdoor" pkgs.brewCasks'
 nix build --impure --no-link --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; in flake.darwinConfigurations.sakurai.pkgs.brewCasks.dockdoor'
+nix build --impure --no-link --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; in flake.darwinConfigurations.sakurai.pkgs.zed-editor'
 darwin-rebuild build --flake .#sakurai
 ```
 
@@ -128,6 +133,6 @@ If `darwin-rebuild build` is too expensive, run the most targeted Home Manager b
 - Do not add `stats`.
 - Do not add Firefox; Brave is the selected browser.
 - Do not add Discord.
-- Do not add VS Code or Cursor in this change.
+- Do not add VS Code or Cursor in this change; Zed is the selected GUI code editor.
 - Do not configure app preferences unless the app has an existing first-class Home Manager module or a clear, stable declarative settings interface.
 - Do not add selected apps to nix-darwin `homebrew.casks` while nixpkgs or `brew-nix` package references work.
