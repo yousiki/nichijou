@@ -11,8 +11,6 @@ let
   });
 in
 {
-  targets.darwin.linkApps.enable = true;
-
   home.packages = with pkgs; [
     raycast
     rectangle
