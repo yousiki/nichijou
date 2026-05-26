@@ -27,7 +27,6 @@ Install these desktop applications:
 - `orbstack`
 - `slack`
 - `spotify`
-- `tailscale-app`
 - `thaw`
 - `zoom-us`
 - `zed-editor`
@@ -70,7 +69,6 @@ pkgs.brewCasks.dockdoor
 pkgs.brewCasks.keepingyouawake
 pkgs.brewCasks.keka
 pkgs.brewCasks.linearmouse
-pkgs.brewCasks.tailscale-app
 pkgs.brewCasks.thaw
 pkgs.brewCasks.zotero
 ```
@@ -89,13 +87,20 @@ The additional requested apps were checked in the current `sakurai` nix-darwin p
 
 - `pkgs.spotify` evaluates as `spotify-1.2.89.539`, supports `aarch64-darwin`, and enters a dry-run build plan. The `brew-nix` `spotify` cask currently has a placeholder hash, so use nixpkgs instead.
 - `pkgs.orbstack` evaluates as `orbstack-2.1.3-20115`, supports `aarch64-darwin`, and enters a dry-run build plan. A `brew-nix` cask also exists at the same upstream version, but nixpkgs is sufficient here.
-- `pkgs.brewCasks.zotero` evaluates as `zotero-9.0.4`, supports `aarch64-darwin`, has a fixed SHA-256 source hash, and enters a dry-run build plan. Prefer this over `pkgs.zotero` because the nixpkgs package would trigger a large source build.
+- `pkgs.brewCasks.zotero` evaluates as `zotero-9.0.4`, supports `aarch64-darwin`, has a fixed SHA-256 source hash, and enters a dry-run build plan. Prefer this over `pkgs.zotero` for now because the current `aarch64-darwin` nixpkgs output is not available from the checked binary caches and would trigger a large source build. Switch Zotero back to `pkgs.zotero` later if a suitable binary cache is added or the current output becomes cached.
 - `pkgs.brewCasks.thaw` evaluates as `thaw-1.2.0`, supports `aarch64-darwin`, has a fixed SHA-256 source hash, and enters a dry-run build plan.
-- `pkgs.brewCasks.tailscale-app` evaluates as `tailscale-app-1.98.2`, supports `aarch64-darwin`, has a fixed SHA-256 source hash, and enters a dry-run build plan. Prefer this exact app cask over `pkgs.tailscale-gui`, which is older in the current lock.
 - `pkgs.brewCasks.linearmouse` evaluates as `linearmouse-0.11.2`, supports `aarch64-darwin`, has a fixed SHA-256 source hash, and enters a dry-run build plan.
 - `pkgs.brewCasks.keka` evaluates as `keka-1.6.4`, supports `aarch64-darwin`, has a fixed SHA-256 source hash, and enters a dry-run build plan. Prefer this over the older nixpkgs `keka` package in the current lock.
 - `pkgs.brewCasks.cloudflare-warp` evaluates as `cloudflare-warp-2026.4.1350.0`, supports `aarch64-darwin`, has a fixed SHA-256 source hash, and enters a dry-run build plan. Prefer this over the older nixpkgs `cloudflare-warp` package in the current lock.
 - `pkgs.brewCasks.chatgpt-atlas` evaluates as `chatgpt-atlas-1.2026.119.1-20260504231115000`, supports `aarch64-darwin`, has a fixed SHA-256 source hash, and enters a dry-run build plan. The nixpkgs `chatgpt` package is the ChatGPT desktop app, not the Atlas browser.
+
+Do not install Tailscale as a desktop app. The most Nix-native path is the nix-darwin Tailscale service:
+
+```nix
+services.tailscale.enable = true;
+```
+
+The nix-darwin option `services.tailscale.enable` exists and enables the Tailscale client daemon. Add a Darwin module for this service instead of adding `pkgs.tailscale-gui`, `pkgs.brewCasks.tailscale-app`, or a Home Manager desktop package.
 
 ## Module Structure
 
@@ -109,6 +114,24 @@ nix/modules/home/
   programs/
     desktop-apps.nix
     kitty.nix
+```
+
+Add a new Darwin module for the system-level Tailscale daemon:
+
+```text
+nix/modules/darwin/
+  tailscale.nix
+```
+
+The current `sakurai` Darwin host should import this module through Blueprint:
+
+```nix
+imports = [
+  flake.darwinModules.common
+  flake.darwinModules.nix
+  flake.darwinModules.homebrew
+  flake.darwinModules.tailscale
+];
 ```
 
 `desktop.nix` should import both desktop modules:
@@ -141,6 +164,7 @@ flake.nix
       -> home/desktop.nix imports programs/desktop-apps.nix
         -> desktop-apps.nix adds nixpkgs GUI apps and selected pkgs.brewCasks apps
           -> targets.darwin.linkApps links .app bundles into the user environment
+      -> darwin/tailscale.nix enables services.tailscale
 ```
 
 ## Error Handling
@@ -149,7 +173,7 @@ If a nixpkgs GUI package is removed or renamed, Home Manager evaluation should f
 
 If `brew-nix` removes any selected cask or changes its packaging behavior, Home Manager evaluation or build should fail at the corresponding `pkgs.brewCasks` reference. The fallback is nix-darwin `homebrew.casks`, but that should be a deliberate future change rather than the default for this implementation.
 
-The current dry-run emits `nativeBuildInputs` deprecation warnings for the `tailscale-app` and `cloudflare-warp` brew-nix casks. They are warnings in the current lock, not build failures. If a future nixpkgs release turns them into failures before `brew-nix` fixes them, move those apps to nix-darwin `homebrew.casks`.
+The current dry-run emits a `nativeBuildInputs` deprecation warning for the `cloudflare-warp` brew-nix cask. It is a warning in the current lock, not a build failure. If a future nixpkgs release turns it into a failure before `brew-nix` fixes it, move Cloudflare WARP to nix-darwin `homebrew.casks`.
 
 Some GUI apps may require macOS privacy permissions, login item approval, browser sign-in, or app-specific first-run setup after activation. Nix can install them but cannot complete those runtime approvals.
 
@@ -163,7 +187,8 @@ nix eval --impure --json --expr 'let flake = builtins.getFlake "git+file:///priv
 nix build --impure --no-link --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; in flake.darwinConfigurations.sakurai.pkgs.brewCasks.dockdoor'
 nix build --impure --no-link --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; in flake.darwinConfigurations.sakurai.pkgs.brewCasks.keepingyouawake'
 nix build --impure --no-link --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; in flake.darwinConfigurations.sakurai.pkgs.zed-editor'
-nix build --impure --dry-run --no-link --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; pkgs = flake.darwinConfigurations.sakurai.pkgs; in pkgs.symlinkJoin { name = "selected-new-desktop-apps-dry-run"; paths = [ pkgs.spotify pkgs.orbstack pkgs.brewCasks.zotero pkgs.brewCasks.thaw pkgs.brewCasks.tailscale-app pkgs.brewCasks.linearmouse pkgs.brewCasks.keka pkgs.brewCasks.cloudflare-warp pkgs.brewCasks.chatgpt-atlas ]; }'
+nix build --impure --dry-run --no-link --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; pkgs = flake.darwinConfigurations.sakurai.pkgs; in pkgs.symlinkJoin { name = "selected-new-desktop-apps-dry-run"; paths = [ pkgs.spotify pkgs.orbstack pkgs.brewCasks.zotero pkgs.brewCasks.thaw pkgs.brewCasks.linearmouse pkgs.brewCasks.keka pkgs.brewCasks.cloudflare-warp pkgs.brewCasks.chatgpt-atlas ]; }'
+nix eval --impure --json .#darwinConfigurations.sakurai.config.services.tailscale.enable
 darwin-rebuild build --flake .#sakurai
 ```
 
@@ -174,6 +199,7 @@ If `darwin-rebuild build` is too expensive, run the most targeted Home Manager b
 - Do not add `stats`.
 - Do not add Firefox; Brave is the selected browser.
 - Do not add Discord.
+- Do not add Tailscale as a GUI desktop app; use the nix-darwin Tailscale daemon.
 - Do not add VS Code or Cursor in this change; Zed is the selected GUI code editor.
 - Do not configure app preferences unless the app has an existing first-class Home Manager module or a clear, stable declarative settings interface.
 - Do not add selected apps to nix-darwin `homebrew.casks` while nixpkgs or `brew-nix` package references work.
