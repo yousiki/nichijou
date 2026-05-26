@@ -5,5 +5,9 @@
     pkgs.vim
   ];
 
+  fonts.packages = [
+    pkgs.maple-mono.NF-CN-unhinted
+  ];
+
   programs.zsh.enable = true;
 }

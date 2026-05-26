@@ -49,7 +49,8 @@
     };
   };
 
-  outputs = inputs:
+  outputs =
+    inputs:
     inputs.blueprint {
       inherit inputs;
       prefix = "nix/";
@@ -64,10 +65,10 @@
 
       nixpkgs.overlays = [
         inputs.claude-code.overlays.default
-        (final: prev:
-          if prev.stdenv.hostPlatform.isDarwin
-          then inputs.brew-nix.overlays.default final prev
-          else { })
+        (
+          final: prev:
+          if prev.stdenv.hostPlatform.isDarwin then inputs.brew-nix.overlays.default final prev else { }
+        )
       ];
     };
 }
