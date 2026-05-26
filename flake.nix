@@ -19,6 +19,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    claude-code = {
+      url = "github:sadjow/claude-code-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
     brew-api = {
@@ -58,6 +63,7 @@
       nixpkgs.config.allowUnfree = true;
 
       nixpkgs.overlays = [
+        inputs.claude-code.overlays.default
         (final: prev:
           if prev.stdenv.hostPlatform.isDarwin
           then inputs.brew-nix.overlays.default final prev
