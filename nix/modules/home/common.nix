@@ -1,6 +1,8 @@
 { pkgs, ... }:
 
 {
+  home.enableNixpkgsReleaseCheck = false;
+
   home.packages = [
     pkgs.git
   ];
