@@ -33,7 +33,9 @@
       brewfile = true;
     };
 
-    casks = [ ];
+    casks = [
+      "cloudflare-warp"
+    ];
     brews = [ ];
   };
 }
