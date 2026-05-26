@@ -5,6 +5,7 @@
     flake.darwinModules.common
     flake.darwinModules.nix
     flake.darwinModules.homebrew
+    flake.darwinModules.tailscale
   ];
 
   networking.hostName = hostName;
