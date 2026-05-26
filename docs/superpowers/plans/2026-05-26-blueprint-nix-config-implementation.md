@@ -326,7 +326,7 @@ Expected: commit succeeds and includes only the Darwin host and Darwin module fi
 Run:
 
 ```bash
-nix eval --extra-experimental-features 'nix-command flakes' --no-write-lock-file .#homeModules.common --apply 'x: builtins.isAttrs x'
+nix eval --extra-experimental-features 'nix-command flakes' --no-write-lock-file .#homeModules.common --apply 'x: builtins.isPath x || builtins.isString x'
 ```
 
 Expected: prints:
@@ -367,7 +367,7 @@ Expected: commit succeeds and includes only the Home Manager files.
 Run:
 
 ```bash
-nix eval --extra-experimental-features 'nix-command flakes' --no-write-lock-file .#nixosModules.common --apply 'x: builtins.isAttrs x'
+nix eval --extra-experimental-features 'nix-command flakes' --no-write-lock-file .#nixosModules.common --apply 'x: builtins.isPath x || builtins.isString x'
 ```
 
 Expected: prints:
