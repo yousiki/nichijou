@@ -18,6 +18,7 @@ Install these desktop applications:
 - `brave`
 - `_1password-gui`
 - `dockdoor`
+- `keepingyouawake`
 - `monitorcontrol`
 - `slack`
 - `zoom-us`
@@ -49,15 +50,20 @@ pkgs.zoom-us
 pkgs.zed-editor
 ```
 
-Use `brew-nix` for DockDoor:
+Use `brew-nix` for apps not available in nixpkgs but available as fixed-output casks:
 
 ```nix
 pkgs.brewCasks.dockdoor
+pkgs.brewCasks.keepingyouawake
 ```
 
 `dockdoor` was checked in the current `sakurai` nix-darwin package set. `pkgs.brewCasks.dockdoor` exists, evaluates as `dockdoor-1.38.1`, supports `aarch64-darwin`, is not marked broken, has a fixed SHA-256 source hash, and builds successfully with the locked inputs.
 
 Do not add DockDoor to `homebrew.casks` unless `brew-nix` breaks in a future lock update.
+
+`keepingyouawake` was checked in the current `sakurai` nix-darwin package set. It is not available as a nixpkgs package, but `pkgs.brewCasks.keepingyouawake` exists, evaluates as `keepingyouawake-1.6.8`, supports `aarch64-darwin`, is not marked broken, has a fixed SHA-256 source hash, and builds successfully with the locked inputs.
+
+Do not add KeepingYouAwake to `homebrew.casks` unless `brew-nix` breaks in a future lock update.
 
 Zed should use the nixpkgs package `pkgs.zed-editor`, not `pkgs.zed`. The `pkgs.zed` attribute is a different data tool. `pkgs.zed-editor` was checked in the current `sakurai` nix-darwin package set, evaluates as `zed-editor-1.3.6`, supports `aarch64-darwin`, is not marked broken, and builds successfully with the locked inputs.
 
@@ -103,7 +109,7 @@ flake.nix
   applies brew-nix overlay on Darwin
     -> sakurai nix-darwin package set exposes pkgs.brewCasks
       -> home/desktop.nix imports programs/desktop-apps.nix
-        -> desktop-apps.nix adds nixpkgs GUI apps and pkgs.brewCasks.dockdoor
+        -> desktop-apps.nix adds nixpkgs GUI apps and selected pkgs.brewCasks apps
           -> targets.darwin.linkApps links .app bundles into the user environment
 ```
 
@@ -111,7 +117,7 @@ flake.nix
 
 If a nixpkgs GUI package is removed or renamed, Home Manager evaluation should fail at the package reference.
 
-If `brew-nix` removes `dockdoor` or changes its packaging behavior, Home Manager evaluation or build should fail at `pkgs.brewCasks.dockdoor`. The fallback is nix-darwin `homebrew.casks = [ "dockdoor" ]`, but that should be a deliberate future change rather than the default for this implementation.
+If `brew-nix` removes `dockdoor` or `keepingyouawake`, or changes their packaging behavior, Home Manager evaluation or build should fail at the corresponding `pkgs.brewCasks` reference. The fallback is nix-darwin `homebrew.casks`, but that should be a deliberate future change rather than the default for this implementation.
 
 Some GUI apps may require macOS privacy permissions, login item approval, browser sign-in, or app-specific first-run setup after activation. Nix can install them but cannot complete those runtime approvals.
 
@@ -121,7 +127,9 @@ Implementation should verify at least:
 
 ```bash
 nix eval --impure --json --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; pkgs = flake.darwinConfigurations.sakurai.pkgs; in builtins.hasAttr "dockdoor" pkgs.brewCasks'
+nix eval --impure --json --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; pkgs = flake.darwinConfigurations.sakurai.pkgs; in builtins.hasAttr "keepingyouawake" pkgs.brewCasks'
 nix build --impure --no-link --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; in flake.darwinConfigurations.sakurai.pkgs.brewCasks.dockdoor'
+nix build --impure --no-link --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; in flake.darwinConfigurations.sakurai.pkgs.brewCasks.keepingyouawake'
 nix build --impure --no-link --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; in flake.darwinConfigurations.sakurai.pkgs.zed-editor'
 darwin-rebuild build --flake .#sakurai
 ```
