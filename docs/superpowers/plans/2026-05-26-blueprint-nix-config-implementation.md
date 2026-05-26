@@ -367,7 +367,7 @@ Expected: commit succeeds and includes only the Home Manager files.
 Run:
 
 ```bash
-nix eval --extra-experimental-features 'nix-command flakes' --no-write-lock-file .#nixosModules.common --apply 'x: builtins.isPath x || builtins.isString x'
+nix eval --extra-experimental-features 'nix-command flakes' --no-write-lock-file .#nixosModules.common --apply 'x: builtins.isAttrs x || builtins.isPath x || builtins.isString x'
 ```
 
 Expected: prints:
