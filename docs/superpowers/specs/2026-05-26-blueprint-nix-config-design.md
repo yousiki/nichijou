@@ -56,6 +56,7 @@ Initial inputs:
 - `home-manager`, following `nixpkgs`.
 - `nix-homebrew`.
 - `brew-nix`.
+- `brew-api`, with `flake = false`, followed by `brew-nix.inputs.brew-api`.
 - `homebrew-core`, with `flake = false`.
 - `homebrew-cask`, with `flake = false`.
 
@@ -97,12 +98,6 @@ Keep Lix as the configured Nix implementation. The Darwin Nix module should set:
 - `nix.settings.experimental-features = [ "nix-command" "flakes" ]`.
 - Trusted users and substituters can be added later when concrete caches are introduced.
 
-## Claude Code
-
-`claude-code` exists in nixpkgs unstable, but it may lag upstream. Do not add a custom overlay in the first implementation. Add a dedicated overlay later after selecting an actively maintained community source with automatic updates.
-
-The initial home module can install nixpkgs `claude-code` only if the user accepts the lag, or leave it out until the overlay decision is made.
-
 ## Secrets
 
 Do not enable secret management initially. Reserve room for:
@@ -125,7 +120,6 @@ Full `nix flake check` may build host closures through Blueprint checks. If it i
 
 ## Non-Goals
 
-- Do not introduce Clan as a base framework in the first implementation.
 - Do not introduce `sops-nix` until there are actual secrets to manage.
 - Do not write a custom host factory unless Blueprint's native host mapping becomes insufficient.
 - Do not use Blueprint `hosts/<host>/default.nix` escape hatches for the initial host unless normal Blueprint mapping cannot express the configuration.
