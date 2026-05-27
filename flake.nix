@@ -57,6 +57,11 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
+
+    homebrew-cmux = {
+      url = "github:manaflow-ai/homebrew-cmux";
+      flake = false;
+    };
   };
 
   outputs =
