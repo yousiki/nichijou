@@ -34,6 +34,7 @@
     };
 
     casks = [
+      "1password"
       "cloudflare-warp"
     ];
     brews = [ ];
