@@ -122,10 +122,11 @@ Install only baseline extensions that support the configuration itself:
 ```nix
 extensions = [
   "catppuccin"
-  "catppuccin-icons"
   "nix"
 ];
 ```
+
+`catppuccin.zed.icons.enable = true` supplies the `catppuccin-icons` extension, so do not list it a second time in `programs.zed-editor.extensions`.
 
 Do not add language extensions for Rust, Go, Python, JavaScript, or other ecosystems in this change. Zed has broad built-in language support, and extra language packages should be added when a real project workflow needs them.
 

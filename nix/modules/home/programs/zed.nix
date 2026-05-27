@@ -25,7 +25,6 @@ in
 
     extensions = [
       "catppuccin"
-      "catppuccin-icons"
       "nix"
     ];
 

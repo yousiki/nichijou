@@ -115,7 +115,6 @@ in
 
     extensions = [
       "catppuccin"
-      "catppuccin-icons"
       "nix"
     ];
 
@@ -317,10 +316,12 @@ Expected: prints `true`.
 
 - [ ] **Step 6: Verify baseline extensions**
 
+`catppuccin.zed.icons.enable = true` supplies `catppuccin-icons`, so the explicit Zed extension list should only contain `catppuccin` and `nix`. The evaluated extension list should still contain `catppuccin-icons` exactly once.
+
 Run:
 
 ```bash
-nix eval --impure --json --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; hm = flake.darwinConfigurations.sakurai.config.home-manager.users.yousiki; exts = hm.programs.zed-editor.extensions; in assert builtins.elem "catppuccin" exts && builtins.elem "catppuccin-icons" exts && builtins.elem "nix" exts; true'
+nix eval --impure --json --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; hm = flake.darwinConfigurations.sakurai.config.home-manager.users.yousiki; exts = hm.programs.zed-editor.extensions; in assert builtins.length exts == 3 && builtins.elem "catppuccin" exts && builtins.elem "catppuccin-icons" exts && builtins.elem "nix" exts; true'
 ```
 
 Expected: prints `true`.
