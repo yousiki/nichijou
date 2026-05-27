@@ -36,7 +36,7 @@ Modify `nix/modules/home/common.nix` to import the nix-index database Home Manag
 ```nix
 imports = [
   inputs.catppuccin.homeModules.catppuccin
-  inputs.nix-index-database.homeModules.default
+  inputs.nix-index-database.homeModules.nix-index
 ];
 ```
 
@@ -73,7 +73,7 @@ When invoked, `comma` uses the nix-index database to find the package providing 
 ```text
 flake.nix
   declares nix-index-database input following nixpkgs
-    -> nix/modules/home/common.nix imports nix-index-database.homeModules.default
+    -> nix/modules/home/common.nix imports nix-index-database.homeModules.nix-index
       -> Home Manager enables programs.nix-index
       -> Home Manager enables programs.nix-index-database.comma
         -> user profile exposes the "," command
