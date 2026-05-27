@@ -58,10 +58,6 @@
       flake = false;
     };
 
-    homebrew-cmux = {
-      url = "github:manaflow-ai/homebrew-cmux";
-      flake = false;
-    };
   };
 
   outputs =

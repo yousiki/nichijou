@@ -18,8 +18,10 @@
 
     brewCasks.chatgpt-atlas
     brewCasks.dockdoor
+    brewCasks.feishu
     brewCasks.keepingyouawake
     brewCasks.linearmouse
+    brewCasks.tencent-meeting
     brewCasks.thaw
     brewCasks.zotero
   ];
