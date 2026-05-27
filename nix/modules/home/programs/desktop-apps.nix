@@ -14,7 +14,6 @@
     slack
     spotify
     zoom-us
-    zed-editor
 
     brewCasks.chatgpt-atlas
     brewCasks.dockdoor
