@@ -8,6 +8,7 @@
     iina
     obsidian
     brave
+    element-desktop
     monitorcontrol
     orbstack
     keka
