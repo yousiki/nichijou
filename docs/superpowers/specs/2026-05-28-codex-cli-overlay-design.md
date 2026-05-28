@@ -46,6 +46,8 @@ nixpkgs.overlays = [
 
 The input follows the repository's `nixpkgs` input so dependency resolution stays aligned with the rest of the machine configuration.
 
+If anonymous GitHub API requests hit rate limits while writing the initial lock entry, use a revision-pinned `--override-input` for that lock update only. Keep the source input itself on the normal `github:` shorthand so future `nix flake update codex-cli` runs can advance it without editing `flake.nix`.
+
 ## Cachix Trust
 
 Add the upstream binary cache to `nix/modules/darwin/nix.nix`:
@@ -92,7 +94,7 @@ If the Cachix key is wrong, Nix should reject substitutions from `https://codex-
 Before implementation, verify that the current effective `pkgs.codex.version` does not satisfy the target version:
 
 ```bash
-nix eval --impure --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; pkgs = import flake.inputs.nixpkgs { system = "aarch64-darwin"; config.allowUnfree = true; overlays = flake.outputs.overlays or []; }; in assert pkgs.lib.versionAtLeast pkgs.codex.version "0.134.0"; pkgs.codex.version'
+nix eval --impure --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; pkgs = flake.darwinConfigurations.sakurai.pkgs; in assert pkgs.lib.versionAtLeast pkgs.codex.version "0.134.0"; pkgs.codex.version'
 ```
 
 Expected before implementation: assertion failure.
@@ -100,7 +102,7 @@ Expected before implementation: assertion failure.
 After implementation, verify:
 
 ```bash
-nix eval --impure --raw --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; pkgs = import flake.inputs.nixpkgs { system = "aarch64-darwin"; config.allowUnfree = true; overlays = flake.outputs.overlays or []; }; in pkgs.codex.version'
+nix eval --impure --raw --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; in flake.darwinConfigurations.sakurai.pkgs.codex.version'
 ```
 
 Expected output:

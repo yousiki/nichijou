@@ -34,6 +34,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    codex-cli = {
+      url = "github:sadjow/codex-cli-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
     brew-api = {
@@ -76,6 +81,7 @@
 
       nixpkgs.overlays = [
         inputs.claude-code.overlays.default
+        inputs.codex-cli.overlays.default
         (
           final: prev:
           if prev.stdenv.hostPlatform.isDarwin then inputs.brew-nix.overlays.default final prev else { }

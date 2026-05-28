@@ -41,7 +41,7 @@ If unrelated files are modified or untracked, treat them as user-owned and do no
 Run:
 
 ```bash
-nix eval --impure --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; pkgs = import flake.inputs.nixpkgs { system = "aarch64-darwin"; config.allowUnfree = true; overlays = flake.outputs.overlays or []; }; in assert pkgs.lib.versionAtLeast pkgs.codex.version "0.134.0"; pkgs.codex.version'
+nix eval --impure --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; pkgs = flake.darwinConfigurations.sakurai.pkgs; in assert pkgs.lib.versionAtLeast pkgs.codex.version "0.134.0"; pkgs.codex.version'
 ```
 
 Expected before implementation: FAIL with an assertion failure because the current effective `pkgs.codex.version` is below `0.134.0`.
@@ -94,6 +94,24 @@ Run:
 nix flake lock --update-input codex-cli
 ```
 
+If this Nix version reports that `--update-input` has been replaced, run:
+
+```bash
+nix flake update codex-cli
+```
+
+If anonymous GitHub API requests are rate-limited while resolving HEAD, first get the current target revision with:
+
+```bash
+git ls-remote --symref https://github.com/sadjow/codex-cli-nix HEAD
+```
+
+Then write the lock entry with:
+
+```bash
+nix flake lock --override-input codex-cli 'github:sadjow/codex-cli-nix/26c2ba2aed14632a04335a2f0a99d14abfb63f14'
+```
+
 Expected: `flake.lock` gains a `codex-cli` node and records it in the root inputs.
 
 ## Task 3: Add The Codex CLI Cachix Trust Settings
@@ -133,7 +151,7 @@ Modify `nix/modules/darwin/nix.nix` so `nix.settings.trusted-public-keys` is:
 Run:
 
 ```bash
-nix eval --impure --raw --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; pkgs = import flake.inputs.nixpkgs { system = "aarch64-darwin"; config.allowUnfree = true; overlays = flake.outputs.overlays or []; }; in pkgs.codex.version'
+nix eval --impure --raw --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; in flake.darwinConfigurations.sakurai.pkgs.codex.version'
 ```
 
 Expected output:
