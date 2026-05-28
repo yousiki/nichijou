@@ -3,6 +3,12 @@
 {
   programs.git = {
     enable = true;
+    settings = {
+      user = {
+        name = "yousiki";
+        email = "you.siki@outlook.com";
+      };
+    };
   };
 
   programs.delta = {
