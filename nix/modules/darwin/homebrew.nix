@@ -36,6 +36,7 @@
     casks = [
       "1password"
       "cloudflare-warp"
+      "vibeproxy"
     ];
     brews = [ ];
   };
