@@ -5,6 +5,7 @@
     ./programs/claude-code.nix
     ./programs/codex.nix
     ./programs/opencode.nix
+    ./programs/jcode.nix
     ./programs/git.nix
     ./programs/shell.nix
   ];
