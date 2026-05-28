@@ -7,27 +7,27 @@
 let
   inherit (pkgs) fetchurl lib stdenvNoCC;
 
-  version = "0.14.3";
+  version = "0.14.4";
 
   sources = {
     aarch64-darwin = {
       asset = "jcode-macos-aarch64";
-      hash = "sha256-7+NSKBZM6Fi14xhosvaqu32QZH3wlAyWJSGxPopxfXQ=";
+      hash = "sha256-AbeH+zPIAhwuy3oXTdZoD0lw+jqffQrX3rmX4ixAsG8=";
     };
 
     x86_64-darwin = {
       asset = "jcode-macos-x86_64";
-      hash = "sha256-2lC5KLqkVfq9zggsgO9uhPgU9r7JyMA+wMmfkr+gG2M=";
+      hash = "sha256-XAZro9lUkTCgci3QNqSsO4Zq5iCOkH3xcvspiCTf3ns=";
     };
 
     x86_64-linux = {
       asset = "jcode-linux-x86_64";
-      hash = "sha256-Mp61GnTBuUuV8vEJlZpFkMaKlbeFkRdB4h8q78+jCQU=";
+      hash = "sha256-oaMUyrVwfWgIEl8s4m5bCpq1GOqvXxznUPCUvUbOvSU=";
     };
 
     aarch64-linux = {
       asset = "jcode-linux-aarch64";
-      hash = "sha256-x9RddW0mBhbl5ZgyBW4ycTgOlumP2sR62gta5a70HdY=";
+      hash = "sha256-4jaZNe8yQrArZgeiX2AKw9hxwJVuP9ch6vyNA3CgKHI=";
     };
   };
 

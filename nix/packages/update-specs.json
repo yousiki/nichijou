@@ -1,0 +1,50 @@
+{
+  "packages": {
+    "jcode": {
+      "repo": "1jehuang/jcode",
+      "file": "nix/packages/jcode.nix",
+      "versionPrefix": "v",
+      "systems": {
+        "aarch64-darwin": {
+          "nixAsset": "jcode-macos-aarch64",
+          "releaseAsset": "jcode-macos-aarch64.tar.gz"
+        },
+        "x86_64-darwin": {
+          "nixAsset": "jcode-macos-x86_64",
+          "releaseAsset": "jcode-macos-x86_64.tar.gz"
+        },
+        "x86_64-linux": {
+          "nixAsset": "jcode-linux-x86_64",
+          "releaseAsset": "jcode-linux-x86_64.tar.gz"
+        },
+        "aarch64-linux": {
+          "nixAsset": "jcode-linux-aarch64",
+          "releaseAsset": "jcode-linux-aarch64.tar.gz"
+        }
+      }
+    },
+    "cliproxyapi": {
+      "repo": "router-for-me/CLIProxyAPI",
+      "file": "nix/packages/cliproxyapi.nix",
+      "versionPrefix": "v",
+      "systems": {
+        "aarch64-darwin": {
+          "nixAsset": "CLIProxyAPI_{version}_darwin_aarch64.tar.gz",
+          "releaseAsset": "CLIProxyAPI_{version}_darwin_aarch64.tar.gz"
+        },
+        "x86_64-darwin": {
+          "nixAsset": "CLIProxyAPI_{version}_darwin_amd64.tar.gz",
+          "releaseAsset": "CLIProxyAPI_{version}_darwin_amd64.tar.gz"
+        },
+        "x86_64-linux": {
+          "nixAsset": "CLIProxyAPI_{version}_linux_amd64.tar.gz",
+          "releaseAsset": "CLIProxyAPI_{version}_linux_amd64.tar.gz"
+        },
+        "aarch64-linux": {
+          "nixAsset": "CLIProxyAPI_{version}_linux_aarch64.tar.gz",
+          "releaseAsset": "CLIProxyAPI_{version}_linux_aarch64.tar.gz"
+        }
+      }
+    }
+  }
+}
