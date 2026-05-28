@@ -1,7 +1,8 @@
 { pkgs, ... }:
 
 {
-  home.packages = [
-    pkgs.codex
-  ];
+  programs.codex = {
+    enable = true;
+    package = pkgs.codex;
+  };
 }
