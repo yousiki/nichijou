@@ -7,6 +7,9 @@
   ];
 
   home.enableNixpkgsReleaseCheck = false;
+  home.preferXdgDirectories = true;
+
+  xdg.enable = true;
 
   catppuccin = {
     enable = true;

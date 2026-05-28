@@ -1,9 +1,16 @@
-{ ... }:
+{ config, ... }:
 
 {
   programs.zsh = {
     enable = true;
     enableCompletion = true;
+    dotDir = "${config.xdg.configHome}/zsh";
+    completionInit = ''
+      autoload -Uz compinit
+      mkdir -p "${config.xdg.cacheHome}/zsh"
+      compinit -d "${config.xdg.cacheHome}/zsh/zcompdump"
+    '';
+    history.path = "${config.xdg.stateHome}/zsh/history";
     autosuggestion.enable = true;
     syntaxHighlighting.enable = true;
   };
