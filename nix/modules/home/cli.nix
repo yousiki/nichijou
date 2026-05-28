@@ -9,6 +9,7 @@
     ./programs/cliproxyapi.nix
     ./programs/git.nix
     ./programs/shell.nix
+    ./programs/toolchains.nix
   ];
 
   home.packages = [
