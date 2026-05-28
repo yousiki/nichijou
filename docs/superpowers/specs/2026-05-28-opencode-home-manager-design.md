@@ -54,7 +54,6 @@ The module should use the Home Manager option rather than a plain package list e
 
     tui = {
       "$schema" = "https://opencode.ai/tui.json";
-      theme = "tokyonight";
       mouse = true;
     };
   };
@@ -74,7 +73,7 @@ Home Manager should write:
 
 The global `opencode.json` should disable OpenCode's own updater because Nix owns package updates. Sharing remains manual, which keeps the upstream default behavior explicit without disabling the feature completely.
 
-The TUI config should set a small baseline for interactive use while avoiding model/provider assumptions.
+The TUI config should set a small baseline for interactive use while avoiding model/provider assumptions. It should not set a theme because the existing Catppuccin Home Manager integration already owns `programs.opencode.tui.theme`.
 
 ## Data Flow
 
@@ -115,7 +114,7 @@ Verify generated config ownership:
 nix eval --impure --json --expr 'let flake = builtins.getFlake "git+file:///private/etc/nix-darwin"; hm = flake.darwinConfigurations.sakurai.config.home-manager.users.yousiki; in { settings = hm.programs.opencode.settings; tui = hm.programs.opencode.tui; }'
 ```
 
-Expected output should include `autoupdate = false`, `share = "manual"`, and the TUI schema/theme/mouse settings.
+Expected output should include `autoupdate = false`, `share = "manual"`, and the TUI schema/mouse settings. A separate check may confirm that the effective TUI theme remains `catppuccin` from the repository's global Catppuccin integration.
 
 Verify the host build:
 
