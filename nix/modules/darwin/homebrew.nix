@@ -21,10 +21,11 @@
   homebrew = {
     enable = true;
     taps = builtins.attrNames config.nix-homebrew.taps;
+    greedyCasks = true;
 
     onActivation = {
       autoUpdate = false;
-      upgrade = false;
+      upgrade = true;
       cleanup = "none";
     };
 
