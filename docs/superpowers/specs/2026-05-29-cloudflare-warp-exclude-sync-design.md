@@ -69,6 +69,9 @@ No Python package dependency should be added to the repo. The script should run
 with the system Python or a Nix shell-provided Python, but it should not require
 flake wiring.
 
+Keep the script single-file and standard-library-only so it can later be
+wrapped as a same-flake Nix package without vendoring Python dependencies.
+
 The script should default to dry-run mode. It should write Cloudflare only when
 the user passes:
 
@@ -88,6 +91,53 @@ CLOUDFLARE_DEVICE_POLICY_ID
 If `CLOUDFLARE_DEVICE_POLICY_ID` is absent, the script manages the default WARP
 device profile. If it is present, the script manages that custom device
 profile.
+
+## Future Nix Packaging
+
+The first implementation should be usable as a direct script. A follow-up can
+package the same script in this repository's existing Blueprint package layout:
+
+```text
+nix/packages/cloudflare-warp-exclude-sync.nix
+```
+
+The package should expose this command:
+
+```text
+cloudflare-warp-exclude-sync
+```
+
+Expected run shape:
+
+```bash
+nix run .#cloudflare-warp-exclude-sync -- --help
+CLOUDFLARE_API_TOKEN=... \
+CLOUDFLARE_ACCOUNT_ID=... \
+nix run .#cloudflare-warp-exclude-sync -- --apply
+```
+
+The package should wrap the checked-in script with `pkgs.python3` and should not
+embed Cloudflare account IDs, API tokens, device policy IDs, local state paths,
+or generated exclude-list data into the Nix store. All sensitive and
+environment-specific values must remain runtime inputs through environment
+variables or CLI flags.
+
+Because the script is standard-library-only, the Nix package should not need a
+Python virtual environment or `python3Packages` dependency set. A simple
+derivation or `writeShellApplication` wrapper is sufficient as long as it
+installs the script and runs it through the Nix-provided Python interpreter.
+
+Packaging should add smoke verification:
+
+```bash
+nix build .#cloudflare-warp-exclude-sync
+./result/bin/cloudflare-warp-exclude-sync --help
+nix run .#cloudflare-warp-exclude-sync -- --help
+```
+
+Packaging should remain separate from Home Manager installation unless a later
+requirement asks for the command in the user profile. The current goal is a
+manual operational tool, not a service or scheduled job.
 
 ## Ownership Contract
 
@@ -446,6 +496,8 @@ by the managed host rules no longer exits through Cloudflare WARP.
 
 - Do not modify nix-darwin modules, Home Manager modules, or flake inputs.
 - Do not create a launchd timer or scheduled job in the first implementation.
+- Do not require Nix packaging before the direct script works.
+- Do not install the future package into Home Manager by default.
 - Do not manage Cloudflare Gateway HTTP policies.
 - Do not manage Local Domain Fallback in the first implementation.
 - Do not delete Cloudflare exclude entries unless their description starts with
