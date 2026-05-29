@@ -20,6 +20,7 @@
     brewCasks.feishu
     brewCasks.keepingyouawake
     brewCasks.linearmouse
+    brewCasks.microsoft-outlook
     brewCasks.tencent-meeting
     brewCasks.thaw
     brewCasks.zotero

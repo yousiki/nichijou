@@ -5,7 +5,6 @@
     ./programs/claude-code.nix
     ./programs/codex.nix
     ./programs/opencode.nix
-    ./programs/jcode.nix
     ./programs/mole.nix
     ./programs/cliproxyapi.nix
     ./programs/git.nix
