@@ -5,7 +5,12 @@
 }:
 
 let
-  inherit (pkgs) lib makeWrapper python3 stdenvNoCC;
+  inherit (pkgs)
+    lib
+    makeWrapper
+    python3
+    stdenvNoCC
+    ;
 in
 stdenvNoCC.mkDerivation {
   inherit pname;
