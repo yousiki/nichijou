@@ -7,27 +7,27 @@
 let
   inherit (pkgs) fetchurl lib stdenvNoCC;
 
-  version = "7.1.25";
+  version = "7.1.29";
 
   sources = {
     aarch64-darwin = {
-      asset = "CLIProxyAPI_7.1.25_darwin_aarch64.tar.gz";
-      hash = "sha256-lTUPxq+vDkiG0cDiUfMd2mXqyJDLZkdBY34mG8kFuGM=";
+      asset = "CLIProxyAPI_7.1.29_darwin_aarch64.tar.gz";
+      hash = "sha256-9x+kjU21uB3XrPIbBaP3OhsTJjm8z3rpFyRUfHgtWqU=";
     };
 
     x86_64-darwin = {
-      asset = "CLIProxyAPI_7.1.25_darwin_amd64.tar.gz";
-      hash = "sha256-yvg6LkL73V6tin2QZXZEiv98dosFchADxjiL3J+02cc=";
+      asset = "CLIProxyAPI_7.1.29_darwin_amd64.tar.gz";
+      hash = "sha256-jK1M/nUQzy1GdIz6hqD2Kci/ev6spdatNWJw171H1ck=";
     };
 
     x86_64-linux = {
-      asset = "CLIProxyAPI_7.1.25_linux_amd64.tar.gz";
-      hash = "sha256-yZk8oaaHYp71rZ88W29SfSlGZgOxqorsQu+ulerRXoI=";
+      asset = "CLIProxyAPI_7.1.29_linux_amd64.tar.gz";
+      hash = "sha256-2h/MIX1NeBwFssMgLPdUGX+DDY50Qm5IgEtBDFm6q08=";
     };
 
     aarch64-linux = {
-      asset = "CLIProxyAPI_7.1.25_linux_aarch64.tar.gz";
-      hash = "sha256-BJllCdOTzhKi1RWJNDPxpOoImPwu+zyTLHGE8hleH8g=";
+      asset = "CLIProxyAPI_7.1.29_linux_aarch64.tar.gz";
+      hash = "sha256-n7HcGUnhXtUvIJNUVJ1LFIgx7zQyx3h0ocXSf0vBgu0=";
     };
   };
 
