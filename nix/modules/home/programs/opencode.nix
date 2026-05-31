@@ -1,6 +1,10 @@
 { pkgs, ... }:
 
 let
+  mcpNixos = pkgs.mcp-nixos.overridePythonAttrs (_: {
+    doCheck = false;
+  });
+
   ohMyOpenAgentConfig = (pkgs.formats.json { }).generate "oh-my-openagent.json" {
     "$schema" =
       "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json";
@@ -195,26 +199,17 @@ in
         nixos = {
           type = "local";
           command = [
-            "nix"
-            "run"
-            "github:utensils/mcp-nixos"
-            "--"
+            "${mcpNixos}/bin/mcp-nixos"
           ];
           enabled = true;
         };
       };
       formatter.nixfmt.command = [
-        "nix"
-        "run"
-        "nixpkgs#nixfmt"
-        "--"
+        "${pkgs.nixfmt}/bin/nixfmt"
         "$FILE"
       ];
       lsp.nixd.command = [
-        "nix"
-        "run"
-        "nixpkgs#nixd"
-        "--"
+        "${pkgs.nixd}/bin/nixd"
       ];
       provider.openai.options = {
         baseURL = "http://127.0.0.1:8317/v1";
