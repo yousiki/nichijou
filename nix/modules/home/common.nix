@@ -12,6 +12,7 @@
   xdg.enable = true;
 
   catppuccin = {
+    autoEnable = true;
     enable = true;
     flavor = "mocha";
   };
