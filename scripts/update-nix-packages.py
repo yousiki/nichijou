@@ -1,44 +1,38 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv run --script
+
+# /// script
+# requires-python = ">=3.9"
+# dependencies = []
+# ///
+
 import argparse
 import base64
-import dataclasses
 import difflib
 import hashlib
 import json
 import os
 import pathlib
 import re
+import shutil
+import subprocess
 import sys
+import tempfile
 import urllib.error
+import urllib.parse
 import urllib.request
 
 
 DEFAULT_SPEC = "nix/packages/update-specs.json"
+FAKE_SHA256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
 VERSION_RE = re.compile(r'(?m)^(\s*version\s*=\s*")([^"]+)(";\s*)$')
+FETCH_FROM_GITHUB_RE = re.compile(
+    r"(?ms)^(\s*src\s*=\s*fetchFromGitHub\s*\{\n)(.*?)(^\s*\};)"
+)
+GOT_HASH_RE = re.compile(r"got:\s*(sha256-[A-Za-z0-9+/=]+)")
 
 
 class UpdateError(Exception):
     pass
-
-
-@dataclasses.dataclass
-class AssetUpdate:
-    system: str
-    nix_asset: str
-    release_asset: str
-    sri_hash: str
-    url: str
-
-
-@dataclasses.dataclass
-class UpdatePlan:
-    package: str
-    package_file: pathlib.Path
-    current_version: str
-    latest_version: str
-    changed: bool
-    new_text: str
-    assets: list
 
 
 def github_headers(token=None, accept="application/vnd.github+json"):
@@ -138,33 +132,46 @@ def replace_version(package, text, version):
     return new_text
 
 
-def replace_attr(package, system, body, attr, value):
+def replace_attr(package, context, text, attr, value):
     pattern = re.compile(rf'(?m)^(\s*{re.escape(attr)}\s*=\s*")[^"]+(";\s*)$')
-    new_body, count = pattern.subn(
+    new_text, count = pattern.subn(
         lambda match: f"{match.group(1)}{value}{match.group(2)}",
-        body,
+        text,
         count=1,
     )
     if count != 1:
-        raise UpdateError(f"{package}: could not replace {attr} for {system}")
-    return new_body
+        raise UpdateError(f"{package}: could not replace {attr} for {context}")
+    return new_text
+
+
+def replace_fetch_from_github_attr(package, text, attr, value):
+    def replace_block(match):
+        body = replace_attr(package, "fetchFromGitHub src", match.group(2), attr, value)
+        return f"{match.group(1)}{body}{match.group(3)}"
+
+    new_text, count = FETCH_FROM_GITHUB_RE.subn(replace_block, text, count=1)
+    if count != 1:
+        raise UpdateError(f"{package}: could not find fetchFromGitHub src block")
+    return new_text
 
 
 def replace_system_source(package, text, update):
     pattern = re.compile(
-        rf"(?ms)^(\s*{re.escape(update.system)}\s*=\s*\{{\n)(.*?)(^\s*\}};)"
+        rf"(?ms)^(\s*{re.escape(update['system'])}\s*=\s*\{{\n)(.*?)(^\s*\}};)"
     )
 
     def replace_block(match):
         body = replace_attr(
-            package, update.system, match.group(2), "asset", update.nix_asset
+            package, update["system"], match.group(2), "asset", update["asset"]
         )
-        body = replace_attr(package, update.system, body, "hash", update.sri_hash)
+        body = replace_attr(package, update["system"], body, "hash", update["hash"])
         return f"{match.group(1)}{body}{match.group(3)}"
 
     new_text, count = pattern.subn(replace_block, text, count=1)
     if count != 1:
-        raise UpdateError(f"{package}: could not find source block for {update.system}")
+        raise UpdateError(
+            f"{package}: could not find source block for {update['system']}"
+        )
     return new_text
 
 
@@ -187,52 +194,203 @@ def asset_sri_hash(asset, token=None):
     return sri_from_url(url, token)
 
 
-def plan_update(package, package_spec, package_file, release, token=None):
+def run_command(command, cwd=None):
+    return subprocess.run(command, cwd=cwd, check=False, capture_output=True, text=True)
+
+
+def command_tail(result, line_count=12):
+    output = f"{result.stdout}\n{result.stderr}".strip()
+    if not output:
+        return "<no output>"
+    return "\n".join(output.splitlines()[-line_count:])
+
+
+def split_repo(repo):
+    parts = repo.split("/", 1)
+    if len(parts) != 2 or not parts[0] or not parts[1]:
+        raise UpdateError(f"invalid GitHub repo: {repo}")
+    return parts
+
+
+def prefetch_github_hash(repo, rev):
+    _, name = split_repo(repo)
+    safe_rev = re.sub(r"[^A-Za-z0-9._+-]+", "-", rev).strip("-")
+    url = "https://github.com/{}/archive/refs/tags/{}.tar.gz".format(
+        repo,
+        urllib.parse.quote(rev, safe=""),
+    )
+    result = run_command(
+        [
+            "nix",
+            "store",
+            "prefetch-file",
+            "--json",
+            "--unpack",
+            "--name",
+            f"{name.lower()}-{safe_rev}-source",
+            url,
+        ]
+    )
+    if result.returncode != 0:
+        raise UpdateError(
+            f"source prefetch failed for {repo}@{rev}: {command_tail(result)}"
+        )
+    try:
+        data = json.loads(result.stdout)
+    except json.JSONDecodeError as exc:
+        raise UpdateError(
+            f"source prefetch returned invalid JSON: {command_tail(result)}"
+        ) from exc
+    if not isinstance(data.get("hash"), str):
+        raise UpdateError(
+            f"source prefetch did not return a hash: {command_tail(result)}"
+        )
+    return data["hash"]
+
+
+def prefetch_vendor_hash(root, package_file, package_attr, package_text):
+    package_path = package_file.resolve().relative_to(root.resolve())
+    with tempfile.TemporaryDirectory(
+        prefix="nix-package-update-", dir="/private/tmp"
+    ) as tmp:
+        temp_root = pathlib.Path(tmp) / "repo"
+        shutil.copytree(
+            root,
+            temp_root,
+            symlinks=True,
+            ignore=shutil.ignore_patterns(".git", ".direnv", ".worktrees", "result"),
+        )
+        (temp_root / package_path).write_text(package_text, encoding="utf-8")
+        result = run_command(
+            ["nix", "build", "--no-link", f"{temp_root}#{package_attr}"], temp_root
+        )
+
+    output = f"{result.stdout}\n{result.stderr}"
+    if result.returncode == 0:
+        raise UpdateError(f"{package_attr}: fake vendor hash unexpectedly built")
+    if FAKE_SHA256 not in output:
+        raise UpdateError(
+            f"{package_attr}: nix build failed before vendor hash mismatch: {command_tail(result)}"
+        )
+    match = GOT_HASH_RE.search(output)
+    if not match:
+        raise UpdateError(
+            f"{package_attr}: could not parse vendor hash: {command_tail(result)}"
+        )
+    return match.group(1)
+
+
+def unchanged_plan(package, package_file, old_version, new_version, text):
+    return {
+        "package": package,
+        "file": package_file,
+        "old": old_version,
+        "new": new_version,
+        "changed": False,
+        "text": text,
+        "details": [],
+    }
+
+
+def plan_release_asset_update(package, package_spec, package_file, release, token=None):
     text = package_file.read_text(encoding="utf-8")
     old_version = current_version(package, text)
     tag = release["tag_name"]
     new_version = tag_to_version(tag, package_spec.get("versionPrefix", ""))
     if old_version == new_version:
-        return UpdatePlan(
-            package=package,
-            package_file=package_file,
-            current_version=old_version,
-            latest_version=new_version,
-            changed=False,
-            new_text=text,
-            assets=[],
-        )
+        return unchanged_plan(package, package_file, old_version, new_version, text)
 
     assets_by_name = release_assets_by_name(release)
     updates = []
     for system, asset_spec in package_spec["systems"].items():
-        nix_asset = render_template(asset_spec["nixAsset"], new_version, tag)
         release_asset = render_template(asset_spec["releaseAsset"], new_version, tag)
         release_entry = assets_by_name.get(release_asset)
         if release_entry is None:
-            raise UpdateError(f"{package}: {system} missing release asset {release_asset}")
-        updates.append(
-            AssetUpdate(
-                system=system,
-                nix_asset=nix_asset,
-                release_asset=release_asset,
-                sri_hash=asset_sri_hash(release_entry, token),
-                url=release_entry.get("browser_download_url", ""),
+            raise UpdateError(
+                f"{package}: {system} missing release asset {release_asset}"
             )
+        updates.append(
+            {
+                "kind": "asset",
+                "system": system,
+                "asset": render_template(asset_spec["nixAsset"], new_version, tag),
+                "release_asset": release_asset,
+                "hash": asset_sri_hash(release_entry, token),
+            }
         )
 
     new_text = replace_version(package, text, new_version)
     for update in updates:
         new_text = replace_system_source(package, new_text, update)
-    return UpdatePlan(
-        package=package,
-        package_file=package_file,
-        current_version=old_version,
-        latest_version=new_version,
-        changed=True,
-        new_text=new_text,
-        assets=updates,
+    return changed_plan(
+        package, package_file, old_version, new_version, new_text, updates
     )
+
+
+def plan_github_source_update(package, package_spec, package_file, release, root):
+    text = package_file.read_text(encoding="utf-8")
+    old_version = current_version(package, text)
+    tag = release["tag_name"]
+    new_version = tag_to_version(tag, package_spec.get("versionPrefix", ""))
+    if old_version == new_version:
+        return unchanged_plan(package, package_file, old_version, new_version, text)
+
+    source_hash_attr = package_spec.get("sourceHashAttr", "hash")
+    vendor_hash_attr = package_spec.get("vendorHashAttr", "vendorHash")
+    package_attr = package_spec.get("packageAttr", package)
+    rev = render_template(package_spec.get("rev", "{tag}"), new_version, tag)
+    source_hash = prefetch_github_hash(package_spec["repo"], rev)
+
+    with_source = replace_version(package, text, new_version)
+    with_source = replace_fetch_from_github_attr(
+        package,
+        with_source,
+        source_hash_attr,
+        source_hash,
+    )
+    fake_vendor = replace_attr(
+        package, "package", with_source, vendor_hash_attr, FAKE_SHA256
+    )
+    vendor_hash = prefetch_vendor_hash(root, package_file, package_attr, fake_vendor)
+    new_text = replace_attr(
+        package, "package", with_source, vendor_hash_attr, vendor_hash
+    )
+    return changed_plan(
+        package,
+        package_file,
+        old_version,
+        new_version,
+        new_text,
+        [
+            {"kind": "source", "attr": source_hash_attr, "hash": source_hash},
+            {"kind": "source", "attr": vendor_hash_attr, "hash": vendor_hash},
+        ],
+    )
+
+
+def changed_plan(package, package_file, old_version, new_version, text, details):
+    return {
+        "package": package,
+        "file": package_file,
+        "old": old_version,
+        "new": new_version,
+        "changed": True,
+        "text": text,
+        "details": details,
+    }
+
+
+def plan_update(package, package_spec, package_file, release, root, token=None):
+    package_type = package_spec.get("type", "githubReleaseAssets")
+    if package_type == "githubReleaseAssets":
+        return plan_release_asset_update(
+            package, package_spec, package_file, release, token
+        )
+    if package_type == "githubSource":
+        return plan_github_source_update(
+            package, package_spec, package_file, release, root
+        )
+    raise UpdateError(f"{package}: unknown package type {package_type!r}")
 
 
 def load_specs(path):
@@ -254,16 +412,28 @@ def selected_specs(specs, names):
 
 
 def diff_for_plan(plan):
-    old_lines = plan.package_file.read_text(encoding="utf-8").splitlines(keepends=True)
-    new_lines = plan.new_text.splitlines(keepends=True)
+    old_lines = plan["file"].read_text(encoding="utf-8").splitlines(keepends=True)
+    new_lines = plan["text"].splitlines(keepends=True)
     return "".join(
         difflib.unified_diff(
             old_lines,
             new_lines,
-            fromfile=str(plan.package_file),
-            tofile=str(plan.package_file),
+            fromfile=str(plan["file"]),
+            tofile=str(plan["file"]),
         )
     )
+
+
+def print_plan(plan):
+    if not plan["changed"]:
+        print(f"{plan['package']}: current at {plan['old']}")
+        return
+    print(f"{plan['package']}: {plan['old']} -> {plan['new']}")
+    for detail in plan["details"]:
+        if detail["kind"] == "asset":
+            print(f"  {detail['system']}: {detail['release_asset']} {detail['hash']}")
+        else:
+            print(f"  {detail['attr']}: {detail['hash']}")
 
 
 def run(args):
@@ -275,16 +445,13 @@ def run(args):
     for package, package_spec in specs.items():
         package_file = root / package_spec["file"]
         release = fetch_latest_release(package_spec["repo"], token)
-        plans.append(plan_update(package, package_spec, package_file, release, token))
+        plans.append(
+            plan_update(package, package_spec, package_file, release, root, token)
+        )
 
-    changed = [plan for plan in plans if plan.changed]
+    changed = [plan for plan in plans if plan["changed"]]
     for plan in plans:
-        if plan.changed:
-            print(f"{plan.package}: {plan.current_version} -> {plan.latest_version}")
-            for asset in plan.assets:
-                print(f"  {asset.system}: {asset.release_asset} {asset.sri_hash}")
-        else:
-            print(f"{plan.package}: current at {plan.current_version}")
+        print_plan(plan)
 
     if args.diff:
         for plan in changed:
@@ -292,7 +459,7 @@ def run(args):
 
     if not args.check and not args.dry_run:
         for plan in changed:
-            plan.package_file.write_text(plan.new_text, encoding="utf-8")
+            plan["file"].write_text(plan["text"], encoding="utf-8")
 
     if args.check and changed:
         return 1
@@ -301,7 +468,7 @@ def run(args):
 
 def parse_args(argv):
     parser = argparse.ArgumentParser(
-        description="Update pinned GitHub release assets under nix/packages."
+        description="Update pinned GitHub releases under nix/packages."
     )
     parser.add_argument("--root", default=".", help="repository root")
     parser.add_argument("--spec", default=DEFAULT_SPEC, help="update spec JSON path")

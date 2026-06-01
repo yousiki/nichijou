@@ -45,6 +45,13 @@
           "releaseAsset": "CLIProxyAPI_{version}_linux_aarch64.tar.gz"
         }
       }
+    },
+    "mole": {
+      "type": "githubSource",
+      "repo": "tw93/Mole",
+      "file": "nix/packages/mole.nix",
+      "versionPrefix": "V",
+      "rev": "V{version}"
     }
   }
 }

@@ -13,6 +13,7 @@
     keka
     slack
     spotify
+    wechat
     zoom-us
 
     brewCasks.chatgpt-atlas

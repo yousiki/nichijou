@@ -87,10 +87,7 @@
       nixpkgs.overlays = [
         inputs.claude-code.overlays.default
         inputs.codex-cli.overlays.default
-        (
-          final: prev:
-          if prev.stdenv.hostPlatform.isDarwin then inputs.brew-nix.overlays.default final prev else { }
-        )
+        (import ./nix/overlays/brew-nix.nix { inherit inputs; })
       ];
     };
 }

@@ -44,6 +44,21 @@
         ".gql",
         ".html"
       ]
+    },
+    "basedpyright": {
+      "command": [
+        "nix",
+        "--extra-experimental-features",
+        "nix-command flakes",
+        "run",
+        "--inputs-from",
+        ".",
+        "nixpkgs#basedpyright",
+        "--",
+        "basedpyright-langserver",
+        "--stdio"
+      ],
+      "extensions": [".py", ".pyi"]
     }
   }
 }
