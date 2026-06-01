@@ -1,0 +1,13 @@
+[mcp_servers.nixos]
+command = "nix"
+args = [
+  "--extra-experimental-features",
+  "nix-command flakes",
+  "run",
+  "--inputs-from",
+  ".",
+  "--impure",
+  "--expr",
+  "let flake = builtins.getFlake (toString ./.); pkgs = flake.darwinConfigurations.sakurai.pkgs; in pkgs.mcp-nixos.overridePythonAttrs (_: { doCheck = false; })",
+  "",
+]

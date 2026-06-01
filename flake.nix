@@ -63,11 +63,6 @@
       flake = false;
     };
 
-    aprilnea-homebrew-tap = {
-      url = "github:aprilnea/homebrew-tap";
-      flake = false;
-    };
-
     buo-homebrew-cask-upgrade = {
       url = "github:buo/homebrew-cask-upgrade";
       flake = false;

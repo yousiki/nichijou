@@ -1,21 +1,5 @@
 {
   "nodes": {
-    "aprilnea-homebrew-tap": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1780246670,
-        "narHash": "sha256-7TZsw8Be0p9D8g5iyiF08Z+my8HotZOYESavuu/iH/o=",
-        "owner": "aprilnea",
-        "repo": "homebrew-tap",
-        "rev": "e48dac7a3a7956e18e966ffd491ce91ee20d06e5",
-        "type": "github"
-      },
-      "original": {
-        "owner": "aprilnea",
-        "repo": "homebrew-tap",
-        "type": "github"
-      }
-    },
     "blueprint": {
       "inputs": {
         "nixpkgs": [
@@ -340,7 +324,6 @@
     },
     "root": {
       "inputs": {
-        "aprilnea-homebrew-tap": "aprilnea-homebrew-tap",
         "blueprint": "blueprint",
         "brew-api": "brew-api",
         "brew-nix": "brew-nix",

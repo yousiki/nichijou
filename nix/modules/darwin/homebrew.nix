@@ -13,7 +13,6 @@
     mutableTaps = false;
 
     taps = {
-      "aprilnea/homebrew-tap" = inputs.aprilnea-homebrew-tap;
       "buo/homebrew-cask-upgrade" = inputs.buo-homebrew-cask-upgrade;
       "homebrew/homebrew-core" = inputs.homebrew-core;
       "homebrew/homebrew-cask" = inputs.homebrew-cask;
@@ -38,7 +37,6 @@
 
     casks = [
       "1password"
-      "aprilnea/tap/openlogi"
       "cloudflare-warp"
       "element"
     ];
