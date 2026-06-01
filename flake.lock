@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "aprilnea-homebrew-tap": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1780246670,
+        "narHash": "sha256-7TZsw8Be0p9D8g5iyiF08Z+my8HotZOYESavuu/iH/o=",
+        "owner": "aprilnea",
+        "repo": "homebrew-tap",
+        "rev": "e48dac7a3a7956e18e966ffd491ce91ee20d06e5",
+        "type": "github"
+      },
+      "original": {
+        "owner": "aprilnea",
+        "repo": "homebrew-tap",
+        "type": "github"
+      }
+    },
     "blueprint": {
       "inputs": {
         "nixpkgs": [
@@ -77,6 +93,22 @@
         "owner": "Homebrew",
         "ref": "5.1.11",
         "repo": "brew",
+        "type": "github"
+      }
+    },
+    "buo-homebrew-cask-upgrade": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1778162165,
+        "narHash": "sha256-wQJxcEY7oKO+4YpOv3FQTrsh9CiSc1ZEc4pU9U+f98U=",
+        "owner": "buo",
+        "repo": "homebrew-cask-upgrade",
+        "rev": "c91fc02583b221d47bbb7a0ca51623773d1352de",
+        "type": "github"
+      },
+      "original": {
+        "owner": "buo",
+        "repo": "homebrew-cask-upgrade",
         "type": "github"
       }
     },
@@ -308,9 +340,11 @@
     },
     "root": {
       "inputs": {
+        "aprilnea-homebrew-tap": "aprilnea-homebrew-tap",
         "blueprint": "blueprint",
         "brew-api": "brew-api",
         "brew-nix": "brew-nix",
+        "buo-homebrew-cask-upgrade": "buo-homebrew-cask-upgrade",
         "catppuccin": "catppuccin",
         "claude-code": "claude-code",
         "codex-cli": "codex-cli",
