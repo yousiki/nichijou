@@ -24,8 +24,31 @@ in
     package = zedPackage;
 
     extensions = [
+      "astro"
+      "biome"
+      "caddyfile"
       "catppuccin"
+      "csv"
+      "docker-compose"
+      "dockerfile"
+      "git-firefly"
+      "html"
+      "ini"
+      "just"
+      "latex"
+      "lua"
+      "make"
       "nix"
+      "python-requirements"
+      "rainbow-csv"
+      "sql"
+      "ssh-config"
+      "swift"
+      "terraform"
+      "toml"
+      "typst"
+      "vue"
+      "xml"
     ];
 
     userSettings = {
@@ -48,12 +71,9 @@ in
         option_as_meta = true;
       };
 
-      format_on_save = "on";
-    };
-  };
+      vim_mode = true;
 
-  home.sessionVariables = {
-    EDITOR = "zed --wait";
-    VISUAL = "zed --wait";
+      format_on_save = "off";
+    };
   };
 }
