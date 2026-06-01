@@ -1,3 +1,4 @@
-.worktrees/
-
+.claude/worktrees/
 .omo/
+.worktrees/
+/result

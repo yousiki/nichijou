@@ -87,6 +87,7 @@
       nixpkgs.overlays = [
         inputs.claude-code.overlays.default
         inputs.codex-cli.overlays.default
+        (import ./nix/overlays/mcp-nixos.nix)
         (import ./nix/overlays/brew-nix.nix { inherit inputs; })
       ];
     };

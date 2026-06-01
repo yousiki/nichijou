@@ -27,7 +27,7 @@
     onActivation = {
       autoUpdate = false;
       upgrade = true;
-      cleanup = "none";
+      cleanup = "zap";
     };
 
     global = {
