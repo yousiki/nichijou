@@ -13,8 +13,21 @@
   ];
 
   home.packages = [
-    pkgs.ripgrep
+    pkgs.duf
     pkgs.fd
+    pkgs.gdu
     pkgs.jq
+    pkgs.just
   ];
+
+  programs.btop.enable = true;
+  programs.gitui.enable = true;
+  programs.helix.enable = true;
+  programs.lazydocker.enable = true;
+  programs.lazygit.enable = true;
+  programs.mcfly.enable = true;
+  programs.ripgrep.enable = true;
+  programs.tmux.enable = true;
+  programs.yazi.enable = true;
+  programs.zellij.enable = true;
 }
