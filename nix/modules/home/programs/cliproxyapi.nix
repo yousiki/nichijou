@@ -8,8 +8,8 @@
 
 let
   homeDir = config.home.homeDirectory;
-  logDir = "${homeDir}/.cli-proxy-api/logs";
-  configFile = "${homeDir}/.cli-proxy-api/config.yaml";
+  logDir = "${homeDir}/.cliproxyapi/logs";
+  configFile = "${homeDir}/.cliproxyapi/config.yaml";
   profileBin = "/etc/profiles/per-user/${config.home.username}/bin";
   launchdPath = lib.concatStringsSep ":" [
     profileBin
@@ -42,7 +42,7 @@ in
       ];
       RunAtLoad = true;
       KeepAlive = true;
-      WorkingDirectory = "${homeDir}/.cli-proxy-api";
+      WorkingDirectory = "${homeDir}/.cliproxyapi";
       StandardOutPath = "${logDir}/stdout.log";
       StandardErrorPath = "${logDir}/stderr.log";
       EnvironmentVariables = {
