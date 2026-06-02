@@ -13,7 +13,6 @@
     mutableTaps = false;
 
     taps = {
-      "buo/homebrew-cask-upgrade" = inputs.buo-homebrew-cask-upgrade;
       "homebrew/homebrew-core" = inputs.homebrew-core;
       "homebrew/homebrew-cask" = inputs.homebrew-cask;
     };
@@ -37,8 +36,16 @@
 
     casks = [
       "1password"
+      "adobe-acrobat-pro"
+      "adobe-creative-cloud"
       "cloudflare-warp"
       "element"
+      "logi-options+"
+      "microsoft-excel"
+      "microsoft-outlook"
+      "microsoft-powerpoint"
+      "microsoft-word"
+      "windows-app"
     ];
     brews = [ ];
   };

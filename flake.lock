@@ -24,11 +24,11 @@
     "brew-api": {
       "flake": false,
       "locked": {
-        "lastModified": 1780365008,
-        "narHash": "sha256-qXz02dg5zDIwM9HhmXM82Wh66aX3fNiIXNxi/BUzHwE=",
+        "lastModified": 1780399770,
+        "narHash": "sha256-bEEj5VTIRZE4Li3rBtf4y/XeCqYZYqrDso7k+mSc0jc=",
         "owner": "BatteredBunny",
         "repo": "brew-api",
-        "rev": "0435d22891815613311153b4c291e11141ce6517",
+        "rev": "08a9031aae729d0e17eda3a49345b0ed33da5c7e",
         "type": "github"
       },
       "original": {
@@ -80,22 +80,6 @@
         "type": "github"
       }
     },
-    "buo-homebrew-cask-upgrade": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1778162165,
-        "narHash": "sha256-wQJxcEY7oKO+4YpOv3FQTrsh9CiSc1ZEc4pU9U+f98U=",
-        "owner": "buo",
-        "repo": "homebrew-cask-upgrade",
-        "rev": "c91fc02583b221d47bbb7a0ca51623773d1352de",
-        "type": "github"
-      },
-      "original": {
-        "owner": "buo",
-        "repo": "homebrew-cask-upgrade",
-        "type": "github"
-      }
-    },
     "catppuccin": {
       "inputs": {
         "nixpkgs": [
@@ -103,11 +87,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780346501,
-        "narHash": "sha256-nRuvgxeweMfpsyErSrumeVHKPy4RboTyIzGHLMdZkI8=",
+        "lastModified": 1780394337,
+        "narHash": "sha256-qsiTng/LjFuxN5SNKIKhUWqFFbpvdpnYqRj2F7inK3k=",
         "owner": "catppuccin",
         "repo": "nix",
-        "rev": "3c72484582bbeb239eeb10412f8eaa6eaead63a6",
+        "rev": "9f015db982efc83ae1eb0074960e812ee386f3bb",
         "type": "github"
       },
       "original": {
@@ -124,11 +108,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780258891,
-        "narHash": "sha256-KURy7kHE9TZG2wrQX0xaKScWp3JqEx7cYxboCJO/KPU=",
+        "lastModified": 1780369239,
+        "narHash": "sha256-1hpcdHjLYsdBGzOYK/r1l+UvPrtkgt3wVhLF9D5OWmI=",
         "owner": "sadjow",
         "repo": "claude-code-nix",
-        "rev": "e65e7eca7efe776d0bf5f53e317d33b3ff973623",
+        "rev": "3cc73775ecceb02a798519a5527f4eb400c8c8e4",
         "type": "github"
       },
       "original": {
@@ -222,11 +206,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1780347968,
-        "narHash": "sha256-I8ibSDQx+E8cgw6k3UxX6Bm7awmGoKSTXc8Gt1Zbpp4=",
+        "lastModified": 1780370888,
+        "narHash": "sha256-PRJj9RKTEf/sITycujP1c/BrvLJKMYXzcpwTsXNulXQ=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "d0af9b8bf3b4a1d449be7034bebc9f8f9fd6ee99",
+        "rev": "a7a415883195ffbd4dabec8f098f201e6eaaadf8",
         "type": "github"
       },
       "original": {
@@ -239,11 +223,11 @@
     "homebrew-cask": {
       "flake": false,
       "locked": {
-        "lastModified": 1780362339,
-        "narHash": "sha256-A8DUvN4muLmveV+OFt6pAjUEay21M5ejSuJ+fSfRozo=",
+        "lastModified": 1780401222,
+        "narHash": "sha256-OqaJbClCS8UrJBZiBnTwxTFB5F0vOekGqvfBGKFw7g4=",
         "owner": "homebrew",
         "repo": "homebrew-cask",
-        "rev": "24720b152932f4dfa6d96ae4cced2b315c530dc5",
+        "rev": "1b53d4025ee06b4f417c3a39e01c6eb40186c8ac",
         "type": "github"
       },
       "original": {
@@ -255,11 +239,11 @@
     "homebrew-core": {
       "flake": false,
       "locked": {
-        "lastModified": 1780365310,
-        "narHash": "sha256-LjzAC4oy7ZM0vKvb+Fz5C1pE/91sNWK6VCYpKKf1nRk=",
+        "lastModified": 1780397449,
+        "narHash": "sha256-wxswHdCQXSGVFSp3tAIAVpiNHlutHCcYqxE9VuQ5gRo=",
         "owner": "homebrew",
         "repo": "homebrew-core",
-        "rev": "683e481af8cbb9d20a5a2711080f2c16283e1bb4",
+        "rev": "c961bd2ad2c2581ef30a4883c1d113e8ba1efc86",
         "type": "github"
       },
       "original": {
@@ -348,7 +332,6 @@
         "blueprint": "blueprint",
         "brew-api": "brew-api",
         "brew-nix": "brew-nix",
-        "buo-homebrew-cask-upgrade": "buo-homebrew-cask-upgrade",
         "catppuccin": "catppuccin",
         "claude-code": "claude-code",
         "codex-cli": "codex-cli",

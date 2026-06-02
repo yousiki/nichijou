@@ -67,12 +67,6 @@
       url = "github:homebrew/homebrew-cask";
       flake = false;
     };
-
-    buo-homebrew-cask-upgrade = {
-      url = "github:buo/homebrew-cask-upgrade";
-      flake = false;
-    };
-
   };
 
   outputs =
