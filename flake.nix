@@ -39,6 +39,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    herdr = {
+      url = "github:ogulcancelik/herdr/v0.6.6";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     nix-homebrew.url = "github:zhaofengli/nix-homebrew";
 
     brew-api = {
@@ -87,6 +92,23 @@
       nixpkgs.overlays = [
         inputs.claude-code.overlays.default
         inputs.codex-cli.overlays.default
+        inputs.herdr.overlays.default
+        (final: prev: {
+          herdr = prev.herdr.overrideAttrs (oldAttrs: {
+            nativeBuildInputs =
+              (oldAttrs.nativeBuildInputs or [ ])
+              ++ final.lib.optionals final.stdenv.hostPlatform.isDarwin [
+                final.xcbuild
+                final.cctools
+              ];
+
+            buildInputs =
+              (oldAttrs.buildInputs or [ ])
+              ++ final.lib.optionals final.stdenv.hostPlatform.isDarwin [
+                final.apple-sdk
+              ];
+          });
+        })
         (import ./nix/overlays/mcp-nixos.nix)
         (import ./nix/overlays/brew-nix.nix { inherit inputs; })
       ];

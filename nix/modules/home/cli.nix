@@ -7,6 +7,7 @@
     ./programs/opencode.nix
     ./programs/mole.nix
     ./programs/cliproxyapi.nix
+    ./programs/herdr.nix
     ./programs/git.nix
     ./programs/shell.nix
     ./programs/toolchains.nix

@@ -2,16 +2,17 @@
   pkgs,
   lib,
   config,
+  perSystem,
   ...
 }:
 
 let
   # Thin wrappers that launch the same `claude` binary but point it at the local
-  # cliproxyapi (Anthropic-compatible endpoint) so it talks to GPT-5.x instead
-  # of Anthropic. Everything else (settings, MCP, LSP under ~/.claude) is shared
+  # cliproxyapi (Anthropic-compatible endpoint) so it talks to non-Anthropic
+  # model aliases. Everything else (settings, MCP, LSP under ~/.claude) is shared
   # with the normal `claude`.
-  mkClaudeCodex =
-    name: models:
+  mkClaudeProxy =
+    name: models: earlyCompact:
     pkgs.writeShellScriptBin name ''
       set -euo pipefail
       keyfile="${config.home.homeDirectory}/.cliproxyapi/api-key.txt"
@@ -30,30 +31,126 @@ let
       export CLAUDE_STREAM_IDLE_TIMEOUT_MS="600000"
       export CLAUDE_CODE_MAX_RETRIES="3"
       export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
+      ${lib.optionalString earlyCompact ''
+        export CLAUDE_CODE_AUTO_COMPACT_WINDOW="350000"
+        export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE="85"
+        export CLAUDE_CODE_MAX_OUTPUT_TOKENS="16384"
+      ''}
       exec ${lib.getExe config.programs.claude-code.finalPackage} "$@"
     '';
 
-  claudeCodex = mkClaudeCodex "claude-codex" {
+  claudeCodex = mkClaudeProxy "claude-codex" {
     opus = "gpt-5.5(xhigh)";
     sonnet = "gpt-5.5(medium)";
     haiku = "gpt-5.4-mini";
-  };
+  } true;
 
   # The `-fast` model names are forked aliases defined in
   # ~/.cliproxyapi/config.yaml whose payload override sets
   # `service_tier: "priority"` (Codex's fast lane; literal "fast" is rejected
   # upstream). Keep the old claude-codex behavior here under the explicit name.
-  claudeCodexFast = mkClaudeCodex "claude-codex-fast" {
+  claudeCodexFast = mkClaudeProxy "claude-codex-fast" {
     opus = "gpt-5.5-fast(xhigh)";
     sonnet = "gpt-5.5-fast(medium)";
     haiku = "gpt-5.4-mini-fast";
+  } true;
+
+  claudeMimo = mkClaudeProxy "claude-mimo" {
+    opus = "mimo-v2.5-pro";
+    sonnet = "mimo-v2.5-pro";
+    haiku = "mimo-v2.5-pro";
+  } false;
+
+  # ---------------------------------------------------------------------------
+  # Clawd on Desk integration
+  #
+  # "Clawd on Desk" is a desktop pet that reacts to Claude Code sessions. The
+  # app normally injects its own hooks into ~/.claude/settings.json at runtime;
+  # we manage them declaratively here instead (its auto-install is disabled).
+  #
+  # First gate (home-manager eval time): only wire the hooks in when we are on
+  # macOS *and* the clawd-on-desk package is actually part of this profile.
+  # Hosts that never install the app get a clean settings.json with no hooks.
+  clawdInstalled = lib.any (p: lib.getName p == "clawd-on-desk") config.home.packages;
+  clawdEnabled = pkgs.stdenv.hostPlatform.isDarwin && clawdInstalled;
+
+  # Reference the app straight out of the Nix store so the path always tracks
+  # the exact installed version. Only evaluated when clawdEnabled is true, so
+  # this never pulls clawd-on-desk into a closure that does not already have it.
+  clawdHookScript =
+    "${perSystem.self.clawd-on-desk}/Applications/Clawd on Desk.app"
+    + "/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js";
+
+  # Second gate (runtime): a tiny wrapper that runs the hook with Bun, but only
+  # if both the Bun runtime and the hook script truly exist on disk. If the app
+  # was removed out-of-band the wrapper exits 0 silently and never breaks the
+  # calling Claude Code session.
+  clawdHookRunner = pkgs.writeShellScript "clawd-hook-runner" ''
+    set -u
+    event="''${1:-}"
+    bun="${lib.getExe pkgs.bun}"
+    hook="${clawdHookScript}"
+    if [ -n "$event" ] && [ -x "$bun" ] && [ -f "$hook" ]; then
+      exec "$bun" "$hook" "$event"
+    fi
+    exit 0
+  '';
+
+  # Lifecycle events Clawd on Desk listens to, each fired as an async command
+  # hook with a short timeout (mirrors the app's own injected configuration).
+  clawdCommandEvents = [
+    "SessionStart"
+    "SessionEnd"
+    "UserPromptSubmit"
+    "PreToolUse"
+    "PostToolUse"
+    "PostToolUseFailure"
+    "Stop"
+    "StopFailure"
+    "SubagentStart"
+    "SubagentStop"
+    "Notification"
+    "Elicitation"
+    "PreCompact"
+    "PostCompact"
+  ];
+
+  mkClawdCommandHook = event: [
+    {
+      matcher = "";
+      hooks = [
+        {
+          type = "command";
+          command = "${clawdHookRunner} ${event}";
+          async = true;
+          timeout = 5;
+        }
+      ];
+    }
+  ];
+
+  clawdHooks = lib.genAttrs clawdCommandEvents mkClawdCommandHook // {
+    # Synchronous HTTP hook served by the running Clawd on Desk app; no script
+    # on disk to guard, so it is simply omitted on hosts without the app.
+    PermissionRequest = [
+      {
+        matcher = "";
+        hooks = [
+          {
+            type = "http";
+            url = "http://127.0.0.1:23333/permission";
+            timeout = 600;
+          }
+        ];
+      }
+    ];
   };
 in
-
 {
   home.packages = [
     claudeCodex
     claudeCodexFast
+    claudeMimo
   ];
 
   programs.claude-code = {
@@ -79,7 +176,9 @@ in
       permissions = {
         defaultMode = "auto";
       };
-    };
+    }
+    # Clawd on Desk lifecycle hooks, only on darwin hosts that install the app.
+    // lib.optionalAttrs clawdEnabled { hooks = clawdHooks; };
 
     # MCP servers. context7 and deepwiki use their hosted HTTP transports, so
     # they need no local runtime. nixos runs the locally-built mcp-nixos binary.
