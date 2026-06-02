@@ -23,6 +23,21 @@
         }
       }
     },
+    "clawd-on-desk": {
+      "repo": "rullerzhou-afk/clawd-on-desk",
+      "file": "nix/packages/clawd-on-desk.nix",
+      "versionPrefix": "v",
+      "systems": {
+        "aarch64-darwin": {
+          "nixAsset": "Clawd-on-Desk-{version}-arm64.dmg",
+          "releaseAsset": "Clawd-on-Desk-{version}-arm64.dmg"
+        },
+        "x86_64-darwin": {
+          "nixAsset": "Clawd-on-Desk-{version}-x64.dmg",
+          "releaseAsset": "Clawd-on-Desk-{version}-x64.dmg"
+        }
+      }
+    },
     "cliproxyapi": {
       "repo": "router-for-me/CLIProxyAPI",
       "file": "nix/packages/cliproxyapi.nix",

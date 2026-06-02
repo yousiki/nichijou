@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ perSystem, pkgs, ... }:
 
 {
   home.packages = with pkgs; [
@@ -15,6 +15,8 @@
     spotify
     wechat
     zoom-us
+
+    perSystem.self.clawd-on-desk
 
     brewCasks.chatgpt-atlas
     brewCasks.dockdoor
