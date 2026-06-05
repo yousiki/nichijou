@@ -71,40 +71,48 @@
 
   outputs =
     inputs:
-    inputs.blueprint {
-      inherit inputs;
-      prefix = "nix/";
-
+    let
       systems = [
         "aarch64-darwin"
         "x86_64-linux"
         "aarch64-linux"
       ];
 
-      nixpkgs.config.allowUnfree = true;
+      nixpkgs = {
+        config.allowUnfree = true;
 
-      nixpkgs.overlays = [
-        inputs.claude-code.overlays.default
-        inputs.codex-cli.overlays.default
-        inputs.herdr.overlays.default
-        (final: prev: {
-          herdr = prev.herdr.overrideAttrs (oldAttrs: {
-            nativeBuildInputs =
-              (oldAttrs.nativeBuildInputs or [ ])
-              ++ final.lib.optionals final.stdenv.hostPlatform.isDarwin [
-                final.xcbuild
-                final.cctools
-              ];
+        overlays = [
+          inputs.claude-code.overlays.default
+          inputs.codex-cli.overlays.default
+          inputs.herdr.overlays.default
+          (final: prev: {
+            herdr = prev.herdr.overrideAttrs (oldAttrs: {
+              nativeBuildInputs =
+                (oldAttrs.nativeBuildInputs or [ ])
+                ++ final.lib.optionals final.stdenv.hostPlatform.isDarwin [
+                  final.xcbuild
+                  final.cctools
+                ];
 
-            buildInputs =
-              (oldAttrs.buildInputs or [ ])
-              ++ final.lib.optionals final.stdenv.hostPlatform.isDarwin [
-                final.apple-sdk
-              ];
-          });
-        })
-        (import ./nix/overlays/mcp-nixos.nix)
-        (import ./nix/overlays/brew-nix.nix { inherit inputs; })
-      ];
-    };
+              buildInputs =
+                (oldAttrs.buildInputs or [ ])
+                ++ final.lib.optionals final.stdenv.hostPlatform.isDarwin [
+                  final.apple-sdk
+                ];
+            });
+          })
+          (import ./nix/overlays/mcp-nixos.nix)
+          (import ./nix/overlays/brew-nix.nix { inherit inputs; })
+        ];
+      };
+
+      blueprintOutputs = inputs.blueprint {
+        inherit inputs nixpkgs systems;
+        prefix = "nix/";
+      };
+    in
+    (import ./nix/flake-patches/wrap-darwin-system-checks.nix {
+      inherit inputs nixpkgs systems;
+    })
+      blueprintOutputs;
 }

@@ -21,6 +21,13 @@
     pkgs.just
   ];
 
+  programs.herdr = {
+    enable = true;
+    settings = {
+      onboarding = false;
+    };
+  };
+
   programs.btop.enable = true;
   programs.gitui.enable = true;
   programs.helix.enable = true;
