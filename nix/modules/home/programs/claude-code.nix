@@ -33,8 +33,11 @@ let
       export CLAUDE_CODE_MAX_RETRIES="3"
       export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
       ${lib.optionalString earlyCompact ''
-        export CLAUDE_CODE_AUTO_COMPACT_WINDOW="350000"
-        export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE="85"
+        # Codex proxy aliases can hit their real context limit before Claude
+        # Code's native-model heuristics expect it. Compact at roughly 175k
+        # tokens (250k window × 70%) instead of the previous ~298k.
+        export CLAUDE_CODE_AUTO_COMPACT_WINDOW="250000"
+        export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE="70"
         export CLAUDE_CODE_MAX_OUTPUT_TOKENS="16384"
       ''}
       exec ${lib.getExe config.programs.claude-code.finalPackage} "$@"
