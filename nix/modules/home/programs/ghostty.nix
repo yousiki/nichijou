@@ -1,9 +1,19 @@
 { lib, pkgs, ... }:
 
+let
+  ghosttyPackage =
+    if pkgs.stdenv.hostPlatform.isDarwin then
+      lib.attrByPath [
+        "brewCasks"
+        "ghostty"
+      ] pkgs.ghostty pkgs
+    else
+      pkgs.ghostty;
+in
 {
   programs.ghostty = {
     enable = true;
-    package = pkgs.brewCasks.ghostty;
+    package = ghosttyPackage;
 
     enableZshIntegration = false;
     installBatSyntax = true;
