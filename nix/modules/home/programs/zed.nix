@@ -28,6 +28,7 @@ in
       "biome"
       "caddyfile"
       "catppuccin"
+      "comment"
       "csv"
       "docker-compose"
       "dockerfile"
