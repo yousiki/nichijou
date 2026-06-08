@@ -22,6 +22,7 @@
   ];
 
   programs.btop.enable = true;
+  programs.herdr.enable = true;
   programs.gitui.enable = true;
   programs.helix.enable = true;
   programs.lazydocker.enable = true;
