@@ -34,11 +34,12 @@ let
       export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
       ${lib.optionalString earlyCompact ''
         # Codex proxy aliases can hit their real context limit before Claude
-        # Code's native-model heuristics expect it. Compact at roughly 175k
-        # tokens (250k window × 70%) instead of the previous ~298k.
-        export CLAUDE_CODE_AUTO_COMPACT_WINDOW="250000"
-        export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE="70"
-        export CLAUDE_CODE_MAX_OUTPUT_TOKENS="16384"
+        # Code's native-model heuristics expect it. Keep a larger safety margin
+        # for proxy/tool-schema/tokenizer overhead: compact at roughly 132k
+        # tokens (220k window × 60%) instead of the earlier ~175k.
+        export CLAUDE_CODE_AUTO_COMPACT_WINDOW="220000"
+        export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE="60"
+        export CLAUDE_CODE_MAX_OUTPUT_TOKENS="12000"
       ''}
       exec ${lib.getExe config.programs.claude-code.finalPackage} "$@"
     '';
