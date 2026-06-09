@@ -2,10 +2,9 @@
   pname,
   pkgs,
   ...
-}:
-
-let
-  inherit (pkgs)
+}: let
+  inherit
+    (pkgs)
     fetchurl
     lib
     stdenvNoCC
@@ -30,36 +29,36 @@ let
     sources.${stdenvNoCC.hostPlatform.system}
       or (throw "clawd-on-desk is not packaged for ${stdenvNoCC.hostPlatform.system}");
 in
-stdenvNoCC.mkDerivation {
-  inherit pname version;
+  stdenvNoCC.mkDerivation {
+    inherit pname version;
 
-  src = fetchurl {
-    url = "https://github.com/rullerzhou-afk/clawd-on-desk/releases/download/v${version}/${source.asset}";
-    inherit (source) hash;
-  };
+    src = fetchurl {
+      url = "https://github.com/rullerzhou-afk/clawd-on-desk/releases/download/v${version}/${source.asset}";
+      inherit (source) hash;
+    };
 
-  sourceRoot = ".";
+    sourceRoot = ".";
 
-  nativeBuildInputs = [
-    undmg
-  ];
+    nativeBuildInputs = [
+      undmg
+    ];
 
-  installPhase = ''
-    runHook preInstall
+    installPhase = ''
+      runHook preInstall
 
-    mkdir -p "$out/Applications"
-    cp -R "Clawd on Desk.app" "$out/Applications/"
+      mkdir -p "$out/Applications"
+      cp -R "Clawd on Desk.app" "$out/Applications/"
 
-    runHook postInstall
-  '';
+      runHook postInstall
+    '';
 
-  dontFixup = true;
+    dontFixup = true;
 
-  meta = {
-    description = "Desktop pet that reacts to AI coding agent sessions";
-    homepage = "https://github.com/rullerzhou-afk/clawd-on-desk";
-    license = lib.licenses.agpl3Only;
-    platforms = builtins.attrNames sources;
-    sourceProvenance = with lib.sourceTypes; [ binaryNativeCode ];
-  };
-}
+    meta = {
+      description = "Desktop pet that reacts to AI coding agent sessions";
+      homepage = "https://github.com/rullerzhou-afk/clawd-on-desk";
+      license = lib.licenses.agpl3Only;
+      platforms = builtins.attrNames sources;
+      sourceProvenance = with lib.sourceTypes; [binaryNativeCode];
+    };
+  }

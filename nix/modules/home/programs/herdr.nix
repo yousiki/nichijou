@@ -4,11 +4,9 @@
   config,
   inputs,
   ...
-}:
-
-let
+}: let
   cfg = config.programs.herdr;
-  tomlFormat = pkgs.formats.toml { };
+  tomlFormat = pkgs.formats.toml {};
 
   settings = {
     onboarding = false;
@@ -30,7 +28,7 @@ let
     set -u
     action="''${1:-}"
     hook="${herdrHookScript}"
-    export PATH="${lib.makeBinPath [ pkgs.python3 ]}:''${PATH:-}"
+    export PATH="${lib.makeBinPath [pkgs.python3]}:''${PATH:-}"
     if [ -n "$action" ] \
       && [ "''${HERDR_ENV:-}" = "1" ] \
       && [ -n "''${HERDR_SOCKET_PATH:-}" ] \
@@ -68,27 +66,21 @@ let
     Stop = mkHerdrCommandHook "idle";
     SessionEnd = mkHerdrCommandHook "release";
   };
-
-in
-{
+in {
   options.programs.herdr.enable = lib.mkEnableOption "Herdr";
 
-  config = lib.mkMerge [
-    (lib.mkIf cfg.enable {
-      home.packages = [
-        pkgs.herdr
-      ];
+  config = lib.mkIf cfg.enable {
+    home.packages = [
+      pkgs.herdr
+    ];
 
-      xdg.configFile."herdr/config.toml" = {
-        source = tomlFormat.generate "herdr-config.toml" settings;
-        onChange = ''
-          ${lib.getExe pkgs.herdr} server reload-config >/dev/null 2>&1 || true
-        '';
-      };
-    })
+    xdg.configFile."herdr/config.toml" = {
+      source = tomlFormat.generate "herdr-config.toml" settings;
+      onChange = ''
+        ${lib.getExe pkgs.herdr} server reload-config >/dev/null 2>&1 || true
+      '';
+    };
 
-    (lib.mkIf (cfg.enable && (config.programs.claude-code.enable or false)) {
-      programs.claude-code.settings.hooks = herdrClaudeHooks;
-    })
-  ];
+    programs.claude-code.settings.hooks = herdrClaudeHooks;
+  };
 }

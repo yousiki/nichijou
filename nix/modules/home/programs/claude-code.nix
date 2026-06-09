@@ -2,17 +2,13 @@
   pkgs,
   lib,
   config,
-  perSystem,
   ...
-}:
-
-let
+}: let
   # Thin wrappers that launch the same `claude` binary but point it at the local
   # cliproxyapi (Anthropic-compatible endpoint) so it talks to non-Anthropic
   # model aliases. Everything else (settings, MCP, LSP under ~/.claude) is shared
   # with the normal `claude`.
-  mkClaudeProxy =
-    name: models: earlyCompact:
+  mkClaudeProxy = name: models: earlyCompact:
     pkgs.writeShellScriptBin name ''
       set -euo pipefail
       keyfile="${config.home.homeDirectory}/.cliproxyapi/api-key.txt"
@@ -32,10 +28,6 @@ let
       export CLAUDE_CODE_MAX_RETRIES="3"
       export CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC="1"
       ${lib.optionalString earlyCompact ''
-        # Codex proxy aliases can hit their real context limit before Claude
-        # Code's native-model heuristics expect it. Keep a larger safety margin
-        # for proxy/tool-schema/tokenizer overhead: compact at roughly 132k
-        # tokens (220k window × 60%) instead of the earlier ~175k.
         export CLAUDE_CODE_AUTO_COMPACT_WINDOW="220000"
         export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE="60"
         export CLAUDE_CODE_MAX_OUTPUT_TOKENS="12000"
@@ -43,116 +35,34 @@ let
       exec ${lib.getExe config.programs.claude-code.finalPackage} "$@"
     '';
 
-  claudeCodex = mkClaudeProxy "claude-codex" {
-    opus = "gpt-5.5(xhigh)";
-    sonnet = "gpt-5.5(medium)";
-    haiku = "gpt-5.4-mini";
-  } true;
+  claudeCodex =
+    mkClaudeProxy "claude-codex" {
+      opus = "gpt-5.5(xhigh)";
+      sonnet = "gpt-5.5(medium)";
+      haiku = "gpt-5.3-codex-spark";
+    }
+    true;
 
   # The `-fast` model names are forked aliases defined in
   # ~/.cliproxyapi/config.yaml whose payload override sets
   # `service_tier: "priority"` (Codex's fast lane; literal "fast" is rejected
   # upstream). Keep the old claude-codex behavior here under the explicit name.
-  claudeCodexFast = mkClaudeProxy "claude-codex-fast" {
-    opus = "gpt-5.5-fast(xhigh)";
-    sonnet = "gpt-5.5-fast(medium)";
-    haiku = "gpt-5.4-mini-fast";
-  } true;
-
-  claudeMimo = mkClaudeProxy "claude-mimo" {
-    opus = "mimo-v2.5-pro";
-    sonnet = "mimo-v2.5-pro";
-    haiku = "mimo-v2.5-pro";
-  } false;
-
-  # ---------------------------------------------------------------------------
-  # Clawd on Desk integration
-  #
-  # "Clawd on Desk" is a desktop pet that reacts to Claude Code sessions. The
-  # app normally injects its own hooks into ~/.claude/settings.json at runtime;
-  # we manage them declaratively here instead (its auto-install is disabled).
-  #
-  # First gate (home-manager eval time): only wire the hooks in when we are on
-  # macOS *and* the clawd-on-desk package is actually part of this profile.
-  # Hosts that never install the app get a clean settings.json with no hooks.
-  clawdInstalled = lib.any (p: lib.getName p == "clawd-on-desk") config.home.packages;
-  clawdEnabled = pkgs.stdenv.hostPlatform.isDarwin && clawdInstalled;
-
-  # Reference the app straight out of the Nix store so the path always tracks
-  # the exact installed version. Only evaluated when clawdEnabled is true, so
-  # this never pulls clawd-on-desk into a closure that does not already have it.
-  clawdHookScript =
-    "${perSystem.self.clawd-on-desk}/Applications/Clawd on Desk.app"
-    + "/Contents/Resources/app.asar.unpacked/hooks/clawd-hook.js";
-
-  # Second gate (runtime): a tiny wrapper that runs the hook with Bun, but only
-  # if both the Bun runtime and the hook script truly exist on disk. If the app
-  # was removed out-of-band the wrapper exits 0 silently and never breaks the
-  # calling Claude Code session.
-  clawdHookRunner = pkgs.writeShellScript "clawd-hook-runner" ''
-    set -u
-    event="''${1:-}"
-    bun="${lib.getExe pkgs.bun}"
-    hook="${clawdHookScript}"
-    if [ -n "$event" ] && [ -x "$bun" ] && [ -f "$hook" ]; then
-      exec "$bun" "$hook" "$event"
-    fi
-    exit 0
-  '';
-
-  # Lifecycle events Clawd on Desk listens to, each fired as an async command
-  # hook with a short timeout (mirrors the app's own injected configuration).
-  clawdCommandEvents = [
-    "SessionStart"
-    "SessionEnd"
-    "UserPromptSubmit"
-    "PreToolUse"
-    "PostToolUse"
-    "PostToolUseFailure"
-    "Stop"
-    "StopFailure"
-    "SubagentStart"
-    "SubagentStop"
-    "Notification"
-    "Elicitation"
-    "PreCompact"
-    "PostCompact"
-  ];
-
-  mkClawdCommandHook = event: [
-    {
-      matcher = "";
-      hooks = [
-        {
-          type = "command";
-          command = "${clawdHookRunner} ${event}";
-          async = true;
-          timeout = 5;
-        }
-      ];
+  claudeCodexFast =
+    mkClaudeProxy "claude-codex-fast" {
+      opus = "gpt-5.5-fast(xhigh)";
+      sonnet = "gpt-5.5-fast(medium)";
+      haiku = "gpt-5.3-codex-spark";
     }
-  ];
+    true;
 
-  clawdHooks = lib.genAttrs clawdCommandEvents mkClawdCommandHook // {
-    # Synchronous HTTP hook served by the running Clawd on Desk app; no script
-    # on disk to guard, so it is simply omitted on hosts without the app.
-    PermissionRequest = [
-      {
-        matcher = "";
-        hooks = [
-          {
-            type = "http";
-            url = "http://127.0.0.1:23333/permission";
-            timeout = 600;
-          }
-        ];
-      }
-    ];
-  };
-
-  activeClaudeHooks = lib.optionalAttrs clawdEnabled clawdHooks;
-in
-{
+  claudeMimo =
+    mkClaudeProxy "claude-mimo" {
+      opus = "mimo-v2.5-pro";
+      sonnet = "mimo-v2.5-pro";
+      haiku = "mimo-v2.5-pro";
+    }
+    false;
+in {
   home.packages = [
     claudeCodex
     claudeCodexFast
@@ -182,10 +92,7 @@ in
       permissions = {
         defaultMode = "auto";
       };
-    }
-    # Declarative integrations, only on hosts that install the corresponding
-    # package. Multiple integrations on the same event are concatenated.
-    // lib.optionalAttrs (activeClaudeHooks != { }) { hooks = activeClaudeHooks; };
+    };
 
     # MCP servers. context7 and deepwiki use their hosted HTTP transports, so
     # they need no local runtime. nixos runs the locally-built mcp-nixos binary.
@@ -213,7 +120,7 @@ in
       # as a fast type checker. Both claim the Python extensions.
       basedpyright = {
         command = "${pkgs.basedpyright}/bin/basedpyright-langserver";
-        args = [ "--stdio" ];
+        args = ["--stdio"];
         extensionToLanguage = {
           ".py" = "python";
           ".pyi" = "python";
@@ -221,7 +128,7 @@ in
       };
       ty = {
         command = lib.getExe pkgs.ty;
-        args = [ "server" ];
+        args = ["server"];
         extensionToLanguage = {
           ".py" = "python";
           ".pyi" = "python";
@@ -229,14 +136,14 @@ in
       };
       rust = {
         command = lib.getExe pkgs.rust-analyzer;
-        args = [ ];
+        args = [];
         extensionToLanguage = {
           ".rs" = "rust";
         };
       };
       nix = {
         command = lib.getExe pkgs.nixd;
-        args = [ ];
+        args = [];
         extensionToLanguage = {
           ".nix" = "nix";
         };

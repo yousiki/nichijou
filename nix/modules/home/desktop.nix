@@ -3,13 +3,10 @@
   perSystem ? null,
   pkgs,
   ...
-}:
-
-let
+}: let
   inherit (pkgs.stdenv.hostPlatform) isDarwin;
 
-  availableNamedPackages =
-    packageSet: names:
+  availableNamedPackages = packageSet: names:
     lib.filter (package: package != null && lib.meta.availableOn pkgs.stdenv.hostPlatform package) (
       map (name: packageSet.${name} or null) names
     );
@@ -35,13 +32,10 @@ let
         "rectangle"
         "wechat"
       ]
-    )
-    ++ lib.optionals (isDarwin && perSystem != null) [
-      perSystem.self.clawd-on-desk
-    ];
+    );
 
   darwinBrewCaskPackages = lib.optionals isDarwin (
-    availableNamedPackages (pkgs.brewCasks or { }) [
+    availableNamedPackages (pkgs.brewCasks or {}) [
       "chatgpt-atlas"
       "feishu"
       "keepingyouawake"
@@ -52,13 +46,15 @@ let
       "zotero"
     ]
   );
-in
-{
+in {
   imports = [
+    ./programs/clawd.nix
     ./programs/ghostty.nix
     ./programs/kitty.nix
     ./programs/zed.nix
   ];
 
   home.packages = nixDesktopPackages ++ darwinBrewCaskPackages;
+
+  programs.clawd.enable = isDarwin && perSystem != null;
 }

@@ -1,13 +1,10 @@
-{ pkgs, ... }:
-
-let
+{pkgs, ...}: let
   mcpNixos = pkgs.mcp-nixos.overridePythonAttrs (_: {
     doCheck = false;
   });
 
-  ohMyOpenAgentConfig = (pkgs.formats.json { }).generate "oh-my-openagent.json" {
-    "$schema" =
-      "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json";
+  ohMyOpenAgentConfig = (pkgs.formats.json {}).generate "oh-my-openagent.json" {
+    "$schema" = "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json";
 
     agents = {
       sisyphus = {
@@ -177,8 +174,7 @@ let
       };
     };
   };
-in
-{
+in {
   programs.opencode = {
     enable = true;
     package = pkgs.opencode;

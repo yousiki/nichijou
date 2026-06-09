@@ -1,6 +1,8 @@
-{ config, inputs, ... }:
-
 {
+  config,
+  inputs,
+  ...
+}: {
   imports = [
     inputs.nix-homebrew.darwinModules.nix-homebrew
   ];
@@ -47,6 +49,6 @@
       "microsoft-word"
       "windows-app"
     ];
-    brews = [ ];
+    brews = [];
   };
 }

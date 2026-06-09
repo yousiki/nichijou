@@ -1,6 +1,8 @@
-{ lib, pkgs, ... }:
-
-let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   zedPackage = pkgs.zed-editor;
   zedCli = pkgs.writeShellApplication {
     name = "zed";
@@ -8,8 +10,7 @@ let
       exec ${lib.getExe' zedPackage "zeditor"} "$@"
     '';
   };
-in
-{
+in {
   home.packages = [
     zedCli
   ];
@@ -22,6 +23,18 @@ in
   programs.zed-editor = {
     enable = true;
     package = zedPackage;
+
+    extraPackages = with pkgs; [
+      alejandra
+      basedpyright
+      nil
+      nixd
+      nixfmt
+      ruff
+      rust-analyzer
+      rustfmt
+      ty
+    ];
 
     extensions = [
       "astro"
@@ -63,7 +76,7 @@ in
       buffer_font_family = "Maple Mono NF CN";
       buffer_font_size = 14;
 
-      ui_font_family = ".SystemUIFont";
+      ui_font_family = "Maple Mono NF CN";
       ui_font_size = 16;
 
       terminal = {
@@ -73,6 +86,25 @@ in
       };
 
       vim_mode = true;
+
+      languages = {
+        Nix = {
+          language_servers = [
+            "nixd"
+            "nil"
+          ];
+        };
+      };
+
+      lsp = {
+        nil = {
+          binary.path = lib.getExe pkgs.nil;
+        };
+
+        nixd = {
+          binary.path = lib.getExe pkgs.nixd;
+        };
+      };
 
       format_on_save = "off";
     };

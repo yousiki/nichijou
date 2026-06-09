@@ -1,6 +1,8 @@
-{ flake, hostName, ... }:
-
 {
+  flake,
+  hostName,
+  ...
+}: {
   imports = [
     flake.darwinModules.common
     flake.darwinModules.nix

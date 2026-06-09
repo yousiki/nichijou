@@ -1,16 +1,19 @@
-{ lib, pkgs, ... }:
-
-let
+{
+  lib,
+  pkgs,
+  ...
+}: let
   ghosttyPackage =
-    if pkgs.stdenv.hostPlatform.isDarwin then
+    if pkgs.stdenv.hostPlatform.isDarwin
+    then
       lib.attrByPath [
         "brewCasks"
         "ghostty"
-      ] pkgs.ghostty pkgs
-    else
-      pkgs.ghostty;
-in
-{
+      ]
+      pkgs.ghostty
+      pkgs
+    else pkgs.ghostty;
+in {
   programs.ghostty = {
     enable = true;
     package = ghosttyPackage;

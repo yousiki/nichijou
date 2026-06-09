@@ -2,9 +2,7 @@
   pname,
   pkgs,
   ...
-}:
-
-let
+}: let
   inherit (pkgs) fetchurl lib stdenvNoCC;
 
   version = "7.1.56";
@@ -35,30 +33,30 @@ let
     sources.${stdenvNoCC.hostPlatform.system}
       or (throw "cliproxyapi is not packaged for ${stdenvNoCC.hostPlatform.system}");
 in
-stdenvNoCC.mkDerivation {
-  inherit pname version;
+  stdenvNoCC.mkDerivation {
+    inherit pname version;
 
-  src = fetchurl {
-    url = "https://github.com/router-for-me/CLIProxyAPI/releases/download/v${version}/${source.asset}";
-    inherit (source) hash;
-  };
+    src = fetchurl {
+      url = "https://github.com/router-for-me/CLIProxyAPI/releases/download/v${version}/${source.asset}";
+      inherit (source) hash;
+    };
 
-  sourceRoot = ".";
+    sourceRoot = ".";
 
-  installPhase = ''
-    runHook preInstall
+    installPhase = ''
+      runHook preInstall
 
-    install -D -m755 cli-proxy-api "$out/bin/cli-proxy-api"
-    ln -s "$out/bin/cli-proxy-api" "$out/bin/cliproxyapi"
+      install -D -m755 cli-proxy-api "$out/bin/cli-proxy-api"
+      ln -s "$out/bin/cli-proxy-api" "$out/bin/cliproxyapi"
 
-    runHook postInstall
-  '';
+      runHook postInstall
+    '';
 
-  meta = {
-    description = "OpenAI/Gemini/Claude/Codex compatible API service for CLI coding tools";
-    homepage = "https://github.com/router-for-me/CLIProxyAPI";
-    license = lib.licenses.mit;
-    mainProgram = "cliproxyapi";
-    platforms = builtins.attrNames sources;
-  };
-}
+    meta = {
+      description = "OpenAI/Gemini/Claude/Codex compatible API service for CLI coding tools";
+      homepage = "https://github.com/router-for-me/CLIProxyAPI";
+      license = lib.licenses.mit;
+      mainProgram = "cliproxyapi";
+      platforms = builtins.attrNames sources;
+    };
+  }

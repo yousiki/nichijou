@@ -1,6 +1,4 @@
-{ perSystem, ... }:
-
-{
+{perSystem, ...}: {
   home.packages = [
     perSystem.self.mole
   ];

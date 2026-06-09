@@ -2,9 +2,7 @@
   pname,
   pkgs,
   ...
-}:
-
-let
+}: let
   inherit (pkgs) fetchurl lib stdenvNoCC;
 
   version = "0.24.0";
@@ -35,45 +33,45 @@ let
     sources.${stdenvNoCC.hostPlatform.system}
       or (throw "jcode is not packaged for ${stdenvNoCC.hostPlatform.system}");
 in
-stdenvNoCC.mkDerivation {
-  inherit pname version;
+  stdenvNoCC.mkDerivation {
+    inherit pname version;
 
-  src = fetchurl {
-    url = "https://github.com/1jehuang/jcode/releases/download/v${version}/${source.asset}.tar.gz";
-    inherit (source) hash;
-  };
+    src = fetchurl {
+      url = "https://github.com/1jehuang/jcode/releases/download/v${version}/${source.asset}.tar.gz";
+      inherit (source) hash;
+    };
 
-  sourceRoot = ".";
+    sourceRoot = ".";
 
-  installPhase = ''
-    runHook preInstall
+    installPhase = ''
+      runHook preInstall
 
-    mkdir -p "$out/bin"
+      mkdir -p "$out/bin"
 
-    if [ -f "${source.asset}.bin" ]; then
-      mkdir -p "$out/libexec/jcode"
-      install -m755 "${source.asset}" "$out/libexec/jcode/${source.asset}"
-      install -m755 "${source.asset}.bin" "$out/libexec/jcode/${source.asset}.bin"
+      if [ -f "${source.asset}.bin" ]; then
+        mkdir -p "$out/libexec/jcode"
+        install -m755 "${source.asset}" "$out/libexec/jcode/${source.asset}"
+        install -m755 "${source.asset}.bin" "$out/libexec/jcode/${source.asset}.bin"
 
-      for library in libssl.so* libcrypto.so*; do
-        if [ -e "$library" ]; then
-          install -m644 "$library" "$out/libexec/jcode/$library"
-        fi
-      done
+        for library in libssl.so* libcrypto.so*; do
+          if [ -e "$library" ]; then
+            install -m644 "$library" "$out/libexec/jcode/$library"
+          fi
+        done
 
-      ln -s "$out/libexec/jcode/${source.asset}" "$out/bin/jcode"
-    else
-      install -m755 "${source.asset}" "$out/bin/jcode"
-    fi
+        ln -s "$out/libexec/jcode/${source.asset}" "$out/bin/jcode"
+      else
+        install -m755 "${source.asset}" "$out/bin/jcode"
+      fi
 
-    runHook postInstall
-  '';
+      runHook postInstall
+    '';
 
-  meta = {
-    description = "Coding agent harness for multi-session workflows";
-    homepage = "https://github.com/1jehuang/jcode";
-    license = lib.licenses.mit;
-    mainProgram = "jcode";
-    platforms = builtins.attrNames sources;
-  };
-}
+    meta = {
+      description = "Coding agent harness for multi-session workflows";
+      homepage = "https://github.com/1jehuang/jcode";
+      license = lib.licenses.mit;
+      mainProgram = "jcode";
+      platforms = builtins.attrNames sources;
+    };
+  }

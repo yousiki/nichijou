@@ -1,9 +1,10 @@
-{ config, pkgs, ... }:
-
-let
-  bunInstall = "${config.home.homeDirectory}/.bun";
-in
 {
+  config,
+  pkgs,
+  ...
+}: let
+  bunInstall = "${config.home.homeDirectory}/.bun";
+in {
   programs.bun = {
     enable = true;
     package = pkgs.bun;

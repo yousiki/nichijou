@@ -4,9 +4,7 @@
   perSystem,
   pkgs,
   ...
-}:
-
-let
+}: let
   homeDir = config.home.homeDirectory;
   logDir = "${homeDir}/.cliproxyapi/logs";
   configFile = "${homeDir}/.cliproxyapi/config.yaml";
@@ -20,13 +18,12 @@ let
     "/usr/sbin"
     "/sbin"
   ];
-in
-{
+in {
   home.packages = [
     perSystem.self.cliproxyapi
   ];
 
-  home.activation.createCliproxyapiLogDir = lib.hm.dag.entryAfter [ "writeBoundary" ] ''
+  home.activation.createCliproxyapiLogDir = lib.hm.dag.entryAfter ["writeBoundary"] ''
     $DRY_RUN_CMD mkdir -p "${logDir}"
   '';
 

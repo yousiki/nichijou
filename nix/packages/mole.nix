@@ -2,10 +2,9 @@
   pname,
   pkgs,
   ...
-}:
-
-let
-  inherit (pkgs)
+}: let
+  inherit
+    (pkgs)
     buildGo125Module
     fetchFromGitHub
     lib
@@ -44,68 +43,68 @@ let
     doCheck = false;
   };
 in
-stdenvNoCC.mkDerivation {
-  inherit pname version src;
+  stdenvNoCC.mkDerivation {
+    inherit pname version src;
 
-  dontBuild = true;
+    dontBuild = true;
 
-  installPhase = ''
-    runHook preInstall
+    installPhase = ''
+      runHook preInstall
 
-    mkdir -p "$out/bin" "$out/libexec/mole"
-    cp -R bin lib "$out/libexec/mole/"
+      mkdir -p "$out/bin" "$out/libexec/mole"
+      cp -R bin lib "$out/libexec/mole/"
 
-    install -m755 "${goBins}/bin/analyze" "$out/libexec/mole/bin/analyze-go"
-    install -m755 "${goBins}/bin/status" "$out/libexec/mole/bin/status-go"
+      install -m755 "${goBins}/bin/analyze" "$out/libexec/mole/bin/analyze-go"
+      install -m755 "${goBins}/bin/status" "$out/libexec/mole/bin/status-go"
 
-    install -m755 mole "$out/bin/mole"
+      install -m755 mole "$out/bin/mole"
 
-    substituteInPlace "$out/bin/mole" \
-      --replace-fail 'SCRIPT_DIR="$(cd "$(dirname "''${BASH_SOURCE[0]}")" && pwd)"' \
-      "SCRIPT_DIR='$out/libexec/mole'" \
-      --replace-fail '    local sudo_keepalive_pid=""' \
-      '    local sudo_keepalive_pid=""
+      substituteInPlace "$out/bin/mole" \
+        --replace-fail 'SCRIPT_DIR="$(cd "$(dirname "''${BASH_SOURCE[0]}")" && pwd)"' \
+        "SCRIPT_DIR='$out/libexec/mole'" \
+        --replace-fail '    local sudo_keepalive_pid=""' \
+        '    local sudo_keepalive_pid=""
 
-    echo "Mole is managed by Nix. Update /private/etc/nix-darwin and rebuild with: darwin-rebuild switch --flake /private/etc/nix-darwin#sakurai"
-    return 0' \
-      --replace-fail '    local installer_url="https://raw.githubusercontent.com/tw93/mole/''${installer_ref}/install.sh"' \
-      '    local installer_url="nix-managed-update-disabled"' \
-      --replace-fail '            update_mole "$force_update" "$nightly_update"' \
-      '            echo "Mole is managed by Nix. Update /private/etc/nix-darwin and rebuild with: darwin-rebuild switch --flake /private/etc/nix-darwin#sakurai"' \
-      --replace-fail '            remove_mole "$dry_run_remove"' \
-      '            echo "Mole is managed by Home Manager. Remove or disable nix/modules/home/programs/mole.nix, then rebuild the sakurai profile."'
+      echo "Mole is managed by Nix. Update /private/etc/nix-darwin and rebuild with: darwin-rebuild switch --flake /private/etc/nix-darwin#sakurai"
+      return 0' \
+        --replace-fail '    local installer_url="https://raw.githubusercontent.com/tw93/mole/''${installer_ref}/install.sh"' \
+        '    local installer_url="nix-managed-update-disabled"' \
+        --replace-fail '            update_mole "$force_update" "$nightly_update"' \
+        '            echo "Mole is managed by Nix. Update /private/etc/nix-darwin and rebuild with: darwin-rebuild switch --flake /private/etc/nix-darwin#sakurai"' \
+        --replace-fail '            remove_mole "$dry_run_remove"' \
+        '            echo "Mole is managed by Home Manager. Remove or disable nix/modules/home/programs/mole.nix, then rebuild the sakurai profile."'
 
-    ln -s "$out/bin/mole" "$out/bin/mo"
+      ln -s "$out/bin/mole" "$out/bin/mo"
 
-    patchShebangs "$out/bin" "$out/libexec/mole/bin" "$out/libexec/mole/lib"
+      patchShebangs "$out/bin" "$out/libexec/mole/bin" "$out/libexec/mole/lib"
 
-    runHook postInstall
-  '';
+      runHook postInstall
+    '';
 
-  doInstallCheck = true;
-  installCheckPhase = ''
-    runHook preInstallCheck
+    doInstallCheck = true;
+    installCheckPhase = ''
+      runHook preInstallCheck
 
-    "$out/bin/mole" --version | grep -F "Mole version ${version}"
-    "$out/bin/mo" --version | grep -F "Mole version ${version}"
-    "$out/bin/mo" analyze --help 2>&1 | grep -F "output analysis as JSON"
-    "$out/bin/mo" status --help 2>&1 | grep -F "output metrics as JSON"
-    "$out/bin/mo" update | grep -F "Mole is managed by Nix"
-    "$out/bin/mo" remove --dry-run | grep -F "Mole is managed by Home Manager"
-    grep -A8 -F "update_mole() {" "$out/bin/mole" | grep -F "Mole is managed by Nix"
-    if grep -F "raw.githubusercontent.com/tw93/mole/" "$out/bin/mole" | grep -F "install.sh"; then
-      echo "upstream Mole installer URL remains" >&2
-      exit 1
-    fi
+      "$out/bin/mole" --version | grep -F "Mole version ${version}"
+      "$out/bin/mo" --version | grep -F "Mole version ${version}"
+      "$out/bin/mo" analyze --help 2>&1 | grep -F "output analysis as JSON"
+      "$out/bin/mo" status --help 2>&1 | grep -F "output metrics as JSON"
+      "$out/bin/mo" update | grep -F "Mole is managed by Nix"
+      "$out/bin/mo" remove --dry-run | grep -F "Mole is managed by Home Manager"
+      grep -A8 -F "update_mole() {" "$out/bin/mole" | grep -F "Mole is managed by Nix"
+      if grep -F "raw.githubusercontent.com/tw93/mole/" "$out/bin/mole" | grep -F "install.sh"; then
+        echo "upstream Mole installer URL remains" >&2
+        exit 1
+      fi
 
-    runHook postInstallCheck
-  '';
+      runHook postInstallCheck
+    '';
 
-  meta = {
-    description = "Deep clean and optimize your Mac";
-    homepage = "https://github.com/tw93/Mole";
-    license = lib.licenses.mit;
-    mainProgram = "mole";
-    platforms = lib.platforms.darwin;
-  };
-}
+    meta = {
+      description = "Deep clean and optimize your Mac";
+      homepage = "https://github.com/tw93/Mole";
+      license = lib.licenses.mit;
+      mainProgram = "mole";
+      platforms = lib.platforms.darwin;
+    };
+  }
