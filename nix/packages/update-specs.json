@@ -67,6 +67,34 @@
       "file": "nix/packages/mole.nix",
       "versionPrefix": "V",
       "rev": "V{version}"
+    },
+    "ccstatusline": {
+      "type": "npmPackage",
+      "packageName": "ccstatusline",
+      "file": "nix/packages/ccstatusline.nix"
+    },
+    "aliyun-cli": {
+      "repo": "aliyun/aliyun-cli",
+      "file": "nix/packages/aliyun-cli.nix",
+      "versionPrefix": "v",
+      "systems": {
+        "aarch64-darwin": {
+          "nixAsset": "aliyun-cli-macosx-{version}-arm64.tgz",
+          "releaseAsset": "aliyun-cli-macosx-{version}-arm64.tgz"
+        },
+        "x86_64-darwin": {
+          "nixAsset": "aliyun-cli-macosx-{version}-amd64.tgz",
+          "releaseAsset": "aliyun-cli-macosx-{version}-amd64.tgz"
+        },
+        "x86_64-linux": {
+          "nixAsset": "aliyun-cli-linux-{version}-amd64.tgz",
+          "releaseAsset": "aliyun-cli-linux-{version}-amd64.tgz"
+        },
+        "aarch64-linux": {
+          "nixAsset": "aliyun-cli-linux-{version}-arm64.tgz",
+          "releaseAsset": "aliyun-cli-linux-{version}-arm64.tgz"
+        }
+      }
     }
   }
 }

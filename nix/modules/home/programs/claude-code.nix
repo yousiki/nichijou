@@ -18,6 +18,7 @@
       fi
       export ANTHROPIC_BASE_URL="http://127.0.0.1:8317"
       export ANTHROPIC_AUTH_TOKEN="$(tr -d '[:space:]' < "$keyfile")"
+      export ANTHROPIC_MODEL="${models.opus}"
       export ANTHROPIC_DEFAULT_OPUS_MODEL="${models.opus}"
       export ANTHROPIC_DEFAULT_SONNET_MODEL="${models.sonnet}"
       export ANTHROPIC_DEFAULT_HAIKU_MODEL="${models.haiku}"

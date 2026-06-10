@@ -24,6 +24,7 @@ import urllib.request
 
 DEFAULT_SPEC = "nix/packages/update-specs.json"
 FAKE_SHA256 = "sha256-AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA="
+NPM_REGISTRY = "https://registry.npmjs.org"
 VERSION_RE = re.compile(r'(?m)^(\s*version\s*=\s*")([^"]+)(";\s*)$')
 FETCH_FROM_GITHUB_RE = re.compile(
     r"(?ms)^(\s*src\s*=\s*fetchFromGitHub\s*\{\n)(.*?)(^\s*\};)"
@@ -46,6 +47,13 @@ def github_headers(token=None, accept="application/vnd.github+json"):
     return headers
 
 
+def npm_headers(accept="application/json"):
+    return {
+        "Accept": accept,
+        "User-Agent": "nix-packages-updater",
+    }
+
+
 def fetch_json(url, token=None):
     request = urllib.request.Request(url, headers=github_headers(token))
     try:
@@ -66,6 +74,31 @@ def fetch_latest_release(repo, token=None):
     return release
 
 
+def fetch_latest_npm_package(package_name, dist_tag="latest"):
+    url = "{}/{}/{}".format(
+        NPM_REGISTRY,
+        urllib.parse.quote(package_name, safe="@"),
+        urllib.parse.quote(dist_tag, safe=""),
+    )
+    request = urllib.request.Request(url, headers=npm_headers())
+    try:
+        with urllib.request.urlopen(request) as response:
+            metadata = json.load(response)
+    except urllib.error.HTTPError as exc:
+        raise UpdateError(
+            f"npm request failed for {package_name}@{dist_tag}: HTTP {exc.code}"
+        ) from exc
+    except urllib.error.URLError as exc:
+        raise UpdateError(
+            f"npm request failed for {package_name}@{dist_tag}: {exc.reason}"
+        ) from exc
+    if not metadata.get("version"):
+        raise UpdateError(
+            f"{package_name}@{dist_tag} metadata does not include version"
+        )
+    return metadata
+
+
 def sri_from_digest(digest):
     algorithm, separator, hex_digest = digest.partition(":")
     if algorithm != "sha256" or not separator:
@@ -79,11 +112,8 @@ def sri_from_digest(digest):
     return "sha256-" + base64.b64encode(raw).decode("ascii")
 
 
-def sri_from_url(url, token=None):
-    request = urllib.request.Request(
-        url,
-        headers=github_headers(token, accept="application/octet-stream"),
-    )
+def sri_from_url(url, headers):
+    request = urllib.request.Request(url, headers=headers)
     hasher = hashlib.sha256()
     try:
         with urllib.request.urlopen(request) as response:
@@ -191,7 +221,7 @@ def asset_sri_hash(asset, token=None):
     url = asset.get("browser_download_url")
     if not url:
         raise UpdateError(f"{asset.get('name', '<unknown>')}: missing download URL")
-    return sri_from_url(url, token)
+    return sri_from_url(url, github_headers(token, accept="application/octet-stream"))
 
 
 def run_command(command, cwd=None):
@@ -368,6 +398,38 @@ def plan_github_source_update(package, package_spec, package_file, release, root
     )
 
 
+def plan_npm_package_update(package, package_spec, package_file):
+    text = package_file.read_text(encoding="utf-8")
+    old_version = current_version(package, text)
+    package_name = package_spec.get("packageName", package)
+    metadata = fetch_latest_npm_package(
+        package_name,
+        package_spec.get("distTag", "latest"),
+    )
+    new_version = metadata["version"]
+    dist = metadata.get("dist") or {}
+    tarball = dist.get("tarball")
+    if not tarball:
+        raise UpdateError(
+            f"{package_name}@{new_version} metadata does not include tarball"
+        )
+
+    hash_attr = package_spec.get("hashAttr", "hash")
+    source_hash = sri_from_url(tarball, npm_headers("application/octet-stream"))
+    new_text = replace_version(package, text, new_version)
+    new_text = replace_attr(package, "package", new_text, hash_attr, source_hash)
+    if new_text == text:
+        return unchanged_plan(package, package_file, old_version, new_version, text)
+    return changed_plan(
+        package,
+        package_file,
+        old_version,
+        new_version,
+        new_text,
+        [{"kind": "source", "attr": hash_attr, "hash": source_hash}],
+    )
+
+
 def changed_plan(package, package_file, old_version, new_version, text, details):
     return {
         "package": package,
@@ -390,6 +452,8 @@ def plan_update(package, package_spec, package_file, release, root, token=None):
         return plan_github_source_update(
             package, package_spec, package_file, release, root
         )
+    if package_type == "npmPackage":
+        return plan_npm_package_update(package, package_spec, package_file)
     raise UpdateError(f"{package}: unknown package type {package_type!r}")
 
 
@@ -444,7 +508,9 @@ def run(args):
 
     for package, package_spec in specs.items():
         package_file = root / package_spec["file"]
-        release = fetch_latest_release(package_spec["repo"], token)
+        release = None
+        if package_spec.get("type", "githubReleaseAssets") != "npmPackage":
+            release = fetch_latest_release(package_spec["repo"], token)
         plans.append(
             plan_update(package, package_spec, package_file, release, root, token)
         )
