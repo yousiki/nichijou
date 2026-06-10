@@ -65,11 +65,44 @@
       haiku = "mimo-v2.5-pro";
     }
     false;
+
+  # Tanka's AI Work Memory spawns `claude -p ... --agent work-memory:<agent>`,
+  # resolved via `which claude` against the login-shell PATH, which lands on
+  # this profile's bin/claude. Shadow it (hiPrio wins the buildEnv collision)
+  # with a dispatcher: work-memory subagent runs are rerouted to claude-codex
+  # (cliproxyapi -> gpt-5.5) instead of the Claude subscription; every other
+  # invocation passes through to the real binary unchanged.
+  #
+  # Note: this must NOT be set as `programs.claude-code.package`. The dispatcher
+  # references finalPackage, which the module builds from `package`, so that
+  # assignment is `infinite recursion` at eval time. Breaking the eval cycle by
+  # referencing the raw pkgs.claude-code instead only trades it for a runtime
+  # loop: finalPackage would then wrap the dispatcher, and claude-codex's
+  # `exec finalPackage` would re-enter it with `--agent work-memory:*` still in
+  # the args -> dispatcher -> claude-codex -> ... forever. The dispatcher has to
+  # sit outside finalPackage to reference it acyclically, and the hiPrio PATH
+  # shadow is exactly that: it intercepts PATH lookups (the only way Tanka finds
+  # claude) while store-path references to finalPackage stay un-dispatched.
+  claudeDispatch = lib.hiPrio (
+    pkgs.writeShellScriptBin "claude" ''
+      prev=
+      for arg in "$@"; do
+        if [ "$prev" = "--agent" ]; then
+          case "$arg" in
+            work-memory:*) exec ${lib.getExe claudeCodex} "$@" ;;
+          esac
+        fi
+        prev=$arg
+      done
+      exec ${lib.getExe config.programs.claude-code.finalPackage} "$@"
+    ''
+  );
 in {
   home.packages = [
     claudeCodex
     claudeCodexFast
     claudeMimo
+    claudeDispatch
   ];
 
   programs.claude-code = {
