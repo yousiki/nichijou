@@ -1,7 +1,6 @@
-{pkgs, ...}: {
+{...}: {
   programs.kitty = {
     enable = true;
-    package = pkgs.kitty;
 
     font = {
       name = "Maple Mono NF CN";

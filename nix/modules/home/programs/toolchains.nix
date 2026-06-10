@@ -5,10 +5,7 @@
 }: let
   bunInstall = "${config.home.homeDirectory}/.bun";
 in {
-  programs.bun = {
-    enable = true;
-    package = pkgs.bun;
-  };
+  programs.bun.enable = true;
 
   home.sessionVariables = {
     BUN_INSTALL = bunInstall;
@@ -23,8 +20,5 @@ in {
     pkgs.rustup
   ];
 
-  programs.uv = {
-    enable = true;
-    package = pkgs.uv;
-  };
+  programs.uv.enable = true;
 }

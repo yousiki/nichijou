@@ -1,6 +1,3 @@
-{pkgs, ...}: {
-  programs.codex = {
-    enable = true;
-    package = pkgs.codex;
-  };
+{...}: {
+  programs.codex.enable = true;
 }

@@ -1,8 +1,4 @@
 {pkgs, ...}: let
-  mcpNixos = pkgs.mcp-nixos.overridePythonAttrs (_: {
-    doCheck = false;
-  });
-
   ohMyOpenAgentConfig = (pkgs.formats.json {}).generate "oh-my-openagent.json" {
     "$schema" = "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json";
 
@@ -177,7 +173,6 @@
 in {
   programs.opencode = {
     enable = true;
-    package = pkgs.opencode;
 
     settings = {
       "$schema" = "https://opencode.ai/config.json";
@@ -195,7 +190,7 @@ in {
         nixos = {
           type = "local";
           command = [
-            "${mcpNixos}/bin/mcp-nixos"
+            "${pkgs.mcp-nixos}/bin/mcp-nixos"
           ];
           enabled = true;
         };

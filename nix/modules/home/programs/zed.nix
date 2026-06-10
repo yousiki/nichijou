@@ -22,7 +22,6 @@ in {
 
   programs.zed-editor = {
     enable = true;
-    package = zedPackage;
 
     extraPackages = with pkgs; [
       alejandra

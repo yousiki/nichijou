@@ -72,7 +72,6 @@ in {
 
   programs.claude-code = {
     enable = true;
-    package = pkgs.claude-code;
 
     # Managed declaratively -> ~/.claude/settings.json (the module adds "$schema").
     # Note: this file becomes a read-only symlink into the Nix store, so changes
