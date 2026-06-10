@@ -33,7 +33,7 @@
         export CLAUDE_AUTOCOMPACT_PCT_OVERRIDE="60"
         export CLAUDE_CODE_MAX_OUTPUT_TOKENS="12000"
       ''}
-      exec ${lib.getExe config.programs.claude-code.finalPackage} "$@"
+      exec ${lib.getExe config.programs.claude-code.finalPackage} --allow-dangerously-skip-permissions "$@"
     '';
 
   claudeCodex =
