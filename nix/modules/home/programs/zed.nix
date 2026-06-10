@@ -78,6 +78,11 @@ in {
       ui_font_family = "Maple Mono NF CN";
       ui_font_size = 16;
 
+      indent_guides = {
+        enabled = true;
+        coloring = "indent_aware";
+      };
+
       terminal = {
         font_family = "Maple Mono NF CN";
         font_size = 14;
