@@ -1,4 +1,10 @@
-{pkgs, ...}: let
+{
+  config,
+  pkgs,
+  ...
+}: let
+  cliproxyapiApiKeyFile = config.sops.secrets."cliproxyapi-api-key".path;
+
   ohMyOpenAgentConfig = (pkgs.formats.json {}).generate "oh-my-openagent.json" {
     "$schema" = "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json";
 
@@ -204,7 +210,7 @@ in {
       ];
       provider.openai.options = {
         baseURL = "http://127.0.0.1:8317/v1";
-        apiKey = "{file:/Users/yousiki/.config/opencode/opencode-api-key}";
+        apiKey = "{file:${cliproxyapiApiKeyFile}}";
       };
       tmux = {
         enabled = true;

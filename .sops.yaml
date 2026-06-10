@@ -1,0 +1,6 @@
+keys:
+  - &yousiki_sakurai ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIEWoFt5PfPcuhvkQ2di00pXPlAsv3j5tRnbmO8UKs6kO yousiki@sakurai
+
+creation_rules:
+  - path_regex: secrets/[^/]+\.yaml$
+    age: *yousiki_sakurai

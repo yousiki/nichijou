@@ -4,6 +4,8 @@
   config,
   ...
 }: let
+  cliproxyapiApiKeyFile = config.sops.secrets."cliproxyapi-api-key".path;
+
   # Thin wrappers that launch the same `claude` binary but point it at the local
   # cliproxyapi (Anthropic-compatible endpoint) so it talks to non-Anthropic
   # model aliases. Everything else (settings, MCP, LSP under ~/.claude) is shared
@@ -11,7 +13,7 @@
   mkClaudeProxy = name: models: earlyCompact:
     pkgs.writeShellScriptBin name ''
       set -euo pipefail
-      keyfile="${config.home.homeDirectory}/.cliproxyapi/api-key.txt"
+      keyfile="${cliproxyapiApiKeyFile}"
       if [ ! -r "$keyfile" ]; then
         echo "${name}: cannot read API key file: $keyfile" >&2
         exit 1
