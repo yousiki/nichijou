@@ -47,6 +47,7 @@
       "microsoft-outlook"
       "microsoft-powerpoint"
       "microsoft-word"
+      "orbstack"
       "windows-app"
     ];
     brews = [];

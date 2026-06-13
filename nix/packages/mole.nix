@@ -11,20 +11,20 @@
     stdenvNoCC
     ;
 
-  version = "1.42.0";
+  version = "1.43.0";
 
   src = fetchFromGitHub {
     owner = "tw93";
     repo = "Mole";
     rev = "V${version}";
-    hash = "sha256-FMkd8m5iL6xNv0gejZhztAl5Cr/6Py7Gz+2hHfELBo4=";
+    hash = "sha256-xWqPeM1A9YV/kPJwTa8AgasLqkSNkNquFeUG2gzfjyg=";
   };
 
   goBins = buildGo125Module {
     pname = "${pname}-go";
     inherit version src;
 
-    vendorHash = "sha256-cLXt1jcXAxV+PIqkbYdL/zXXP1cnMEHBOhTTUkn6klw=";
+    vendorHash = "sha256-HcCJ3DYj5AXX+E5AD6jxBysCq4TAoIs2I6oVN4dCBxQ=";
 
     subPackages = [
       "cmd/analyze"

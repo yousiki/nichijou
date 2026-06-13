@@ -5,27 +5,27 @@
 }: let
   inherit (pkgs) bash fetchurl lib stdenvNoCC;
 
-  version = "3.3.22";
+  version = "3.3.23";
 
   sources = {
     aarch64-darwin = {
-      asset = "aliyun-cli-macosx-${version}-arm64.tgz";
-      hash = "sha256-xWE4E9ogkzVl89/iMkyYESARVMhiSY5Yjb2infA5rUc=";
+      asset = "aliyun-cli-macosx-3.3.23-arm64.tgz";
+      hash = "sha256-uWBC7k5n2c/DQE7jZRbdflbyCvP+EW8gtILAfsSupfk=";
     };
 
     x86_64-darwin = {
-      asset = "aliyun-cli-macosx-${version}-amd64.tgz";
-      hash = "sha256-SBgx5qxhH5H/j+CZ5jwPBx0OIPVCeal3yIS5LF171hg=";
+      asset = "aliyun-cli-macosx-3.3.23-amd64.tgz";
+      hash = "sha256-Vt1x0UA8xuwqX9iAg67m2ARM4hK5q3+EHCnVU/Lt2o4=";
     };
 
     x86_64-linux = {
-      asset = "aliyun-cli-linux-${version}-amd64.tgz";
-      hash = "sha256-QaZ9/S9EwA62KNn5H6fEgHIi3lTr5E+sNHf7nHCzsLw=";
+      asset = "aliyun-cli-linux-3.3.23-amd64.tgz";
+      hash = "sha256-s5XTMQkvGV9TQlrtgH4XM0aZa8GpgR+uzVUm7IC1fCY=";
     };
 
     aarch64-linux = {
-      asset = "aliyun-cli-linux-${version}-arm64.tgz";
-      hash = "sha256-ulepTCuFjFG330dwXviMVC12h0DUedVIr7i4HFbPwmc=";
+      asset = "aliyun-cli-linux-3.3.23-arm64.tgz";
+      hash = "sha256-azniAZiPB4/daKIgiSu5D5HlNe3hXb+toxx+q0UDaRY=";
     };
   };
 

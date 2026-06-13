@@ -27,7 +27,7 @@
         "keka"
         "maccy"
         "monitorcontrol"
-        "orbstack"
+        "qq"
         "raycast"
         "rectangle"
         "wechat"
