@@ -11,17 +11,17 @@
     undmg
     ;
 
-  version = "0.9.0";
+  version = "0.10.0";
 
   sources = {
     aarch64-darwin = {
-      asset = "Clawd-on-Desk-0.9.0-arm64.dmg";
-      hash = "sha256-7v8ULAF8w3avGXDUh3BMqQrpKwRQyEC4HzYRqvb68fs=";
+      asset = "Clawd-on-Desk-0.10.0-arm64.dmg";
+      hash = "sha256-jWIMA/7S/LePRHp4r24IAinmQUHjanNU0919Kp4hKDU=";
     };
 
     x86_64-darwin = {
-      asset = "Clawd-on-Desk-0.9.0-x64.dmg";
-      hash = "sha256-eewQ4peytxiW1XeYHBIDVCIGH1nBnjWMUop5l1lQC1U=";
+      asset = "Clawd-on-Desk-0.10.0-x64.dmg";
+      hash = "sha256-dLeXFAji9ij7rl6Va4Rgl/0DG1kldWvzvFvftJKIf4I=";
     };
   };
 

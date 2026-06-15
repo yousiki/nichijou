@@ -5,14 +5,14 @@
 }: let
   inherit (pkgs) bun fetchurl git lib makeWrapper stdenvNoCC;
 
-  version = "2.2.19";
+  version = "2.2.20";
 in
   stdenvNoCC.mkDerivation {
     inherit pname version;
 
     src = fetchurl {
       url = "https://registry.npmjs.org/ccstatusline/-/ccstatusline-${version}.tgz";
-      hash = "sha256-ZECyfJStzolhs1EQrrbq6svXCtvcpj6YJRPjFIazLSw=";
+      hash = "sha256-k7w9y54dq8y/WBzYMgf9gW1p6WrPacxTl4I2UqLFoWU=";
     };
 
     nativeBuildInputs = [makeWrapper];

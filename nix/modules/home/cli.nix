@@ -8,6 +8,7 @@
     ./programs/git.nix
     ./programs/helix.nix
     ./programs/herdr.nix
+    ./programs/mcp-servers.nix
     ./programs/mole.nix
     ./programs/opencode.nix
     ./programs/shell.nix

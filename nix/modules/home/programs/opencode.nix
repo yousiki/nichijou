@@ -1,10 +1,4 @@
-{
-  config,
-  pkgs,
-  ...
-}: let
-  cliproxyapiApiKeyFile = config.sops.secrets."cliproxyapi-api-key".path;
-
+{pkgs, ...}: let
   ohMyOpenAgentConfig = (pkgs.formats.json {}).generate "oh-my-openagent.json" {
     "$schema" = "https://raw.githubusercontent.com/code-yeongyu/oh-my-openagent/dev/assets/oh-my-opencode.schema.json";
 
@@ -180,27 +174,14 @@ in {
   programs.opencode = {
     enable = true;
 
+    enableMcpIntegration = true;
+
     settings = {
       "$schema" = "https://opencode.ai/config.json";
       autoupdate = false;
       plugin = [
         "oh-my-openagent@latest"
       ];
-      mcp = {
-        deepwiki = {
-          type = "remote";
-          url = "https://mcp.deepwiki.com/mcp";
-          enabled = true;
-          oauth = false;
-        };
-        nixos = {
-          type = "local";
-          command = [
-            "${pkgs.mcp-nixos}/bin/mcp-nixos"
-          ];
-          enabled = true;
-        };
-      };
       formatter.nixfmt.command = [
         "${pkgs.nixfmt}/bin/nixfmt"
         "$FILE"
@@ -210,7 +191,7 @@ in {
       ];
       provider.openai.options = {
         baseURL = "http://127.0.0.1:8317/v1";
-        apiKey = "{file:${cliproxyapiApiKeyFile}}";
+        apiKey = "{env:CLIPROXYAPI_API_KEY}";
       };
       tmux = {
         enabled = true;

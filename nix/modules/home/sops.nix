@@ -19,6 +19,12 @@
     CLIPROXYAPI_MANAGEMENT_KEY_FILE = config.sops.secrets."cliproxyapi-management-key".path;
   };
 
+  home.sessionVariablesExtra = ''
+    if [ -r "${config.sops.secrets."cliproxyapi-api-key".path}" ]; then
+      export CLIPROXYAPI_API_KEY="$(tr -d '[:space:]' < "${config.sops.secrets."cliproxyapi-api-key".path}")"
+    fi
+  '';
+
   sops = {
     defaultSopsFile = ../../../secrets/sakurai-yousiki.yaml;
     defaultSopsFormat = "yaml";

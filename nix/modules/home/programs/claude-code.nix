@@ -4,8 +4,6 @@
   config,
   ...
 }: let
-  cliproxyapiApiKeyFile = config.sops.secrets."cliproxyapi-api-key".path;
-
   # Thin wrappers that launch the same `claude` binary but point it at the local
   # cliproxyapi (Anthropic-compatible endpoint) so it talks to non-Anthropic
   # model aliases. Everything else (settings, MCP, LSP under ~/.claude) is shared
@@ -13,13 +11,8 @@
   mkClaudeProxy = name: models: earlyCompact:
     pkgs.writeShellScriptBin name ''
       set -euo pipefail
-      keyfile="${cliproxyapiApiKeyFile}"
-      if [ ! -r "$keyfile" ]; then
-        echo "${name}: cannot read API key file: $keyfile" >&2
-        exit 1
-      fi
       export ANTHROPIC_BASE_URL="http://127.0.0.1:8317"
-      export ANTHROPIC_AUTH_TOKEN="$(tr -d '[:space:]' < "$keyfile")"
+      export ANTHROPIC_AUTH_TOKEN="$CLIPROXYAPI_API_KEY"
       export ANTHROPIC_MODEL="${models.opus}"
       export ANTHROPIC_DEFAULT_OPUS_MODEL="${models.opus}"
       export ANTHROPIC_DEFAULT_SONNET_MODEL="${models.sonnet}"
@@ -129,23 +122,7 @@ in {
       };
     };
 
-    # MCP servers. context7 and deepwiki use their hosted HTTP transports, so
-    # they need no local runtime. nixos runs the locally-built mcp-nixos binary.
-    # These are written to a generated `.mcp.json` and loaded via --plugin-dir.
-    mcpServers = {
-      context7 = {
-        type = "http";
-        url = "https://mcp.context7.com/mcp";
-      };
-      deepwiki = {
-        type = "http";
-        url = "https://mcp.deepwiki.com/mcp";
-      };
-      nixos = {
-        type = "stdio";
-        command = lib.getExe pkgs.mcp-nixos;
-      };
-    };
+    enableMcpIntegration = true;
 
     # LSP servers. Binaries are pinned to the Nix store so they are pulled into
     # the closure and always resolvable, independent of PATH. Written to a

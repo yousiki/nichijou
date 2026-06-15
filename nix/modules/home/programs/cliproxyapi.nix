@@ -66,18 +66,20 @@ in {
     $DRY_RUN_CMD mkdir -p "${logDir}"
   '';
 
-  home.activation.generateCliproxyapiRuntimeConfig = lib.hm.dag.entryAfter ["sops-nix" "createCliproxyapiLogDir"] ''
-    if [ -n "''${DRY_RUN_CMD:-}" ]; then
-      echo "Would generate ${runtimeConfigFileDescription} from ${sourceConfigFile} with sops-managed cliproxyapi keys"
-    else
-      export CLIPROXYAPI_SOURCE_CONFIG=${lib.escapeShellArg sourceConfigFile}
-      export CLIPROXYAPI_RUNTIME_CONFIG="$(/usr/bin/getconf DARWIN_USER_TEMP_DIR)/cliproxyapi/config.yaml"
-      export CLIPROXYAPI_API_KEY_FILE=${lib.escapeShellArg apiKeyFile}
-      export CLIPROXYAPI_MANAGEMENT_KEY_FILE=${lib.escapeShellArg managementKeyFile}
+  home.activation.generateCliproxyapiRuntimeConfig =
+    lib.hm.dag.entryAfter ["sops-nix" "createCliproxyapiLogDir"]
+    ''
+      if [ -n "''${DRY_RUN_CMD:-}" ]; then
+        echo "Would generate ${runtimeConfigFileDescription} from ${sourceConfigFile} with sops-managed cliproxyapi keys"
+      else
+        export CLIPROXYAPI_SOURCE_CONFIG=${lib.escapeShellArg sourceConfigFile}
+        export CLIPROXYAPI_RUNTIME_CONFIG="$(/usr/bin/getconf DARWIN_USER_TEMP_DIR)/cliproxyapi/config.yaml"
+        export CLIPROXYAPI_API_KEY_FILE=${lib.escapeShellArg apiKeyFile}
+        export CLIPROXYAPI_MANAGEMENT_KEY_FILE=${lib.escapeShellArg managementKeyFile}
 
-      ${python}/bin/python ${generateRuntimeConfig}
-    fi
-  '';
+        ${python}/bin/python ${generateRuntimeConfig}
+      fi
+    '';
 
   launchd.agents.cliproxyapi = lib.mkIf pkgs.stdenv.hostPlatform.isDarwin {
     enable = true;
